@@ -1,10 +1,7 @@
 package birds.angry;
 
 import Screens.StartingMenu;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,9 +39,14 @@ public class AngryBirds extends Game {
 //    BitmapFont font;
 //    private Stage stage;
 //    private Skin skin;
+    private Game game;
+    public AngryBirds(){
+        game = this;
+    }
     @Override
     public void create() {
-
+        screen = new StartingMenu(game);
+        screen.show();
 //        batch = new SpriteBatch();
 //        bg = new Texture("angy bird bg.jpg");
 //
@@ -66,14 +68,13 @@ public class AngryBirds extends Game {
 //        parameter.borderColor = Color.BLACK;
 //        font = generator.generateFont(parameter);
 //        generator.dispose();
-        this.setScreen(new StartingMenu());
+
     }
 
-//    @Override
-//    public void render() {
-//        draw();
-//        input();
-//    }
+    @Override
+    public void render() {
+        screen.render(Gdx.graphics.getDeltaTime());
+    }
 //
 //    public void draw(){
 //        float red_bird_ratio = (float) red_bird[0].getRegionHeight() / red_bird[0].getRegionWidth();

@@ -141,9 +141,9 @@ public class AngryBirds extends Game {
 //        viewport.update(width, height, true);
 //    }
 //
-//    @Override
-//    public void dispose() {
-//        batch.dispose();
-//        bg.dispose();
-//    }
+    @Override
+    public void dispose() {
+        super.dispose();
+        screen.dispose();
+    }
 }

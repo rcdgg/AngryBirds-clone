@@ -60,7 +60,7 @@ public class StartingMenu extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                System.out.println("settings");
+                game.setScreen(new SettingsMenu(game, game.getScreen()));
             }
         });
         start.addListener(new ClickListener() {
@@ -75,7 +75,7 @@ public class StartingMenu extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
                 Gdx.app.exit();
-                System.exit(-1);
+//                System.exit(0);
             }
         });
 
@@ -100,5 +100,11 @@ public class StartingMenu extends BaseScreen {
         shapeRenderer.end();
 //        System.out.println("1st screen");
         super.render(delta);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        shapeRenderer.dispose();
     }
 }

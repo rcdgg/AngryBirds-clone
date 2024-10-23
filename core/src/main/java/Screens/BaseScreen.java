@@ -59,6 +59,7 @@ public class BaseScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        batch.dispose();
     }
 }
 

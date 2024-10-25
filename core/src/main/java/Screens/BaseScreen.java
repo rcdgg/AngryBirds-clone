@@ -31,7 +31,7 @@ public class BaseScreen extends ScreenAdapter {
         stage.setDebugAll(true);
         grid = true;
         grid_size = 50;
-        skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
+        skin = new Skin(Gdx.files.internal("skin/flat-earth/skin/flat-earth-ui.json"));
     }
 
     @Override

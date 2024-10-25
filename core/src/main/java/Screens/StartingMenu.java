@@ -41,6 +41,7 @@ public class StartingMenu extends BaseScreen {
         load = new TextButton("Load Game", skin);
         bp = new TextButton("Battle pass", skin);
 
+
         batch = (SpriteBatch) stage.getBatch();
 
         Texture cogTexture = new Texture(Gdx.files.internal("screens/mainmenu/cog icon.png"));
@@ -63,14 +64,13 @@ public class StartingMenu extends BaseScreen {
         table.setFillParent(true);
 //        stage.addActor(background);
 
-        table.add(start).pad(40).height(100);
+        table.add(start).pad(40);
         table.row();
-        table.add(load).padBottom(40).height(100);
+        table.add(load).padBottom(40);
         table.row();
-        table.add(bp).padBottom(40).height(100);
+        table.add(bp).padBottom(40);
         table.row();
-        table.add(quit).height(100);
-        table.moveBy(0, -75);
+        table.add(quit);
 
         stage.addActor(table);
 

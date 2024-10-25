@@ -38,7 +38,6 @@ public class Level1 extends BaseScreen {
         slingshot = new Slingshot(sling, new Vector2(100, 100), new Vector2(100, (float) (sling.getHeight() * 100) / sling.getWidth()));
         redbird = new Redbird(new Vector2(200, 200));
         batch = new SpriteBatch();
-        Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);

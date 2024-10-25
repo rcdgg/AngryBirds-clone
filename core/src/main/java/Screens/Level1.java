@@ -2,6 +2,7 @@ package Screens;
 
 import birds.angry.AngryBirds;
 import birds.angry.GameSprites.Assets;
+import birds.angry.GameSprites.PeasantPig;
 import birds.angry.GameSprites.Redbird;
 import birds.angry.GameSprites.Slingshot;
 import com.badlogic.gdx.Game;
@@ -28,15 +29,18 @@ public class Level1 extends BaseScreen {
     SpriteBatch batch;
     private Slingshot slingshot;
     private Redbird redbird;
+    private PeasantPig ppig;
     private Texture background;
 
     public Level1(Game game) {
         super(game);
 
-        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
+//        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         background = Assets.level1bg;
-        slingshot = new Slingshot(sling, new Vector2(100, 100), new Vector2(100, (float) (sling.getHeight() * 100) / sling.getWidth()));
-        redbird = new Redbird(new Vector2(200, 200));
+        slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
+        redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
+//        redbird.setPosition(700, 600);
+        ppig = new PeasantPig(new Vector2(12*grid_size, 4*grid_size));
         batch = new SpriteBatch();
         Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
         pause = new TextButton("pause", skin);
@@ -45,6 +49,7 @@ public class Level1 extends BaseScreen {
         stage.addActor(pause);
         stage.addActor(slingshot);
         stage.addActor(redbird);
+        stage.addActor(ppig);
         stage.setDebugAll(true);
         pause.addListener(new ClickListener() {
             @Override

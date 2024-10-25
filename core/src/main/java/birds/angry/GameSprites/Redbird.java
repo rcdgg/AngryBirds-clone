@@ -12,7 +12,6 @@ public class Redbird extends Bird{
         super(Assets.redbirds[0].getTexture(), position, new Vector2 ((float)(Assets.redbirds[0].getTexture().getHeight() - 100), (float)(Assets.redbirds[0].getTexture().getWidth()- 100)));
         redbirdtexreg = Assets.redbirds[0];
         this.setSize((float)Assets.redbirds[0].getRegionWidth()/4, (float)Assets.redbirds[0].getRegionHeight()/4);
-        this.setPosition(90, 90);
     }
     @Override
     public void act(float delta){

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Assets {
     public static TextureRegion[] redbirds;
     public static Texture level1bg;
+    public static Texture ppig;
+    public static Texture slingshot;
 
     public static Texture loadTexture(String file){
         return new Texture(Gdx.files.internal(file));
@@ -19,5 +21,8 @@ public class Assets {
         redbirds = tmp[0];
 
         level1bg = loadTexture("screens/levels/level1bg.jpeg");
+
+        ppig = loadTexture("screens/levels/ppig.png");
+        slingshot = loadTexture("screens/levels/slingshot.png");
     }
 }

@@ -43,8 +43,6 @@ public class SettingsMenu extends BaseScreen{
         Button.ButtonStyle strokeButtonStyle = new Button.ButtonStyle();
         strokeButtonStyle.up = strokeDrawable; // Use the stroke drawable as the button's up state
 
-
-
         // Create a button style with no background or drawable
         Button.ButtonStyle invisibleButtonStyle = new Button.ButtonStyle();
         invisibleButtonStyle.up = null;   // No texture for the normal state

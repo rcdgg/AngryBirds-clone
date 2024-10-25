@@ -42,7 +42,6 @@ public class Level1 extends BaseScreen {
 //        redbird.setPosition(700, 600);
         ppig = new PeasantPig(new Vector2(12*grid_size, 4*grid_size));
         batch = new SpriteBatch();
-        Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);

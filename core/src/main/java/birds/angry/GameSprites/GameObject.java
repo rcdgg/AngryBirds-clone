@@ -14,7 +14,7 @@ public class GameObject extends Actor {
 
     public GameObject(Texture texture, Vector2 position, Vector2 size) {
         this.texture = texture;
-        setPosition(position);
+        setPosition(position.x, position.y);
         setSize(size.x, size.y);
     }
 

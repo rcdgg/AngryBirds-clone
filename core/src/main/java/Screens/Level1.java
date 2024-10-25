@@ -1,6 +1,8 @@
 package Screens;
 
 import birds.angry.AngryBirds;
+import birds.angry.GameSprites.Assets;
+import birds.angry.GameSprites.Redbird;
 import birds.angry.GameSprites.Slingshot;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -24,13 +26,14 @@ public class Level1 extends BaseScreen {
     private Button pause;
     SpriteBatch batch;
     private Slingshot slingshot;
+    private Redbird redbird;
 
     public Level1(Game game) {
         super(game);
 
         Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         slingshot = new Slingshot(sling, new Vector2(100, 100), new Vector2(100, (float) (sling.getHeight() * 100) / sling.getWidth()));
-
+        redbird = new Redbird(new Vector2(200, 200));
         batch = new SpriteBatch();
         Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
         pause = new TextButton("pause", skin);
@@ -38,6 +41,7 @@ public class Level1 extends BaseScreen {
 //        pause.setTouchable(Touchable.enabled);
         stage.addActor(pause);
         stage.addActor(slingshot);
+        stage.addActor(redbird);
         stage.setDebugAll(true);
         pause.addListener(new ClickListener() {
             @Override
@@ -58,5 +62,8 @@ public class Level1 extends BaseScreen {
 //        slingshot.render(batch);
 //        batch.end();
         super.render(delta);
+//        batch.begin();
+//        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);
+//        batch.end();
     }
 }

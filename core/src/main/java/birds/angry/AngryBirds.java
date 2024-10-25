@@ -1,6 +1,7 @@
 package birds.angry;
 
 import Screens.StartingMenu;
+import birds.angry.GameSprites.Assets;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -47,6 +48,7 @@ public class AngryBirds extends Game {
     public void create() {
         screen = new StartingMenu(game);
         screen.show();
+        Assets.load();
 //        batch = new SpriteBatch();
 //        bg = new Texture("angy bird bg.jpg");
 //

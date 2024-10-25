@@ -20,6 +20,7 @@ public class BaseScreen extends ScreenAdapter {
         stage = new Stage(new FitViewport(1600, 900));
         this.game = game;
         batch = new SpriteBatch();
+        stage.setDebugAll(true);
     }
 
     @Override

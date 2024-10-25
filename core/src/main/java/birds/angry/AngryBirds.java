@@ -28,7 +28,7 @@ import java.awt.*;
 * */
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class AngryBirds extends Game {
-//    private SpriteBatch batch;
+    //    private SpriteBatch batch;
 //    private Texture bg;
 //    private FitViewport viewport;
 //    private OrthographicCamera camera;

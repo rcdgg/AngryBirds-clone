@@ -51,10 +51,16 @@ public class LevelSelect extends BaseScreen{
         invisibleButtonStyle.checked = null; // No texture for the checked state
 
 
-
         Button one = new Button(invisibleButtonStyle);
         one.setPosition(300,stage.getHeight() / 2 - 50);
         one.setSize(100,120);
+        one.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new Level1(game));
+            }
+        });
 
         Button two = new Button(invisibleButtonStyle);
         two.setPosition(530,stage.getHeight() / 2 - 50);

@@ -1,45 +1,62 @@
 package Screens;
 
-public class Level1 {
-    final AngryBirds game;
+import birds.angry.AngryBirds;
+import birds.angry.GameSprites.Slingshot;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
+
+public class Level1 extends BaseScreen {
     private Button pause;
     SpriteBatch batch;
-    Stage stage;
-    public Level1(final AngryBirds game){
-        this.game = game;
-        Texture pausebutt = new Texture("screens/mainmenu/Screenshot 2024-10-25 at 14.13.42.png");
-        stage = new Stage(game.viewport, game.batch);
-        Gdx.input.setInputProcessor(stage);
-        batch = game.batch;
-//        Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
-        pause = new Button(new TextureRegionDrawable(new TextureRegion(pausebutt)));
+    private Slingshot slingshot;
+
+    public Level1(Game game) {
+        super(game);
+
+        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
+        slingshot = new Slingshot(sling, new Vector2(100, 100), new Vector2(100, (float) (sling.getHeight() * 100) / sling.getWidth()));
+
+        batch = new SpriteBatch();
+        Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
+        pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
         stage.addActor(pause);
-        pause.addListener(new ClickListener(){
+        stage.addActor(slingshot);
+        stage.setDebugAll(true);
+        pause.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Pause");
             }
         });
-        stage.setDebugAll(true);
-        @Override
-        public void show() {
-            InputMultiplexer multiplexer = new InputMultiplexer();
-            multiplexer.addProcessor(this);
-            multiplexer.addProcessor(stage);
-            Gdx.input.setInputProcessor(multiplexer);
-        }
+    }
 
-        @Override
-        public void render(float delta) {
-            ScreenUtils.clear(Color.BLACK);
-            game.viewport.apply();
-            stage.getBatch().setProjectionMatrix(game.viewport.getCamera().combined);
-            batch.begin();
-            float worldWidth = game.viewport.getWorldWidth();
-            float worldHeight = game.viewport.getWorldHeight();
-            batch.draw(Assets.background, 0, 0, worldWidth, worldHeight);
-            batch.end();
-            stage.draw();
+
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
+//        game.viewport.apply();
+//        stage.getBatch().setProjectionMatrix(game.viewport.getCamera().combined);
+//        batch.setProjectionMatrix(stage.getCamera().combined);
+//        batch.begin();
+//        slingshot.render(batch);
+//        batch.end();
+        super.render(delta);
+    }
 }

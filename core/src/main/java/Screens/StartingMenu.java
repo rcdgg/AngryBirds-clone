@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class StartingMenu extends BaseScreen {
-    private TextButton start, quit, load;
+    private TextButton start, quit, load, bp;
     private ImageButton settings;
     private ShapeRenderer shapeRenderer;
     private Skin skin;
@@ -40,6 +40,7 @@ public class StartingMenu extends BaseScreen {
         start = new TextButton("Start Game", skin);
         quit = new TextButton("Exit", skin);
         load = new TextButton("Load Game", skin);
+        bp = new TextButton("Battle pass", skin);
 
         Texture cogTexture = new Texture(Gdx.files.internal("screens/mainmenu/cog icon.png"));
         ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
@@ -50,25 +51,26 @@ public class StartingMenu extends BaseScreen {
         settings.setPosition(10, 10);
         settings.setSize(70, 70);
 
-        Texture texture = new Texture(Gdx.files.internal("screens/mainmenu/angy bird bg.jpg"));
-        TextureRegion textureRegion = new TextureRegion(texture);
-        TextureRegionDrawable drawable = new TextureRegionDrawable(textureRegion);
+        Image background = new Image(new Texture(Gdx.files.internal("screens/mainmenu/angy bird bg.jpg")));
 
         Image title = new Image(new Texture(Gdx.files.internal("screens/mainmenu/title.png")));
         int factor = grid_size * 7;
         title.setSize(title.getWidth() * factor / title.getHeight(),factor);
-        title.setPosition(stage.getWidth() / 2 - title.getWidth() / 2, grid_size * 11);
+        title.setPosition(stage.getWidth() / 2 - title.getWidth() / 2, grid_size * 12);
 
         Table table = new Table();
         table.setFillParent(true);
 //        stage.addActor(background);
+
+        table.add(start).pad(40).height(100);
         table.row();
-        table.add(start).pad(70).height(100);
+        table.add(load).padBottom(40).height(100);
         table.row();
-        table.add(load).padBottom(70).height(100);
+        table.add(bp).padBottom(40).height(100);
         table.row();
         table.add(quit).height(100);
-        table.background(drawable);
+        table.moveBy(0, -75);
+        stage.addActor(background);
         stage.addActor(table);
 
         stage.addActor(title);

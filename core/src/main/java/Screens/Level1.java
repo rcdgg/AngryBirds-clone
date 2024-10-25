@@ -27,11 +27,13 @@ public class Level1 extends BaseScreen {
     SpriteBatch batch;
     private Slingshot slingshot;
     private Redbird redbird;
+    private Texture background;
 
     public Level1(Game game) {
         super(game);
 
         Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
+        background = Assets.level1bg;
         slingshot = new Slingshot(sling, new Vector2(100, 100), new Vector2(100, (float) (sling.getHeight() * 100) / sling.getWidth()));
         redbird = new Redbird(new Vector2(200, 200));
         batch = new SpriteBatch();
@@ -61,6 +63,9 @@ public class Level1 extends BaseScreen {
 //        batch.begin();
 //        slingshot.render(batch);
 //        batch.end();
+        batch.begin();
+        batch.draw(background, 0, 0);
+        batch.end();
         super.render(delta);
 //        batch.begin();
 //        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);

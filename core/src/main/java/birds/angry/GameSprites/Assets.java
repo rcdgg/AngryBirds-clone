@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
     public static TextureRegion[] redbirds;
-    static Texture redbird1;
+    public static Texture level1bg;
 
     public static Texture loadTexture(String file){
         return new Texture(Gdx.files.internal(file));
@@ -16,7 +16,8 @@ public class Assets {
         int frameWidth = redBird_spritesheet.getWidth() / 4;
         int frameHeight = redBird_spritesheet.getHeight();
         TextureRegion[][] tmp = TextureRegion.split(redBird_spritesheet, frameWidth, frameHeight);
-
         redbirds = tmp[0];
+
+        level1bg = loadTexture("screens/levels/level1bg.jpeg");
     }
 }

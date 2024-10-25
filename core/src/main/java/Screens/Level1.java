@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Level1 extends BaseScreen {
@@ -38,7 +39,6 @@ public class Level1 extends BaseScreen {
 //        pause.setTouchable(Touchable.enabled);
         stage.addActor(pause);
         stage.addActor(slingshot);
-        stage.setDebugAll(true);
         pause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,11 +17,17 @@ public class BaseScreen extends ScreenAdapter {
     protected Stage stage;
     protected Game game;
     protected SpriteBatch batch;
+    protected ShapeRenderer shapeRenderer;
+    protected int grid_size;
+    protected boolean grid;
     public BaseScreen(Game game) {
         stage = new Stage(new FitViewport(1600, 900));
         this.game = game;
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
         stage.setDebugAll(true);
+        grid = true;
+        grid_size = 50;
     }
 
     @Override
@@ -38,6 +45,26 @@ public class BaseScreen extends ScreenAdapter {
         // Update and draw the stage
         stage.act(delta);
         stage.draw();
+        if(grid){
+            // Begin drawing lines
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.GRAY);  // Set grid line color
+
+            // Grid spacing
+            float gridSpacing = grid_size;  // The space between lines
+
+            // Draw horizontal lines
+            for (float y = 0; y < stage.getHeight(); y += gridSpacing) {
+                shapeRenderer.line(0, y, stage.getWidth(), y);
+            }
+
+            // Draw vertical lines
+            for (float x = 0; x < stage.getWidth(); x += gridSpacing) {
+                shapeRenderer.line(x, 0, x, stage.getHeight());
+            }
+
+            shapeRenderer.end();
+        }
     }
 
     @Override

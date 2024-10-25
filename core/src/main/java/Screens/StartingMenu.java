@@ -22,15 +22,14 @@ public class StartingMenu extends BaseScreen {
     private TextButton start, quit, load, bp;
     private ImageButton settings;
     private ShapeRenderer shapeRenderer;
-    private Skin skin;
+    private SpriteBatch batch;
+    private Image background;
 
 
 
     public StartingMenu(Game game){
         super(game);
         shapeRenderer = new ShapeRenderer();
-
-        skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
 
 
 
@@ -42,6 +41,8 @@ public class StartingMenu extends BaseScreen {
         load = new TextButton("Load Game", skin);
         bp = new TextButton("Battle pass", skin);
 
+        batch = (SpriteBatch) stage.getBatch();
+
         Texture cogTexture = new Texture(Gdx.files.internal("screens/mainmenu/cog icon.png"));
         ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
         buttonStyle.up = new TextureRegionDrawable(new TextureRegion(cogTexture));
@@ -51,7 +52,7 @@ public class StartingMenu extends BaseScreen {
         settings.setPosition(10, 10);
         settings.setSize(70, 70);
 
-        Image background = new Image(new Texture(Gdx.files.internal("screens/mainmenu/angy bird bg.jpg")));
+        background = new Image(new Texture(Gdx.files.internal("screens/mainmenu/angy bird bg.jpg")));
 
         Image title = new Image(new Texture(Gdx.files.internal("screens/mainmenu/title.png")));
         int factor = grid_size * 7;
@@ -70,7 +71,7 @@ public class StartingMenu extends BaseScreen {
         table.row();
         table.add(quit).height(100);
         table.moveBy(0, -75);
-        stage.addActor(background);
+
         stage.addActor(table);
 
         stage.addActor(title);
@@ -83,6 +84,7 @@ public class StartingMenu extends BaseScreen {
                 game.setScreen(new SettingsMenu(game, game.getScreen()));
             }
         });
+
         start.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -90,6 +92,23 @@ public class StartingMenu extends BaseScreen {
                 game.setScreen(new LevelSelect(game));
             }
         });
+
+        bp.addListener (new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new BattlePass(game));
+            }
+        });
+
+        load.addListener (new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new LoadGame(game));
+            }
+        });
+
         quit.addListener (new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -104,17 +123,16 @@ public class StartingMenu extends BaseScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
-//        batch.setProjectionMatrix(stage.getCamera().combined);
-//        batch.begin();
-//        background.draw(batch,1);
-//        batch.draw(title,450,550,700,300);
-//        batch.end();
+        batch.setProjectionMatrix(stage.getCamera().combined);
+        batch.begin();
+        background.draw(batch,1);
+        batch.end();
+//        System.out.println("1st screen");
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(45, 45, 40);
         shapeRenderer.end();
-//        System.out.println("1st screen");
         super.render(delta);
     }
 

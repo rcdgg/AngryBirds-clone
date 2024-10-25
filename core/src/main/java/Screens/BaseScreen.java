@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -19,7 +20,9 @@ public class BaseScreen extends ScreenAdapter {
     protected SpriteBatch batch;
     protected ShapeRenderer shapeRenderer;
     protected int grid_size;
-    protected boolean grid;
+    private boolean grid;
+    protected Skin skin;
+
     public BaseScreen(Game game) {
         stage = new Stage(new FitViewport(1600, 900));
         this.game = game;
@@ -28,6 +31,7 @@ public class BaseScreen extends ScreenAdapter {
         stage.setDebugAll(true);
         grid = true;
         grid_size = 50;
+        skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
     }
 
     @Override

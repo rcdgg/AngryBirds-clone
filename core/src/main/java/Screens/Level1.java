@@ -2,10 +2,7 @@ package Screens;
 
 import birds.angry.AngryBirds;
 import birds.angry.GameSprites.*;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class Level1 extends BaseScreen {
+public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
     SpriteBatch batch;
     private Slingshot slingshot;
@@ -86,8 +83,65 @@ public class Level1 extends BaseScreen {
         batch.draw(background, 0, 0);
         batch.end();
         super.render(delta);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(this);
+        multiplexer.addProcessor(stage);
+        Gdx.input.setInputProcessor(multiplexer);
 //        batch.begin();
 //        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);
 //        batch.end();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if(keycode== Input.Keys.W){
+            game.setScreen(new WinScreen(game));
+            return true;
+        }
+//        else if(keycode==Input.Keys.L){
+//            game.setScreen(new LoseScreen(game));
+//            return true;
+//        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char c) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int i, int i1, int i2) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int i, int i1) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float v, float v1) {
+        return false;
     }
 }

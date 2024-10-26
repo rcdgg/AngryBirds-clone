@@ -16,6 +16,7 @@ public class Assets {
     public static Texture icelog;
     public static Texture stonelog;
     public static Image pausebg;
+    public static Image winbg;
 
     public static Texture loadTexture(String file){
         return new Texture(Gdx.files.internal(file));
@@ -37,5 +38,6 @@ public class Assets {
         icelog = loadTexture("screens/levels/icelog.png");
         stonelog = loadTexture("screens/levels/stonelog.png");
         pausebg = new Image(loadTexture("screens/pausebg.png"));
+        winbg = new Image(loadTexture("screens/3star.png"));
     }
 }

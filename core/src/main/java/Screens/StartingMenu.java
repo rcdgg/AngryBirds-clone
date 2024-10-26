@@ -21,18 +21,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class StartingMenu extends BaseScreen {
     private TextButton start, quit, load, bp;
     private ImageButton settings;
-    private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
     private Image background;
+    private Texture cogTexture, prevScreen;
 
 
 
     public StartingMenu(Game game){
         super(game);
-        shapeRenderer = new ShapeRenderer();
-
-
-
     }
     @Override
     public void show(){
@@ -81,7 +77,7 @@ public class StartingMenu extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                game.setScreen(new SettingsMenu(game, game.getScreen()));
+                game.setScreen(new SettingsMenu(game, prevScreen));
             }
         });
 
@@ -122,23 +118,28 @@ public class StartingMenu extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.BLACK);
-        batch.setProjectionMatrix(stage.getCamera().combined);
+//        frameBuffer.begin();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.begin();
         background.draw(batch,1);
         batch.end();
 //        System.out.println("1st screen");
-        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(45, 45, 40);
         shapeRenderer.end();
         super.render(delta);
+//        frameBuffer.end();
+//        prevScreen = frameBuffer.getColorBufferTexture();
+//        prevScreen.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        shapeRenderer.dispose();
+        cogTexture.dispose();
+        prevScreen.dispose();
     }
 }

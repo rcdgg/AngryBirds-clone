@@ -6,7 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,16 +24,20 @@ public class BaseScreen extends ScreenAdapter {
     protected int grid_size;
     private boolean grid;
     protected Skin skin;
+    protected FrameBuffer frameBuffer;
 
     public BaseScreen(Game game) {
         stage = new Stage(new FitViewport(1600, 900));
         this.game = game;
         batch = new SpriteBatch();
+        batch.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         stage.setDebugAll(true);
         grid = true;
         grid_size = 50;
         skin = new Skin(Gdx.files.internal("skin/flat-earth/skin/flat-earth-ui.json"));
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
     }
 
     @Override
@@ -92,6 +98,10 @@ public class BaseScreen extends ScreenAdapter {
     public void dispose() {
         stage.dispose();
         batch.dispose();
+        shapeRenderer.dispose();
+        skin.dispose();
+        frameBuffer.dispose();
+        skin.dispose();
     }
 }
 

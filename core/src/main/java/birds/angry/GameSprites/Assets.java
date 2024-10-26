@@ -25,4 +25,5 @@ public class Assets {
         ppig = loadTexture("screens/levels/ppig.png");
         slingshot = loadTexture("screens/levels/slingshot.png");
     }
+    // make the appropriate dispose function
 }

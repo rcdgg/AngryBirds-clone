@@ -1,10 +1,7 @@
 package Screens;
 
 import birds.angry.AngryBirds;
-import birds.angry.GameSprites.Assets;
-import birds.angry.GameSprites.PeasantPig;
-import birds.angry.GameSprites.Redbird;
-import birds.angry.GameSprites.Slingshot;
+import birds.angry.GameSprites.*;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -30,7 +27,12 @@ public class Level1 extends BaseScreen {
     private Slingshot slingshot;
     private Redbird redbird;
     private PeasantPig ppig;
+    private KingPig kingPig;
+    private SoldierPig soldierPig;
     private Texture background;
+    private Wood woodlog;
+    private Ice icelog;
+    private Stone stonelog;
 
     public Level1(Game game) {
         super(game);
@@ -39,8 +41,13 @@ public class Level1 extends BaseScreen {
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
         redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
+        woodlog = new Wood(new Vector2(11*grid_size, 4*grid_size));
+        icelog = new Ice(new Vector2(14*grid_size, 4*grid_size));
+        stonelog = new Stone(new Vector2(17*grid_size, 4*grid_size));
 //        redbird.setPosition(700, 600);
         ppig = new PeasantPig(new Vector2(12*grid_size, 4*grid_size));
+        kingPig = new KingPig(new Vector2(15*grid_size, 4*grid_size));
+        soldierPig = new SoldierPig(new Vector2(18*grid_size, 4*grid_size));
         batch = new SpriteBatch();
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
@@ -49,11 +56,18 @@ public class Level1 extends BaseScreen {
         stage.addActor(slingshot);
         stage.addActor(redbird);
         stage.addActor(ppig);
+        stage.addActor(kingPig);
+        stage.addActor(soldierPig);
+        stage.addActor(woodlog);
+        stage.addActor(icelog);
+        stage.addActor(stonelog);
         stage.setDebugAll(true);
         pause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Pause");
+                game.setScreen(new Pause(game, game.getScreen()));
+
             }
         });
     }

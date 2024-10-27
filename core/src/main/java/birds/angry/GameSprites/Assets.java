@@ -40,4 +40,5 @@ public class Assets {
         pausebg = new Image(loadTexture("screens/pausebg.png"));
         winbg = new Image(loadTexture("screens/3star.png"));
     }
+    // make the appropriate dispose function
 }

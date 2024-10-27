@@ -15,11 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 public class SettingsMenu extends BaseScreen{
-    private Screen prev_screen;
+    private Texture prev_screen;
 
-    public SettingsMenu(Game game, Screen prev_screen){
+    public SettingsMenu(Game game, Texture prev_screen){
         super(game);
         this.prev_screen = prev_screen;
         Image background = new Image(new Texture(Gdx.files.internal("screens/settingsmenu/settingsmenu.png")));
@@ -58,7 +59,7 @@ public class SettingsMenu extends BaseScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                game.setScreen(prev_screen);
+                game.setScreen(new StartingMenu(game));
                 dispose();
             }
         });
@@ -66,6 +67,10 @@ public class SettingsMenu extends BaseScreen{
 
     @Override
     public void render(float delta){
+        ScreenUtils.clear(Color.BLACK);
+        batch.begin();
+        batch.draw(prev_screen, stage.getWidth(), stage.getHeight());
+        batch.end();
         super.render(delta);
     }
 

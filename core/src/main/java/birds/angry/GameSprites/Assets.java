@@ -37,7 +37,7 @@ public class Assets {
         woodlog = loadTexture("screens/levels/woodlog.png");
         icelog = loadTexture("screens/levels/icelog.png");
         stonelog = loadTexture("screens/levels/stonelog.png");
-        pausebg = new Image(loadTexture("screens/pausebg.png"));
+        pausebg = new Image(loadTexture("screens/pausemenu.png"));
         winbg = new Image(loadTexture("screens/3star.png"));
     }
     // make the appropriate dispose function

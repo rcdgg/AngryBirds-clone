@@ -23,7 +23,7 @@ public class StartingMenu extends BaseScreen {
     private ImageButton settings;
     private SpriteBatch batch;
     private Image background;
-    private Texture cogTexture, prevScreen;
+    private Texture cogTexture;
 
 
 
@@ -77,7 +77,7 @@ public class StartingMenu extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                game.setScreen(new SettingsMenu(game, prevScreen));
+                game.setScreen(new SettingsMenu(game));
             }
         });
 
@@ -118,7 +118,6 @@ public class StartingMenu extends BaseScreen {
 
     @Override
     public void render(float delta) {
-//        frameBuffer.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -131,15 +130,12 @@ public class StartingMenu extends BaseScreen {
         shapeRenderer.circle(45, 45, 40);
         shapeRenderer.end();
         super.render(delta);
-//        frameBuffer.end();
-//        prevScreen = frameBuffer.getColorBufferTexture();
-//        prevScreen.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
     }
 
     @Override
     public void dispose() {
         super.dispose();
         cogTexture.dispose();
-        prevScreen.dispose();
     }
 }

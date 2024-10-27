@@ -7,7 +7,9 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -25,6 +27,7 @@ public class BaseScreen extends ScreenAdapter {
     private boolean grid;
     protected Skin skin;
     protected FrameBuffer frameBuffer;
+    protected TextureRegion prevScreen;
 
     public BaseScreen(Game game) {
         stage = new Stage(new FitViewport(1600, 900));
@@ -43,8 +46,23 @@ public class BaseScreen extends ScreenAdapter {
     @Override
     public void show() {
         // Set the input processor to this stage
+        frameBuffer.begin();
         Gdx.input.setInputProcessor(stage);
         render(0);
+        frameBuffer.end();
+        TextureRegion textureRegion = new TextureRegion(frameBuffer.getColorBufferTexture());
+        textureRegion.flip(false, true); // Flip vertically
+
+        prevScreen = textureRegion;
+
+        // Render the new screen's background using the captured texture
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.begin();
+        batch.draw(prevScreen, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
+//        prevScreen = frameBuffer.getColorBufferTexture();
+//        prevScreen.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     @Override

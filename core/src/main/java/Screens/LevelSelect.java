@@ -25,32 +25,6 @@ public class LevelSelect extends BaseScreen{
         shapeRenderer = new ShapeRenderer();
         background = new Image(new Texture("screens/levelselect/level select.png"));
 
-        // Create a Pixmap for the stroke (border)
-        Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.RED); // Stroke color
-        pixmap.drawRectangle(0, 0, 100, 100); // Draw a rectangle stroke
-
-// Create a texture from the pixmap
-        Texture pixmapTexture = new Texture(pixmap);
-        pixmap.dispose(); // Dispose of the pixmap after creating the texture
-
-// Create a NinePatch from the texture to handle resizing
-        NinePatch strokeNinePatch = new NinePatch(pixmapTexture, 2, 2, 2, 2); // Adjust the patch settings for the stroke size
-        Drawable strokeDrawable = new NinePatchDrawable(strokeNinePatch);
-
-// Create a ButtonStyle and assign the stroke drawable
-        Button.ButtonStyle strokeButtonStyle = new Button.ButtonStyle();
-        strokeButtonStyle.up = strokeDrawable; // Use the stroke drawable as the button's up state
-
-
-
-        // Create a button style with no background or drawable
-        Button.ButtonStyle invisibleButtonStyle = new Button.ButtonStyle();
-        invisibleButtonStyle.up = null;   // No texture for the normal state
-        invisibleButtonStyle.down = null; // No texture for the pressed state
-        invisibleButtonStyle.checked = null; // No texture for the checked state
-
-
         Button one = new Button(invisibleButtonStyle);
         one.setPosition(300,stage.getHeight() / 2 - 50);
         one.setSize(100,120);

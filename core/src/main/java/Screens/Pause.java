@@ -23,16 +23,9 @@ public class Pause extends BaseScreen{
     public Pause(Game game, Screen prev_screen) {
         super(game);
         this.prev_screen = prev_screen;
-        Image pausebg = Assets.pausebg;
-//        pausebg = Assets.pausebg;
+        pausebg = Assets.pausebg;
         pausebg.setSize(500,   pausebg.getHeight() / pausebg.getWidth() * 500);
         pausebg.setPosition(stage.getWidth() / 2 - pausebg.getWidth() / 2 - 50, stage.getHeight() / 2 - pausebg.getHeight() / 2);
-
-        // Create a button style with no background or drawable
-        Button.ButtonStyle invisibleButtonStyle = new Button.ButtonStyle();
-        invisibleButtonStyle.up = null;   // No texture for the normal state
-        invisibleButtonStyle.down = null; // No texture for the pressed state
-        invisibleButtonStyle.checked = null; // No texture for the checked state
 
         Button resume = new Button(invisibleButtonStyle);
         resume.setSize(5 * grid_size,1.15f * grid_size);

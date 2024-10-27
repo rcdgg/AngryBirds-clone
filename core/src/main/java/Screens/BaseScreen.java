@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,8 +27,8 @@ public class BaseScreen extends ScreenAdapter {
     protected int grid_size;
     private boolean grid;
     protected Skin skin;
-    protected FrameBuffer frameBuffer;
     protected TextureRegion prevScreen;
+    protected Button.ButtonStyle invisibleButtonStyle;
 
     public BaseScreen(Game game) {
         stage = new Stage(new FitViewport(1600, 900));
@@ -40,29 +41,19 @@ public class BaseScreen extends ScreenAdapter {
         grid = true;
         grid_size = 50;
         skin = new Skin(Gdx.files.internal("skin/flat-earth/skin/flat-earth-ui.json"));
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+
+        // Create a button style with no background or drawable
+        invisibleButtonStyle = new Button.ButtonStyle();
+        invisibleButtonStyle.up = null;   // No texture for the normal state
+        invisibleButtonStyle.down = null; // No texture for the pressed state
+        invisibleButtonStyle.checked = null; // No texture for the checked state
     }
 
     @Override
     public void show() {
         // Set the input processor to this stage
-        frameBuffer.begin();
         Gdx.input.setInputProcessor(stage);
         render(0);
-        frameBuffer.end();
-        TextureRegion textureRegion = new TextureRegion(frameBuffer.getColorBufferTexture());
-        textureRegion.flip(false, true); // Flip vertically
-
-        prevScreen = textureRegion;
-
-        // Render the new screen's background using the captured texture
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        batch.draw(prevScreen, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
-//        prevScreen = frameBuffer.getColorBufferTexture();
-//        prevScreen.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     @Override
@@ -118,7 +109,6 @@ public class BaseScreen extends ScreenAdapter {
         batch.dispose();
         shapeRenderer.dispose();
         skin.dispose();
-        frameBuffer.dispose();
         skin.dispose();
     }
 }

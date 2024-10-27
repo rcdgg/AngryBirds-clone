@@ -132,10 +132,4 @@ public class StartingMenu extends BaseScreen {
         super.render(delta);
 
     }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        cogTexture.dispose();
-    }
 }

@@ -98,6 +98,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
             game.setScreen(new WinScreen(game));
             return true;
         }
+        if(keycode == Input.Keys.L){
+            game.setScreen(new LoseScreen(game));
+            return true;
+        }
 //        else if(keycode==Input.Keys.L){
 //            game.setScreen(new LoseScreen(game));
 //            return true;

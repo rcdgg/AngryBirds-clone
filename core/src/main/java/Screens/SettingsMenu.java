@@ -27,29 +27,6 @@ public class SettingsMenu extends BaseScreen{
         background.setSize(1000,   background.getHeight() / background.getWidth() * 1000);
         background.setPosition(stage.getWidth() / 2 - background.getWidth() / 2, stage.getHeight() / 2 - background.getHeight() / 2);
 
-//        // Create a Pixmap for the stroke (border)
-//        Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
-//        pixmap.setColor(Color.RED); // Stroke color
-//        pixmap.drawRectangle(0, 0, 100, 100); // Draw a rectangle stroke
-//
-//// Create a texture from the pixmap
-//        Texture pixmapTexture = new Texture(pixmap);
-//        pixmap.dispose(); // Dispose of the pixmap after creating the texture
-//
-//// Create a NinePatch from the texture to handle resizing
-//        NinePatch strokeNinePatch = new NinePatch(pixmapTexture, 2, 2, 2, 2); // Adjust the patch settings for the stroke size
-//        Drawable strokeDrawable = new NinePatchDrawable(strokeNinePatch);
-//
-//// Create a ButtonStyle and assign the stroke drawable
-//        Button.ButtonStyle strokeButtonStyle = new Button.ButtonStyle();
-//        strokeButtonStyle.up = strokeDrawable; // Use the stroke drawable as the button's up state
-
-        // Create a button style with no background or drawable
-        Button.ButtonStyle invisibleButtonStyle = new Button.ButtonStyle();
-        invisibleButtonStyle.up = null;   // No texture for the normal state
-        invisibleButtonStyle.down = null; // No texture for the pressed state
-        invisibleButtonStyle.checked = null; // No texture for the checked state
-
         Button back = new Button(invisibleButtonStyle);
         back.setSize(120,120);
         back.setPosition(stage.getWidth() / 2 - back.getWidth() / 2 - 10, 100);

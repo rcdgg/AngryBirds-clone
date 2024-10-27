@@ -1,33 +1,26 @@
-# angry-birds
+# Angry Birds Clone
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+---
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+## How to run :
+ -  Ideally open the project in Intellij Idea(other editors work too).
+ - Go to lwjgl3/src/main/java/birds/angry/lwjgl3/Lwjgl3Launcher.java and run the main function there to launch the app
 
-## Platforms
+## Contribution :
+ - ### Rohan Shanker
+   - Setting up the libgdx environment and the main game loop workflow
+   - Main menu, level select, settings menu, pause menu and win/lose screen
+   - Some assets
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+ - ### Shivank Rajput
+   - Majority of the assets and asset manager
+   - Converting the sprites to classes and objects
+   - Entirety of level 1
 
-## Gradle
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+## References :
+ - [Libgdx Wiki(main source)](https://libgdx.com/wiki/)
+ - [Helpful Tutorial series to take reference from](https://happycoding.io/tutorials/libgdx/)
+ - [Angry birds wiki for many of the assets used in our game](https://angrybirds.fandom.com/wiki/Angry_Birds_Wiki)
+ - ChatGpt for help in some error handling
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
-
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.

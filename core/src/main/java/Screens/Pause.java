@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 public class Pause extends BaseScreen{
     private Screen prev_screen;
     private Button resume;
+    private Button save;
+    private Button levelselect;
     private Image pausebg;
     public Pause(Game game, Screen prev_screen) {
         super(game);
@@ -27,11 +29,17 @@ public class Pause extends BaseScreen{
         pausebg.setSize(250,   pausebg.getHeight() / pausebg.getWidth() * 250);
         pausebg.setPosition(stage.getWidth() / 2 - pausebg.getWidth() / 2 - 50, stage.getHeight() / 2 - pausebg.getHeight() / 2);
         resume = new TextButton("resume", skin);
-        resume.setPosition(stage.getWidth() / 2 - pausebg.getWidth() / 2 + 40, stage.getHeight() / 2 - pausebg.getHeight() / 2 + 100);
-//        Button resume = new Button(Assets.resumeButtonStyle);
-
+        resume.setPosition(stage.getWidth() / 2 - pausebg.getWidth() / 2 + 40, stage.getHeight() / 2 - pausebg.getHeight() / 2 + 150);
+        save = new TextButton("save", skin);
+        save.setPosition(stage.getWidth() / 2 - pausebg.getWidth() / 2 + 40, stage.getHeight() / 2 - pausebg.getHeight() / 2 + 90);
+        levelselect = new TextButton("level select", skin);
+        levelselect.setPosition(stage.getWidth() / 2 - pausebg.getWidth() / 2 + 40, stage.getHeight() / 2 - pausebg.getHeight() / 2 + 40);
+        //        Button resume = new Button(Assets.resumeButtonStyle);
         stage.addActor(pausebg);
         stage.addActor(resume);
+        stage.addActor(save);
+        stage.addActor(levelselect);
+
         resume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -40,7 +48,14 @@ public class Pause extends BaseScreen{
                 dispose();
             }
         });
-
+        levelselect.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new LevelSelect(game));
+                dispose();
+            }
+        });
 
     }
     @Override

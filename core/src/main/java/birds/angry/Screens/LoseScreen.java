@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LoseScreen extends BaseScreen {
-    Image losebg;
-    Button levelselect;
+    private Image losebg;
+    private Button levelselect;
     public LoseScreen(Game game) {
         super(game);
         losebg = Assets.losebg;

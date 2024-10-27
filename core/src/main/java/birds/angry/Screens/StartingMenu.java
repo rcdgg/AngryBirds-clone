@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class StartingMenu extends BaseScreen {
     private TextButton start, quit, load, bp;
     private ImageButton settings;
-    private SpriteBatch batch;
     private Image background;
     private Texture cogTexture;
 
@@ -32,10 +31,7 @@ public class StartingMenu extends BaseScreen {
         load = new TextButton("Load Game", skin);
         bp = new TextButton("Battle pass", skin);
 
-
-        batch = (SpriteBatch) stage.getBatch();
-
-        Texture cogTexture = new Texture(Gdx.files.internal("screens/mainmenu/cog icon.png"));
+        cogTexture = new Texture(Gdx.files.internal("screens/mainmenu/cog icon.png"));
         ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
         buttonStyle.up = new TextureRegionDrawable(new TextureRegion(cogTexture));
         buttonStyle.down = new TextureRegionDrawable(new TextureRegion(cogTexture));
@@ -126,5 +122,11 @@ public class StartingMenu extends BaseScreen {
         shapeRenderer.end();
         super.render(delta);
 
+    }
+
+    @Override
+    public void dispose(){
+        super.dispose();
+        cogTexture.dispose();
     }
 }

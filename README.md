@@ -11,11 +11,13 @@
    - Setting up the libgdx environment and the main game loop workflow
    - Main menu, level select, settings menu, pause menu and win/lose screen
    - Some assets
+   - UML class diagram
 
  - ### Shivank Rajput
    - Majority of the assets and asset manager
    - Converting the sprites to classes and objects
    - Entirety of level 1
+   - UML use case diagram
 
 
 ## References :

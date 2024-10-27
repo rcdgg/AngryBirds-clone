@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
-    SpriteBatch batch;
     private Slingshot slingshot;
     private Bird redbird, bluebird, yellowbird;
     private PeasantPig ppig;

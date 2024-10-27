@@ -18,8 +18,4 @@ public class Yellowbird extends Bird{
         super.act(delta);
         // slingshot specific logic here like band and projectile
     }
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(yellowbirdtex, getX(), getY(), getWidth(), getHeight());
-    }
 }

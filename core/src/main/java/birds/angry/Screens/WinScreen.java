@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class WinScreen extends BaseScreen {
-    Image winbg;
-    Button levelselect;
+    private Image winbg;
+    private Button levelselect;
     public WinScreen(Game game) {
         super(game);
         winbg = Assets.winbg;

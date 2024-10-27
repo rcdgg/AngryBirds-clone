@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LevelSelect extends BaseScreen{
     private final Image background;
-    private ShapeRenderer shapeRenderer;
     public LevelSelect(Game game){
         super(game);
         shapeRenderer = new ShapeRenderer();

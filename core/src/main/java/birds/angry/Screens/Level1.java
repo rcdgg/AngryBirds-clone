@@ -16,7 +16,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
     SpriteBatch batch;
     private Slingshot slingshot;
-    private Redbird redbird;
+    private Bird redbird, bluebird, yellowbird;
     private PeasantPig ppig;
     private KingPig kingPig;
     private SoldierPig soldierPig;
@@ -32,6 +32,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
         redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
+        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4*grid_size));
+        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 4*grid_size));
         woodlog = new Wood(new Vector2(11*grid_size, 4*grid_size));
         icelog = new Ice(new Vector2(14*grid_size, 4*grid_size));
         stonelog = new Stone(new Vector2(17*grid_size, 4*grid_size));
@@ -46,13 +48,14 @@ public class Level1 extends BaseScreen implements InputProcessor{
         stage.addActor(pause);
         stage.addActor(slingshot);
         stage.addActor(redbird);
+        stage.addActor(bluebird);
+        stage.addActor(yellowbird);
         stage.addActor(ppig);
         stage.addActor(kingPig);
         stage.addActor(soldierPig);
         stage.addActor(woodlog);
         stage.addActor(icelog);
         stage.addActor(stonelog);
-        stage.setDebugAll(true);
         pause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

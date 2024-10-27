@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Assets {
     public static TextureRegion[] redbirds;
+    public static Texture bluebird, yellowbird;
     public static Texture level1bg;
     public static Texture ppig;
     public static Texture kingpig;
@@ -22,7 +23,7 @@ public class Assets {
         return new Texture(Gdx.files.internal(file));
     }
     public static void load(){
-        Texture redBird_spritesheet = new Texture("red bird spritesheet.png");
+        Texture redBird_spritesheet = new Texture("birds/red bird spritesheet.png");
         int frameWidth = redBird_spritesheet.getWidth() / 4;
         int frameHeight = redBird_spritesheet.getHeight();
         TextureRegion[][] tmp = TextureRegion.split(redBird_spritesheet, frameWidth, frameHeight);
@@ -30,6 +31,8 @@ public class Assets {
 
         level1bg = loadTexture("screens/mainmenu/angy bird bg.jpg");
 
+        bluebird = loadTexture("birds/bluebird.png");
+        yellowbird = loadTexture("birds/yellowbird.png");
         ppig = loadTexture("screens/levels/ppig.png");
         kingpig = loadTexture("screens/levels/kingpig.png");
         soldierpig = loadTexture("screens/levels/soldierpig.png");

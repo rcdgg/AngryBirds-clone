@@ -3,6 +3,7 @@ package birds.angry.Screens;
 import birds.angry.GameSprites.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +19,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
     private Slingshot slingshot;
-    private Bird redbird, bluebird, yellowbird;
+//    private Bird redbird, bluebird, yellowbird;
+    private Redbird redbird;
+    private Bluebird bluebird;
+    private Yellowbird yellowbird;
     private PeasantPig ppig;
     private KingPig kingPig;
     private SoldierPig soldierPig;
@@ -26,6 +30,12 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Wood woodlog;
     private Ice icelog;
     private Stone stonelog;
+    private World world;
+    private Box2DDebugRenderer b2dr;
+    private Body redbirdBody;
+    private Body ground;
+    private OrthographicCamera camera;
+    float PPM = 100.0f;
     private World world;
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
@@ -81,8 +91,9 @@ public class Level1 extends BaseScreen implements InputProcessor{
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
         redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
+        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
         bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4*grid_size));
-        yellowbird = new Yellowbird(new Vector2(grid_size, 4*grid_size));
+        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 4*grid_size));
         woodlog = new Wood(new Vector2(11*grid_size, 4*grid_size));
         icelog = new Ice(new Vector2(14*grid_size, 4*grid_size));
         stonelog = new Stone(new Vector2(17*grid_size, 4*grid_size));
@@ -112,6 +123,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
             }
         });
+        redbirdBody = createBird();
+        ground = createGround();
     }
 
 
@@ -132,7 +145,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         stage.draw();
         uistage.act(delta);
         uistage.draw();
-        world.step(delta, 6,2);
+        update(delta);
+//        world.step(delta, 6,2);
         dbg.render(world, stage.getCamera().combined);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
@@ -142,7 +156,41 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);
 //        batch.end();
     }
-
+    public void update(float delta){
+        world.step(1/60f, 6, 2);
+    }
+    public Body createBird(){
+        Body bbody;
+        BodyDef def = new BodyDef();
+        def.type = BodyDef.BodyType.DynamicBody;
+        System.out.println("redbird pos = "+redbird.getPosition());
+        def.position.set(redbird.getPosition());
+        bbody = world.createBody(def);
+        CircleShape circle = new CircleShape();
+        circle.setRadius(35f);
+        circle.setPosition(new Vector2(40, 0));
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = circle;
+        fdef.density = 0.5f;
+        fdef.friction = 0.4f;
+        fdef.restitution = 0.6f;
+        Fixture fixture = bbody.createFixture(fdef);
+        return bbody;
+    }
+    public Body createGround(){
+        BodyDef grounddef = new BodyDef();
+        grounddef.position.set(0,0);
+        grounddef.type = BodyDef.BodyType.StaticBody;
+        Body ground = world.createBody(grounddef);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(grid_size*30, 4*grid_size);
+        FixtureDef gdef = new FixtureDef();
+        gdef.shape = shape;
+        gdef.filter.categoryBits = 2;
+        gdef.filter.maskBits = -1;
+        ground.createFixture(gdef);
+        return ground;
+    }
     @Override
     public boolean keyDown(int keycode) {
         if(keycode== Input.Keys.W){

@@ -36,7 +36,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Body ground;
     private OrthographicCamera camera;
     float PPM = 100.0f;
-    private World world;
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
     private Box2DDebugRenderer dbg;
@@ -45,7 +44,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
     public Level1(Game game) {
         super(game);
-        stage = new Stage(new FitViewport(16,9));
+        stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
 
         grid_size = 0.5f;
@@ -68,6 +67,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         CircleShape c = new CircleShape();
         c.setRadius(1);
         fixtureDef.shape = c;
+        fixtureDef.restitution = 0.5f;
         body.createFixture(fixtureDef);
         c.dispose();
 
@@ -91,6 +91,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
         redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
+        redbird.setSize(2 * c.getRadius(), 2 * c.getRadius());
         redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
         bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4*grid_size));
         yellowbird = new Yellowbird(new Vector2(1f*grid_size, 4*grid_size));
@@ -123,8 +124,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
             }
         });
-        redbirdBody = createBird();
-        ground = createGround();
+//        redbirdBody = createBird();
+//        ground = createGround();
     }
 
 
@@ -145,8 +146,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         stage.draw();
         uistage.act(delta);
         uistage.draw();
-        update(delta);
-//        world.step(delta, 6,2);
+//        update(delta);
+        world.step(delta, 6,2);
         dbg.render(world, stage.getCamera().combined);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);

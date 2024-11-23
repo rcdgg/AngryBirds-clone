@@ -3,6 +3,9 @@ package birds.angry;
 import birds.angry.Screens.StartingMenu;
 import birds.angry.GameSprites.Assets;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 
 /* look into asset manager
 * more backgrounds because multiple levels(organise the asset folder
@@ -12,6 +15,7 @@ import com.badlogic.gdx.*;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class AngryBirds extends Game {
     private Game game;
+
     public AngryBirds(){
         game = this;
     }
@@ -21,6 +25,7 @@ public class AngryBirds extends Game {
         screen.show();
         Assets.load();
     }
+
 
     @Override
     public void render() {

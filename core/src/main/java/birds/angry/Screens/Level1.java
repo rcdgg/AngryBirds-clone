@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
@@ -23,16 +26,63 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Wood woodlog;
     private Ice icelog;
     private Stone stonelog;
+    private World world;
+    private BodyDef bodyDef;
+    private FixtureDef fixtureDef;
+    private Box2DDebugRenderer dbg;
+    private Stage stage, uistage;
+    private float grid_size;
 
     public Level1(Game game) {
         super(game);
+        stage = new Stage(new FitViewport(16,9));
+        uistage = new Stage(new FitViewport(1600,900));
+
+        grid_size = 0.5f;
+        Box2D.init();
+        world = new World(new Vector2(0, -9.81f), true);
+        dbg = new Box2DDebugRenderer();
+
+        bodyDef = new BodyDef();
+        fixtureDef = new FixtureDef();
+
+        bodyDef.position.set(1,10);
+        bodyDef.gravityScale = 1;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        Body body = world.createBody(bodyDef);
+
+//        fixtureDef.isSensor = false;
+//        fixtureDef.restitution = 0.9f;
+//        fixtureDef.friction = 0.2f;
+//        fixtureDef.filter.maskBits = -1;
+        CircleShape c = new CircleShape();
+        c.setRadius(1);
+        fixtureDef.shape = c;
+        body.createFixture(fixtureDef);
+        c.dispose();
+
+
+        bodyDef.position.set(1,1);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        body = world.createBody(bodyDef);
+
+//        fixtureDef.isSensor = false;
+//        fixtureDef.restitution = 0.9f;
+//        fixtureDef.friction = 0.2f;
+//        fixtureDef.filter.maskBits = -1;
+        PolygonShape p = new PolygonShape();
+        p.setAsBox(1,1);
+
+        fixtureDef.shape = p;
+        body.createFixture(fixtureDef);
+        p.dispose();
 
 //        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
         redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
         bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4*grid_size));
-        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 4*grid_size));
+        yellowbird = new Yellowbird(new Vector2(grid_size, 4*grid_size));
         woodlog = new Wood(new Vector2(11*grid_size, 4*grid_size));
         icelog = new Ice(new Vector2(14*grid_size, 4*grid_size));
         stonelog = new Stone(new Vector2(17*grid_size, 4*grid_size));
@@ -42,9 +92,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         soldierPig = new SoldierPig(new Vector2(18*grid_size, 4*grid_size));
         batch = new SpriteBatch();
         pause = new TextButton("pause", skin);
-        pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
-        stage.addActor(pause);
+        uistage.addActor(pause);
         stage.addActor(slingshot);
         stage.addActor(redbird);
         stage.addActor(bluebird);
@@ -78,7 +127,13 @@ public class Level1 extends BaseScreen implements InputProcessor{
         batch.begin();
         batch.draw(background, 0, 0);
         batch.end();
-        super.render(delta);
+//        super.render(delta);
+        stage.act(delta);
+        stage.draw();
+        uistage.act(delta);
+        uistage.draw();
+        world.step(delta, 6,2);
+        dbg.render(world, stage.getCamera().combined);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
         multiplexer.addProcessor(stage);
@@ -143,5 +198,12 @@ public class Level1 extends BaseScreen implements InputProcessor{
     @Override
     public boolean scrolled(float v, float v1) {
         return false;
+    }
+
+    public void dispose(){
+        super.dispose();
+        this.stage.dispose();
+        world.dispose();
+        dbg.dispose();
     }
 }

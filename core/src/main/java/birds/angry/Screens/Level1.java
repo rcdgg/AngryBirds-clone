@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
+import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -47,6 +50,9 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private final short BIRD = 1;
     private final short GROUND = 2;
     private final short OBSTACLE = 4;
+    private MouseJointDef JointDef;
+    private MouseJoint joint;
+
 
     public Level1(Game game) {
         super(game);
@@ -60,6 +66,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
+        fixtureDef.density = 1.0f;
         fixtureDef.filter.categoryBits = BIRD;
         fixtureDef.filter.maskBits = GROUND | OBSTACLE;
         redbirdBody = createBird(new Vector2(1, 10));
@@ -173,6 +180,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
             }
         });
+        JointDef = new MouseJointDef();
+        JointDef.bodyA = world.createBody(new BodyDef());
+        JointDef.collideConnected = true;
+        JointDef.maxForce = 10.0f;
     }
 
 
@@ -305,14 +316,38 @@ public class Level1 extends BaseScreen implements InputProcessor{
         return false;
     }
 
+    private Vector3 tmp = new Vector3();
+    private Vector2 tmp2 = new Vector2();
+    private QueryCallback queryCallback = new QueryCallback() {
+        @Override
+        public boolean reportFixture(Fixture fixture) {
+            if(!fixture.testPoint(tmp.x, tmp.y))
+                return false;
+            if(fixture.getBody()==redbirdBody)System.out.println("Redbird");
+            JointDef.bodyB = fixture.getBody();
+            JointDef.target.set(tmp.x, tmp.y);
+            joint = (MouseJoint) world.createJoint(JointDef);
+            return true;
+        }
+    };
     @Override
     public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
+        stage.getCamera().unproject(tmp.set(i, i1, 0));
+        tmp.x /= PPM;
+        tmp.y /= PPM;
+        world.QueryAABB(queryCallback, tmp.x, tmp.y, tmp.x, tmp.y);
+
+        return true;
     }
 
     @Override
     public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
+        if(joint==null){
+            return false;
+        }
+        world.destroyJoint(joint);
+        joint = null;
+        return true;
     }
 
     @Override
@@ -322,7 +357,12 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
     @Override
     public boolean touchDragged(int i, int i1, int i2) {
-        return false;
+        if(joint==null) return false;
+        stage.getCamera().unproject(tmp.set(i, i1, 0));
+        Vector2 wc = new Vector2(tmp.x/PPM, tmp.y/PPM);
+        joint.setTarget(tmp2.set(wc.x, wc.y));
+        System.out.println("being touched");
+        return true;
     }
 
     @Override

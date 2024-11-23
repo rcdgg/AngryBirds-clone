@@ -42,6 +42,9 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Box2DDebugRenderer dbg;
     private Stage stage, uistage;
     private float grid_size;
+    private final short BIRD = 1;
+    private final short GROUND = 2;
+    private final short OBSTACLE = 4;
 
     public Level1(Game game) {
         super(game);
@@ -55,7 +58,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
-
+        fixtureDef.filter.categoryBits = BIRD;
+        fixtureDef.filter.maskBits = GROUND | OBSTACLE;
         redbirdBody = createBird(new Vector2(1, 10));
         bluebirdBody = createBird(new Vector2(3, 10));
         yellowbirdBody = createBird(new Vector2(2, 13));
@@ -85,6 +89,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
         fixtureDef.shape = p;
         fixtureDef.friction = 0.1f;
+        fixtureDef.filter.categoryBits = GROUND;
+        fixtureDef.filter.maskBits = BIRD;
         ground.createFixture(fixtureDef);
         p.dispose();
 
@@ -110,7 +116,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
-        uistage.addActor(pause);
+//        stage.addActor(pause);
 //        stage.addActor(slingshot);
         stage.addActor(redbird);
         stage.addActor(bluebird);
@@ -131,6 +137,36 @@ public class Level1 extends BaseScreen implements InputProcessor{
         });
 //        redbirdBody = createBird();
 //        ground = createGround();
+//        redbirdBody = createBird();
+//        ground = createGround();
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Fixture fa = contact.getFixtureA();
+                Fixture fb = contact.getFixtureB();
+                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)){
+                    System.out.println("Bird hit the ground");
+                }
+                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)){
+                    System.out.println("Bird hit the obstacle");
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold manifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse contactImpulse) {
+
+            }
+        });
     }
 
 
@@ -186,11 +222,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);
 //        batch.end();
     }
-
-    public void grid(){
-
-    }
-
     public void update(float delta){
         world.step(1/60f, 6, 2);
     }

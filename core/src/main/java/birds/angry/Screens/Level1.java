@@ -45,8 +45,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
-        redbird = new Redbird(new Vector2(4*grid_size, 4*grid_size));
-        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
+        redbird = new Redbird(new Vector2(4*grid_size, 10*grid_size));
+        redbird.setPosition(new Vector2(4*grid_size, 10*grid_size));
         bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4*grid_size));
         yellowbird = new Yellowbird(new Vector2(1f*grid_size, 4*grid_size));
         woodlog = new Wood(new Vector2(11*grid_size, 4*grid_size));
@@ -60,17 +60,17 @@ public class Level1 extends BaseScreen implements InputProcessor{
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
-        stage.addActor(pause);
-        stage.addActor(slingshot);
+//        stage.addActor(pause);
+//        stage.addActor(slingshot);
         stage.addActor(redbird);
-        stage.addActor(bluebird);
-        stage.addActor(yellowbird);
-        stage.addActor(ppig);
-        stage.addActor(kingPig);
-        stage.addActor(soldierPig);
+//        stage.addActor(bluebird);
+//        stage.addActor(yellowbird);
+//        stage.addActor(ppig);
+//        stage.addActor(kingPig);
+//        stage.addActor(soldierPig);
         stage.addActor(woodlog);
-        stage.addActor(icelog);
-        stage.addActor(stonelog);
+//        stage.addActor(icelog);
+//        stage.addActor(stonelog);
         pause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -94,9 +94,12 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        batch.begin();
 //        slingshot.render(batch);
 //        batch.end();
-        batch.begin();
-        batch.draw(background, 0, 0);
-        batch.end();
+//        batch.begin();
+//        batch.draw(background, 0, 0);
+//        batch.end();
+//        redbird.setPosition(new Vector2(redbirdBody.getPosition().x, redbirdBody.getPosition().y));
+        redbird.setX(redbirdBody.getPosition().x);
+        redbird.setY(redbirdBody.getPosition().y);
         super.render(delta);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
@@ -119,7 +122,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         bbody = world.createBody(def);
         CircleShape circle = new CircleShape();
         circle.setRadius(35f);
-        circle.setPosition(new Vector2(40, 0));
+        circle.setPosition(new Vector2(40, 35));
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         fdef.density = 0.5f;

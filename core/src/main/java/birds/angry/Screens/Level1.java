@@ -9,15 +9,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
     private Slingshot slingshot;
-//    private Bird redbird, bluebird, yellowbird;
+    //    private Bird redbird, bluebird, yellowbird;
     private Redbird redbird;
     private Bluebird bluebird;
     private Yellowbird yellowbird;
@@ -34,19 +36,71 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Body ground;
     private OrthographicCamera camera;
     float PPM = 100.0f;
+    private BodyDef bodyDef;
+    private FixtureDef fixtureDef;
+    private Box2DDebugRenderer dbg;
+    private Stage stage, uistage;
+    private float grid_size;
+    private final short BIRD = 1;
+    private final short GROUND = 2;
+    private final short OBSTACLE = 4;
+
     public Level1(Game game) {
         super(game);
-        world = new World(new Vector2(0, -10), true);
-        b2dr = new Box2DDebugRenderer();
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, w, h);
+        stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
+        uistage = new Stage(new FitViewport(1600,900));
+
+        grid_size = 0.5f;
+        Box2D.init();
+        world = new World(new Vector2(0, -9.81f), true);
+        dbg = new Box2DDebugRenderer();
+
+        bodyDef = new BodyDef();
+        fixtureDef = new FixtureDef();
+        fixtureDef.filter.categoryBits = BIRD;
+        fixtureDef.filter.maskBits = GROUND | OBSTACLE;
+        bodyDef.position.set(1,10);
+        bodyDef.gravityScale = 1;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        redbirdBody = createBird();
+
+//        fixtureDef.isSensor = false;
+//        fixtureDef.restitution = 0.9f;
+//        fixtureDef.friction = 0.2f;
+//        fixtureDef.filter.maskBits = -1;
+        CircleShape c = new CircleShape();
+        c.setRadius(1);
+//        fixtureDef.shape = c;
+//        fixtureDef.restitution = 0.5f;
+//        redbirdBody.createFixture(fixtureDef);
+//        c.dispose();
+
+
+        bodyDef.position.set(1, 1);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body body = world.createBody(bodyDef);
+
+//        fixtureDef.isSensor = false;
+//        fixtureDef.restitution = 0.9f;
+//        fixtureDef.friction = 0.2f;
+//        fixtureDef.filter.maskBits = -1;
+        PolygonShape p = new PolygonShape();
+        p.setAsBox(16,1);
+
+        fixtureDef.shape = p;
+        fixtureDef.filter.categoryBits = GROUND;
+        fixtureDef.filter.maskBits = BIRD;
+        body.createFixture(fixtureDef);
+        p.dispose();
+
 //        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
-        redbird = new Redbird(new Vector2(4*grid_size, 10*grid_size));
-        redbird.setPosition(new Vector2(4*grid_size, 10*grid_size));
+        redbird = new Redbird(new Vector2(5,5));
+        redbird.setSize(2 * c.getRadius(), 2 * c.getRadius());
+        redbird.setOriginX(redbird.getWidth() / 2);
+        redbird.setOriginY(redbird.getHeight() /2);
+//        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
         bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4*grid_size));
         yellowbird = new Yellowbird(new Vector2(1f*grid_size, 4*grid_size));
         woodlog = new Wood(new Vector2(11*grid_size, 4*grid_size));
@@ -60,7 +114,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
-//        stage.addActor(pause);
+        uistage.addActor(pause);
 //        stage.addActor(slingshot);
         stage.addActor(redbird);
 //        stage.addActor(bluebird);
@@ -79,14 +133,41 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
             }
         });
-        redbirdBody = createBird();
-        ground = createGround();
+//        redbirdBody = createBird();
+//        ground = createGround();
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                Fixture fa = contact.getFixtureA();
+                Fixture fb = contact.getFixtureB();
+                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)){
+                    System.out.println("Bird hit the ground");
+                }
+                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)){
+                    System.out.println("Bird hit the obstacle");
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold manifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse contactImpulse) {
+
+            }
+        });
     }
 
 
     @Override
     public void render(float delta) {
-        update(delta);
         ScreenUtils.clear(Color.BLACK);
 //        game.viewport.apply();
 //        stage.getBatch().setProjectionMatrix(game.viewport.getCamera().combined);
@@ -94,18 +175,25 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        batch.begin();
 //        slingshot.render(batch);
 //        batch.end();
-//        batch.begin();
-//        batch.draw(background, 0, 0);
-//        batch.end();
-//        redbird.setPosition(new Vector2(redbirdBody.getPosition().x, redbirdBody.getPosition().y));
-        redbird.setX(redbirdBody.getPosition().x);
-        redbird.setY(redbirdBody.getPosition().y);
-        super.render(delta);
+        batch.begin();
+        batch.draw(background, 0, 0);
+        batch.end();
+//        super.render(delta);
+
+        redbird.setX(redbirdBody.getPosition().x - redbird.getWidth() / 2);
+        redbird.setY(redbirdBody.getPosition().y - redbird.getHeight() / 2);
+        stage.act(delta);
+        stage.draw();
+//        uistage.act(delta);
+//        uistage.draw();
+//        update(delta);
+        world.step(1/60f, 6,2);
+        dbg.render(world, stage.getCamera().combined);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
         multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
-        b2dr.render(world, camera.combined);
+//        b2dr.render(world, camera.combined);
 //        batch.begin();
 //        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);
 //        batch.end();
@@ -114,21 +202,16 @@ public class Level1 extends BaseScreen implements InputProcessor{
         world.step(1/60f, 6, 2);
     }
     public Body createBird(){
-        Body bbody;
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
-        System.out.println("redbird pos = "+redbird.getPosition());
-        def.position.set(redbird.getPosition());
-        bbody = world.createBody(def);
+        def.position.set(1,10);
+        Body bbody = world.createBody(def);
         CircleShape circle = new CircleShape();
-        circle.setRadius(35f);
-        circle.setPosition(new Vector2(40, 35));
+        circle.setRadius(1);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        fdef.density = 0.5f;
-        fdef.friction = 0.4f;
-        fdef.restitution = 0.6f;
-        Fixture fixture = bbody.createFixture(fdef);
+        fdef.restitution = 0.5f;
+        bbody.createFixture(fdef);
         return bbody;
     }
     public Body createGround(){
@@ -202,4 +285,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
         return false;
     }
 
+    public void dispose(){
+        super.dispose();
+        this.stage.dispose();
+        world.dispose();
+        dbg.dispose();
+    }
 }

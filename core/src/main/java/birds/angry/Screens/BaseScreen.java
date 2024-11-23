@@ -1,9 +1,6 @@
 package birds.angry.Screens;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -19,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class BaseScreen extends ScreenAdapter {
+public class BaseScreen extends ScreenAdapter implements ApplicationListener {
     protected Stage stage;
     protected Game game;
     protected SpriteBatch batch;
@@ -37,7 +34,7 @@ public class BaseScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
         stage.setDebugAll(true);
-        grid = false;
+        grid = true;
         grid_size = 50;
         skin = new Skin(Gdx.files.internal("skin/flat-earth/skin/flat-earth-ui.json"));
 
@@ -81,8 +78,17 @@ public class BaseScreen extends ScreenAdapter {
     }
 
     @Override
+    public void create() {
+    }
+
+    @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void render() {
+
     }
 
     @Override

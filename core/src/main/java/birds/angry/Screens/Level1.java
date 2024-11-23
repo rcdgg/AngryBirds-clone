@@ -147,8 +147,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         batch.end();
 //        super.render(delta);
 
-        redbird.setX(circle.getPosition().x);
-        redbird.setY(circle.getPosition().y);
+        redbird.setX(circle.getPosition().x - redbird.getWidth() / 2);
+        redbird.setY(circle.getPosition().y - redbird.getHeight() / 2);
         stage.act(delta);
         stage.draw();
         uistage.act(delta);

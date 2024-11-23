@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
     private Slingshot slingshot;
-//    private Bird redbird, bluebird, yellowbird;
+    //    private Bird redbird, bluebird, yellowbird;
     private Redbird redbird;
     private Bluebird bluebird;
     private Yellowbird yellowbird;
@@ -41,7 +41,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Box2DDebugRenderer dbg;
     private Stage stage, uistage;
     private float grid_size;
-    private Body circle;
 
     public Level1(Game game) {
         super(game);
@@ -59,7 +58,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         bodyDef.position.set(1,10);
         bodyDef.gravityScale = 1;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        circle = world.createBody(bodyDef);
+        redbirdBody = createBird();
 
 //        fixtureDef.isSensor = false;
 //        fixtureDef.restitution = 0.9f;
@@ -67,10 +66,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        fixtureDef.filter.maskBits = -1;
         CircleShape c = new CircleShape();
         c.setRadius(1);
-        fixtureDef.shape = c;
-        fixtureDef.restitution = 0.5f;
-        circle.createFixture(fixtureDef);
-        c.dispose();
+//        fixtureDef.shape = c;
+//        fixtureDef.restitution = 0.5f;
+//        redbirdBody.createFixture(fixtureDef);
+//        c.dispose();
 
 
         bodyDef.position.set(1, 1);
@@ -147,8 +146,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         batch.end();
 //        super.render(delta);
 
-        redbird.setX(circle.getPosition().x - redbird.getWidth() / 2);
-        redbird.setY(circle.getPosition().y - redbird.getHeight() / 2);
+        redbird.setX(redbirdBody.getPosition().x - redbird.getWidth() / 2);
+        redbird.setY(redbirdBody.getPosition().y - redbird.getHeight() / 2);
         stage.act(delta);
         stage.draw();
 //        uistage.act(delta);
@@ -168,21 +167,16 @@ public class Level1 extends BaseScreen implements InputProcessor{
         world.step(1/60f, 6, 2);
     }
     public Body createBird(){
-        Body bbody;
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
-        System.out.println("redbird pos = "+redbird.getPosition());
-        def.position.set(redbird.getPosition());
-        bbody = world.createBody(def);
+        def.position.set(1,10);
+        Body bbody = world.createBody(def);
         CircleShape circle = new CircleShape();
-        circle.setRadius(35f);
-        circle.setPosition(new Vector2(40, 0));
+        circle.setRadius(0.5f);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        fdef.density = 0.5f;
-        fdef.friction = 0.4f;
-        fdef.restitution = 0.6f;
-        Fixture fixture = bbody.createFixture(fdef);
+        fdef.restitution = 0.5f;
+        bbody.createFixture(fdef);
         return bbody;
     }
     public Body createGround(){

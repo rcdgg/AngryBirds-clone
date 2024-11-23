@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Yellowbird extends Bird{
-    private final Texture yellowbirdtex;
+    public final Texture yellowbirdtex;
     public Yellowbird(Vector2 position){
         super(Assets.yellowbird, position, new Vector2 ((float)(Assets.yellowbird.getHeight() - 100), (float)(Assets.yellowbird.getWidth()- 100)));
         yellowbirdtex = texture;

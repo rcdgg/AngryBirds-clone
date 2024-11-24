@@ -40,7 +40,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Body redbirdBody, bluebirdBody, yellowbirdBody, ground, stone, wood, ice;
     private OrthographicCamera camera;
     float PPM = 100.0f;
-    float bird_size = 1f;
+    float bird_size = 0.3f;
     float obj_size = 0.1f;
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
@@ -51,7 +51,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private final short GROUND = 2;
     private final short OBSTACLE = 4;
     private MouseJointDef JointDef;
-    private MouseJoint joint;
+    private MouseJoint mouseJoint;
 
 
     public Level1(Game game) {
@@ -181,9 +181,9 @@ public class Level1 extends BaseScreen implements InputProcessor{
             }
         });
         JointDef = new MouseJointDef();
-        JointDef.bodyA = world.createBody(new BodyDef());
+        JointDef.bodyA = ground;
         JointDef.collideConnected = true;
-        JointDef.maxForce = 10.0f;
+        JointDef.maxForce = 1;
     }
 
 
@@ -316,38 +316,58 @@ public class Level1 extends BaseScreen implements InputProcessor{
         return false;
     }
 
-    private Vector3 tmp = new Vector3();
-    private Vector2 tmp2 = new Vector2();
-    private QueryCallback queryCallback = new QueryCallback() {
-        @Override
-        public boolean reportFixture(Fixture fixture) {
-            if(!fixture.testPoint(tmp.x, tmp.y))
-                return false;
-            if(fixture.getBody()==redbirdBody)System.out.println("Redbird");
-            JointDef.bodyB = fixture.getBody();
-            JointDef.target.set(tmp.x, tmp.y);
-            joint = (MouseJoint) world.createJoint(JointDef);
-            return true;
-        }
-    };
     @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        stage.getCamera().unproject(tmp.set(i, i1, 0));
-        tmp.x /= PPM;
-        tmp.y /= PPM;
-        world.QueryAABB(queryCallback, tmp.x, tmp.y, tmp.x, tmp.y);
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector2 worldPos = screenToWorld(screenX, screenY);
 
+        Body body = getBodyAt(worldPos);
+        if (body != null) {
+            MouseJointDef jointDef = new MouseJointDef();
+            jointDef.bodyA = ground;
+            jointDef.bodyB = body;
+            jointDef.target.set(worldPos);
+            jointDef.collideConnected = true;
+            jointDef.maxForce = 1000f * body.getMass();
+
+            mouseJoint = (MouseJoint) world.createJoint(jointDef);
+        }
         return true;
     }
 
     @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        if(joint==null){
-            return false;
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (mouseJoint != null) {
+            Vector2 worldPos = screenToWorld(screenX, screenY);
+            mouseJoint.setTarget(worldPos); // Update the target position
         }
-        world.destroyJoint(joint);
-        joint = null;
         return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (mouseJoint != null) {
+            world.destroyJoint(mouseJoint); // Remove the joint
+            mouseJoint = null;
+        }
+        return true;
+    }
+
+    private Vector2 screenToWorld(int screenX, int screenY) {
+        Vector3 screenCoords = new Vector3(screenX, screenY, 0);
+        stage.getCamera().unproject(screenCoords);
+        return new Vector2(screenCoords.x, screenCoords.y);
+    }
+
+    private Body getBodyAt(Vector2 position) {
+        final Body[] result = new Body[1];
+        world.QueryAABB((fixture) -> {
+            if (fixture.testPoint(position.x, position.y)) {
+                result[0] = fixture.getBody();
+                return false;
+            }
+            return true;
+        }, position.x - 0.01f, position.y - 0.01f, position.x + 0.01f, position.y + 0.01f);
+        return result[0];
     }
 
     @Override
@@ -355,15 +375,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
         return false;
     }
 
-    @Override
-    public boolean touchDragged(int i, int i1, int i2) {
-        if(joint==null) return false;
-        stage.getCamera().unproject(tmp.set(i, i1, 0));
-        Vector2 wc = new Vector2(tmp.x/PPM, tmp.y/PPM);
-        joint.setTarget(tmp2.set(wc.x, wc.y));
-        System.out.println("being touched");
-        return true;
-    }
 
     @Override
     public boolean mouseMoved(int i, int i1) {

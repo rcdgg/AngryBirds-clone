@@ -58,6 +58,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         super(game);
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
+        uistage.setDebugAll(true);
 
         grid_size = 0.5f;
         Box2D.init();
@@ -123,7 +124,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
-//        stage.addActor(pause);
+        uistage.addActor(pause);
 //        stage.addActor(slingshot);
         stage.addActor(redbird);
         stage.addActor(bluebird);
@@ -180,10 +181,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
             }
         });
-        JointDef = new MouseJointDef();
-        JointDef.bodyA = ground;
-        JointDef.collideConnected = true;
-        JointDef.maxForce = 1;
     }
 
 
@@ -224,28 +221,29 @@ public class Level1 extends BaseScreen implements InputProcessor{
         icelog.setRotation(ice.getAngle() * MathUtils.radiansToDegrees);
         stage.act(delta);
         stage.draw();
-//        uistage.act(delta);
-//        uistage.draw();
-//        update(delta);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.GRAY);
-
-        float gridSpacing = grid_size;
-
-        for (float y = 0; y < stage.getHeight(); y += gridSpacing) {
-            shapeRenderer.line(0, y, stage.getWidth(), y);
-        }
-
-        for (float x = 0; x < stage.getWidth(); x += gridSpacing) {
-            shapeRenderer.line(x, 0, x, stage.getHeight());
-        }
-
-        shapeRenderer.end();
+        uistage.act(delta);
+        uistage.draw();
         world.step(1/60f, 6,2);
         dbg.render(world, stage.getCamera().combined);
+//        update(delta);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(Color.GRAY);
+//
+//        float gridSpacing = grid_size;
+//
+//        for (float y = 0; y < stage.getHeight(); y += gridSpacing) {
+//            shapeRenderer.line(0, y, stage.getWidth(), y);
+//        }
+//
+//        for (float x = 0; x < stage.getWidth(); x += gridSpacing) {
+//            shapeRenderer.line(x, 0, x, stage.getHeight());
+//        }
+//
+//        shapeRenderer.end();
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this);
+        multiplexer.addProcessor(uistage);
         multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
 //        b2dr.render(world, camera.combined);
 //        batch.begin();
@@ -321,7 +319,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         Vector2 worldPos = screenToWorld(screenX, screenY);
 
         Body body = getBodyAt(worldPos);
-        if (body != null) {
+        if (body != null && body != ground) {
             MouseJointDef jointDef = new MouseJointDef();
             jointDef.bodyA = ground;
             jointDef.bodyB = body;

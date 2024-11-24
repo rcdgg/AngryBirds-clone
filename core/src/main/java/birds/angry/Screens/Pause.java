@@ -61,6 +61,15 @@ public class Pause extends BaseScreen{
             }
         });
 
+        restart.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new Level1(game));
+                dispose();
+            }
+        });
+
     }
     @Override
     public void render(float delta){

@@ -52,6 +52,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private final short OBSTACLE = 4;
     private MouseJointDef JointDef;
     private MouseJoint mouseJoint;
+    private Vector2 slingbound;
 
 
     public Level1(Game game) {
@@ -59,7 +60,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
         uistage.setDebugAll(true);
-
+        slingbound = new Vector2();
         grid_size = 0.5f;
         Box2D.init();
         world = new World(new Vector2(0, -9.81f), true);
@@ -98,6 +99,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
+        slingshot.setSize(2 * grid_size, 4 * grid_size);
+        slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
+        slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
+
         redbird = new Redbird(new Vector2(5,5));
         redbird.setSize(2 * bird_size, 2 * bird_size);
 
@@ -125,7 +130,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         pause.setPosition(50, 50);
 //        pause.setTouchable(Touchable.enabled);
         uistage.addActor(pause);
-//        stage.addActor(slingshot);
+        stage.addActor(slingshot);
         stage.addActor(redbird);
         stage.addActor(bluebird);
         stage.addActor(yellowbird);
@@ -197,7 +202,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
         batch.draw(background, 0, 0);
         batch.end();
 //        super.render(delta);
-
         redbird.setX(redbirdBody.getPosition().x - redbird.getWidth() / 2);
         redbird.setY(redbirdBody.getPosition().y - redbird.getHeight() / 2);
 
@@ -219,12 +223,16 @@ public class Level1 extends BaseScreen implements InputProcessor{
         icelog.setX(ice.getPosition().x - icelog.getWidth() / 2);
         icelog.setY(ice.getPosition().y - icelog.getHeight() / 2);
         icelog.setRotation(ice.getAngle() * MathUtils.radiansToDegrees);
+
+
+
         stage.act(delta);
         stage.draw();
         uistage.act(delta);
         uistage.draw();
         world.step(1/60f, 6,2);
         dbg.render(world, stage.getCamera().combined);
+
 //        update(delta);
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //        shapeRenderer.setColor(Color.GRAY);
@@ -317,9 +325,11 @@ public class Level1 extends BaseScreen implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 worldPos = screenToWorld(screenX, screenY);
-
+        if(worldPos.x >= slingbound.x || worldPos.y >= slingbound.y){
+            return false;
+        }
         Body body = getBodyAt(worldPos);
-        if (body != null && body != ground) {
+        if (body != null && body != ground && body != stone && body != wood && body != ice) {
             MouseJointDef jointDef = new MouseJointDef();
             jointDef.bodyA = ground;
             jointDef.bodyB = body;
@@ -336,18 +346,35 @@ public class Level1 extends BaseScreen implements InputProcessor{
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (mouseJoint != null) {
             Vector2 worldPos = screenToWorld(screenX, screenY);
-            mouseJoint.setTarget(worldPos); // Update the target position
+            if(worldPos.x >= slingbound.x || worldPos.y >= slingbound.y){
+                return false;
+            }
+            float boundx = Math.min(slingbound.x, worldPos.x);
+            float boundy = Math.min(slingbound.y, worldPos.y);
+            mouseJoint.setTarget(new Vector2(boundx, boundy)); // Update the target position
+            System.out.println("target = "+mouseJoint.getTarget());
         }
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (mouseJoint != null) {
-            world.destroyJoint(mouseJoint); // Remove the joint
-            mouseJoint = null;
+        Body b = getBodyAt(screenToWorld(screenX, screenY));
+        if(b==redbirdBody || b==bluebirdBody || b==yellowbirdBody){
+
+            Vector2 worldPos = screenToWorld(screenX, screenY);
+            if (mouseJoint != null) {
+                world.destroyJoint(mouseJoint); // Remove the joint
+                mouseJoint = null;
+            }
+            if(worldPos.x >= slingbound.x || worldPos.y >= slingbound.y){
+                return false;
+            }
+            Integer absdiff = (int) Math.sqrt(Math.pow((double)worldPos.x - (double)slingbound.x, 2) + Math.pow((double)worldPos.y - (double)slingbound.y, 2));
+            b.applyLinearImpulse(new Vector2(absdiff, absdiff), b.getWorldCenter(), true);
+            return true;
         }
-        return true;
+        return false;
     }
 
     private Vector2 screenToWorld(int screenX, int screenY) {

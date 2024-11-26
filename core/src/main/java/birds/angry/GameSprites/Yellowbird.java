@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class Yellowbird extends Bird{
     public final Texture yellowbirdtex;
-    public Yellowbird(Vector2 position){
-        super(Assets.yellowbird, position, new Vector2 ((float)(Assets.yellowbird.getHeight() - 100), (float)(Assets.yellowbird.getWidth()- 100)));
+    public Yellowbird(Vector2 position, World world){
+        super(Assets.yellowbird, position, new Vector2 ((float)(Assets.yellowbird.getHeight() - 100), (float)(Assets.yellowbird.getWidth()- 100)), world);
         yellowbirdtex = texture;
         this.setSize((float)Assets.redbirds[0].getRegionWidth()/4, (float)Assets.redbirds[0].getRegionHeight()/4);
     }

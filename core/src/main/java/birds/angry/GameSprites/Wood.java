@@ -2,10 +2,11 @@ package birds.angry.GameSprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public class Wood extends Material{
-    public Wood(Vector2 position) {
-        super(Assets.woodlog, position, new Vector2( (float)Assets.woodlog.getWidth(), (float)Assets.woodlog.getHeight()-50));
+    public Wood(Vector2 position, Body body) {
+        super(Assets.woodlog, position, new Vector2( (float)Assets.woodlog.getWidth(), (float)Assets.woodlog.getHeight()-50), body);
     }
 
 }

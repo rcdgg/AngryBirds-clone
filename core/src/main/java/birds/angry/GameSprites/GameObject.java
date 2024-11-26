@@ -37,6 +37,7 @@ public class GameObject extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+
     }
 
     public void render(SpriteBatch batch) {

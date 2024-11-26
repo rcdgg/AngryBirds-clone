@@ -80,6 +80,28 @@ public class Level2 extends BaseScreen implements InputProcessor {
         dbg = new Box2DDebugRenderer();
         bodyDef = new BodyDef();
         fixtureDef = new FixtureDef();
+
+//        stone = createObject(new Vector2(5,5));
+//        ice = createObject(new Vector2(6,5));
+//        wood = createObject(new Vector2(7,5));
+
+        bodyDef.position.set(0, 1);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        ground = world.createBody(bodyDef);
+
+//        fixtureDef.isSensor = false;
+//        fixtureDef.restitution = 0.9f;
+//        fixtureDef.friction = 0.2f;
+//        fixtureDef.filter.maskBits = -1;
+        PolygonShape p = new PolygonShape();
+        p.setAsBox(16,1);
+
+        fixtureDef.shape = p;
+        fixtureDef.friction = 0.2f;
+        fixtureDef.filter.categoryBits = GROUND;
+        fixtureDef.filter.maskBits = -1;
+        ground.createFixture(fixtureDef);
+
         bodyDef.position.set(3.5f, 3.5f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         slingbody = world.createBody(bodyDef);
@@ -88,7 +110,6 @@ public class Level2 extends BaseScreen implements InputProcessor {
 //        fixtureDef.restitution = 0.9f;
 //        fixtureDef.friction = 0.2f;
 //        fixtureDef.filter.maskBits = -1;
-        PolygonShape p = new PolygonShape();
         p.setAsBox(0.01f,0.01f);
 
         fixtureDef.shape = p;

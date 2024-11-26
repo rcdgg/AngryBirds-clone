@@ -21,5 +21,8 @@ public class Bluebird extends Bird{
         super.act(delta);
         // slingshot specific logic here like band and projectile
     }
-
+    @Override
+    public String getName(){
+        return "Bluebird";
+    }
 }

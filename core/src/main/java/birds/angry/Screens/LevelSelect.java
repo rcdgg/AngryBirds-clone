@@ -24,7 +24,7 @@ public class LevelSelect extends BaseScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                game.setScreen(new Level1(game));
+                game.setScreen(new Level1(game, "core/src/main/java/birds/angry/level1_save.ser"));
             }
         });
 

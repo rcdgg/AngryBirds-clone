@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.Serializable;
 
-public class GameObject extends Actor {
+public class GameObject extends Actor{
     protected Texture texture;
     protected TextureRegion textreg;
     public Vector2 position;

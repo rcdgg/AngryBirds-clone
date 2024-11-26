@@ -35,4 +35,9 @@ public class Bird extends DynamicGameObject{
         bbody.createFixture(fdef);
         body = bbody;
     }
+
+    @Override
+    public String getName(){
+        return "";
+    }
 }

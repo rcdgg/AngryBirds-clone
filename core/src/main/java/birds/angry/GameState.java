@@ -1,5 +1,6 @@
 package birds.angry;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ public class GameState implements Serializable {
     public List<GameObjectState> birds, materials, pigs;
     public int score;
     public int level;
+    private static final long serialVersionUID = 1L; // Replace with correct UID
 //    public float elapsedTime;
 
     public GameState(){
@@ -25,5 +27,6 @@ public class GameState implements Serializable {
         public float sx, sy;        // Size
         public int health;          // Health
         public String texturePath;  // Path to texture
+        public String type;         // type of object
     }
 }

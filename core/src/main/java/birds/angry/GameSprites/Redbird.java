@@ -24,4 +24,8 @@ public class Redbird extends Bird{
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(redbirdtexreg, getX(), getY(), getWidth(), getHeight());
     }
+    @Override
+    public String getName(){
+        return "Redbird";
+    }
 }

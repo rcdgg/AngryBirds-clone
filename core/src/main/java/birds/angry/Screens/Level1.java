@@ -18,15 +18,19 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class Level1 extends BaseScreen implements InputProcessor{
     private Button pause;
@@ -54,7 +58,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private BodyDef bodyDef;
     private FixtureDef fixtureDef;
     private Box2DDebugRenderer dbg;
-    private Stage stage, uistage;
+    private Stage stage, uistage, pausestage;
     private float grid_size;
     private final short BIRD = 1;
     private final short GROUND = 2;
@@ -63,12 +67,16 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private MouseJoint mouseJoint, initJoint;
     private Vector4 slingbound;
     private GameState gameState;
+    private boolean pause_b = false;
+    private Image pausebg;
 
-    public Level1(Game game) {
+    public Level1(Game game, String filepath) {
         super(game);
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
+        pausestage = new Stage(new FitViewport(1600,900));
         uistage.setDebugAll(false);
+        pausestage.setDebugAll(true);
         stage.setDebugAll(false);
         slingbound = new Vector4();
         grid_size = 0.5f;
@@ -125,30 +133,30 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
         slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
         slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
-        slingbound.z = slingbound.x - 2 * slingshot.getWidth();
+        slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
 
-        redbird = new Redbird(new Vector2(1,4), world);
-        redbird.setSize(2 * bird_size, 2 * bird_size);
-
-//        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
-        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
-        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
-
-        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 2), world);
-        yellowbird.setSize(2 * bird_size, 2 * bird_size);
-
-        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
-
-        woodlog = new Wood(new Vector2(5, 5), world);
-        woodlog.setSize(2 * obj_size, 20 * obj_size);
-        icelog = new Ice(new Vector2(14*grid_size, 5), world);
-        icelog.setSize(2 * obj_size, 20 * obj_size);
-
-        stonelog = new Stone(new Vector2(17*grid_size, 5), world);
-        stonelog.setSize(2 * obj_size, 20 * obj_size);
-
-        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog);
+//        redbird = new Redbird(new Vector2(1,4), world);
+//        redbird.setSize(2 * bird_size, 2 * bird_size);
+//
+////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
+//        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
+//        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
+//
+//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 2), world);
+//        yellowbird.setSize(2 * bird_size, 2 * bird_size);
+//
+//        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
+//
+//        woodlog = new Wood(new Vector2(5, 5), world);
+//        woodlog.setSize(2 * obj_size, 20 * obj_size);
+//        icelog = new Ice(new Vector2(14*grid_size, 5), world);
+//        icelog.setSize(2 * obj_size, 20 * obj_size);
+//
+//        stonelog = new Stone(new Vector2(17*grid_size, 5), world);
+//        stonelog.setSize(2 * obj_size, 20 * obj_size);
+//
+//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog);
 
 //        redbird.setPosition(700, 600);
 //        ppig = new PeasantPig(new Vector2(12*grid_size, 4*grid_size));
@@ -160,26 +168,84 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        pause.setTouchable(Touchable.enabled);
         uistage.addActor(pause);
         stage.addActor(slingshot);
-        stage.addActor(redbird);
-        stage.addActor(bluebird);
-        stage.addActor(yellowbird);
-//        stage.addActor(ppig);
-//        stage.addActor(kingPig);
-//        stage.addActor(soldierPig);
-        stage.addActor(woodlog);
-        stage.addActor(icelog);
-        stage.addActor(stonelog);
+//        stage.addActor(redbird);
+//        stage.addActor(bluebird);
+//        stage.addActor(yellowbird);
+////        stage.addActor(ppig);
+////        stage.addActor(kingPig);
+////        stage.addActor(soldierPig);
+//        stage.addActor(woodlog);
+//        stage.addActor(icelog);
+//        stage.addActor(stonelog);
+        grid_size = 50;
+        pausebg = Assets.pausebg;
+        pausebg.setSize(500,   pausebg.getHeight() / pausebg.getWidth() * 500);
+        pausebg.setPosition(pausestage.getWidth() / 2 - pausebg.getWidth() / 2 - 50, pausestage.getHeight() / 2 - pausebg.getHeight() / 2);
+
+        Button resume = new Button(invisibleButtonStyle);
+        resume.setSize(5 * grid_size,1.15f * grid_size);
+        resume.setPosition(12.5f * grid_size, 11 * grid_size);
+        Button save = new Button(invisibleButtonStyle);
+        save.setSize(5 * grid_size,1.15f * grid_size);
+        save.setPosition(12.5f * grid_size, 7.75f * grid_size);
+        Button restart = new Button(invisibleButtonStyle);
+        restart.setSize(5 * grid_size,1.15f * grid_size);
+        restart.setPosition(12.5f * grid_size, 9.4f * grid_size);
+        Button levelselect = new Button(invisibleButtonStyle);
+        levelselect.setSize(5 * grid_size,1.15f * grid_size);
+        levelselect.setPosition(12.5f * grid_size, 6 * grid_size);
+        pausestage.addActor(pausebg);
+        pausestage.addActor(resume);
+        pausestage.addActor(restart);
+        pausestage.addActor(save);
+        pausestage.addActor(levelselect);
+
+        resume.addListener(event -> {
+            if (event.toString().equals("touchDown")) {
+                // Handle button click
+                pause_b = false;
+                System.out.println("work");
+                return true;
+            }
+            return false;
+        });
+        levelselect.addListener(event -> {
+            if (event.toString().equals("touchDown")) {
+                // Handle button click
+                game.setScreen(new LevelSelect(game));
+            }
+            return false;
+        });
+        save.addListener(event -> {
+            if (event.toString().equals("touchDown")) {
+                // Handle button click
+                save_game();
+                pause_b = false;
+            }
+            return false;
+        });
+
+        restart.addListener(event -> {
+            if (event.toString().equals("touchDown")) {
+                // Handle button click
+                game.setScreen(new Level1(game, "core/src/main/java/birds/angry/level1.ser"));
+                pause_b = false;
+            }
+            return false;
+        });
+
         pause.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Pause");
-                game.setScreen(new Pause(game, game.getScreen()));
+                pause_b = true;
+//                game.setScreen(new Pause(game, game.getScreen()));
 
             }
         });
-        redbirdBody = redbird.body;
-        bluebirdBody = bluebird.body;
-        yellowbirdBody = yellowbird.body;
+//        redbirdBody = redbird.body;
+//        bluebirdBody = bluebird.body;
+//        yellowbirdBody = yellowbird.body;
 
         world.setContactListener(new ContactListener() {
             @Override
@@ -215,7 +281,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
             }
         });
-        save_game();
+        load_game(filepath);
     }
 
 
@@ -241,76 +307,33 @@ public class Level1 extends BaseScreen implements InputProcessor{
             }
 
         }
+        for(Bird b: bird_list){
+            stage.addActor(b);
+        }
+        for(Material b: mat_list){
+            stage.addActor(b);
+        }
 
         stage.act(delta);
         stage.draw();
         uistage.act(delta);
         uistage.draw();
-        world.step(1/60f, 6,2);
+        if(pause_b){
+            pausestage.act(delta);
+            pausestage.draw();
+        }
+        else world.step(1/60f, 6,2);
         dbg.render(world, stage.getCamera().combined);
 
-//        update(delta);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        shapeRenderer.setColor(Color.GRAY);
-//
-//        float gridSpacing = grid_size;
-//
-//        for (float y = 0; y < stage.getHeight(); y += gridSpacing) {
-//            shapeRenderer.line(0, y, stage.getWidth(), y);
-//        }
-//
-//        for (float x = 0; x < stage.getWidth(); x += gridSpacing) {
-//            shapeRenderer.line(x, 0, x, stage.getHeight());
-//        }
-//
-//        shapeRenderer.end();
+
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uistage);
         multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(pausestage);
         multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
-//        b2dr.render(world, camera.combined);
-//        batch.begin();
-//        batch.draw(Assets.redbirds[0].getTexture(), 100, 100);
-//        batch.end();
     }
-    public void update(float delta){
-        world.step(1/60f, 6, 2);
-    }
-    public Body createBird(Vector2 pos){
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        def.position.set(pos);
-        Body bbody = world.createBody(def);
-        CircleShape circle = new CircleShape();
-        circle.setRadius(bird_size);
-        FixtureDef fdef = new FixtureDef();
-        fdef.shape = circle;
-        fdef.filter.categoryBits = BIRD;
-        fdef.filter.maskBits = -1;
-        fdef.density = 1;
-        fdef.restitution = 0.5f;
-        bbody.createFixture(fdef);
-        return bbody;
-    }
-    public Body createObject(Vector2 pos){
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        def.position.set(pos);
-        Body bbody = world.createBody(def);
-        PolygonShape p = new PolygonShape();
-        p.setAsBox(obj_size, 10 * obj_size);
 
-        FixtureDef fdef = new FixtureDef();
-        fdef.shape = p;
-        fdef.filter.categoryBits = OBSTACLE;
-        fdef.filter.maskBits = -1;
-        fdef.restitution = 0;
-        fdef.density = 1;
-        fdef.friction = 0.5f;
-        bbody.createFixture(fdef);
-        return bbody;
-    }
     @Override
     public boolean keyDown(int keycode) {
         if(keycode== Input.Keys.W){
@@ -353,7 +376,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         if(body == null) return false;
         if(body != slingbody) body.setType(BodyDef.BodyType.DynamicBody);
         lastBody = body;
-        if (body != ground && body != stone && body != wood && body != ice && body != slingbody) {
+        if (body != ground /*&& body != stone && body != wood && body != ice && body != slingbody*/) {
             MouseJointDef jointDef = new MouseJointDef();
             jointDef.bodyA = ground;
             jointDef.bodyB = body;
@@ -369,11 +392,11 @@ public class Level1 extends BaseScreen implements InputProcessor{
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Vector2 worldPos = screenToWorld(screenX, screenY);
-        if(!within_bounds(worldPos) || bird_list.isEmpty()) return false;
+        if(bird_list.isEmpty()) return false;
         if (mouseJoint != null) {
-//            float boundx = Math.min(slingbound.x, worldPos.x);
-//            float boundy = Math.min(slingbound.y, worldPos.y);
-            mouseJoint.setTarget(worldPos); // Update the target position
+            float boundx = Math.max(Math.min(slingbound.x, worldPos.x), slingbound.z);
+            float boundy = Math.max(Math.min(slingbound.y, worldPos.y), slingbound.w);
+            mouseJoint.setTarget(new Vector2(boundx, boundy)); // Update the target position
             System.out.println("target = "+mouseJoint.getTarget());
         }
         return true;
@@ -385,7 +408,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         if(bird_list.isEmpty()) return false;
         Body b = getBodyAt(worldPos);
         Bird bb = null;
-        if(b==redbirdBody || b==bluebirdBody || b==yellowbirdBody){
+        if(b != null){
             if (mouseJoint != null) {
                 world.destroyJoint(mouseJoint); // Remove the joint
                 mouseJoint = null;
@@ -463,7 +486,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         gameState = new GameState();
         for(Bird b: bird_list){
             GameState.GameObjectState g = new GameState.GameObjectState();
-            g.texturePath = "birds/" + b.getClass().getSimpleName() + ".png";
+            g.type =  b.getName();
             g.x = b.body.getPosition().x;
             g.y = b.body.getPosition().y;
             g.vx = b.body.getLinearVelocity().x;
@@ -472,10 +495,11 @@ public class Level1 extends BaseScreen implements InputProcessor{
             g.sy = b.getHeight();
             g.angle = b.body.getAngle();
             gameState.birds.add(g);
+            System.out.println(g.type);
         }
         for(Material b: mat_list){
             GameState.GameObjectState g = new GameState.GameObjectState();
-            g.texturePath = "mats/" + b.getClass().getSimpleName().toLowerCase() + "log.png";
+            g.type =  b.getName();
             g.x = b.body.getPosition().x;
             g.y = b.body.getPosition().y;
             g.vx = b.body.getLinearVelocity().x;
@@ -484,6 +508,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
             g.sy = b.getHeight();
             g.angle = b.body.getAngle();
             gameState.materials.add(g);
+            System.out.println(g.type);
         }
         // for pigs as well and health score etc
 
@@ -491,7 +516,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
     public void save_game(){
         save_gamestate();
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("core/src/main/java/birds/angry/level1.ser"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("core/src/main/java/birds/angry/level1_save.ser"))) {
             out.writeObject(gameState);
             System.out.println("Game state saved successfully!");
         } catch (Exception e) {
@@ -499,25 +524,38 @@ public class Level1 extends BaseScreen implements InputProcessor{
         }
     }
 
-    public void load_game(){
+    public void load_game(String filepath){
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))){
+            gameState =(GameState) in.readObject();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        bird_list.clear();
+        mat_list.clear();
         for(GameState.GameObjectState b: gameState.birds){
-            Texture text = new Texture(Gdx.files.internal(b.texturePath));
-            Bird bird = new Bird(text, new Vector2(b.x, b.y), new Vector2(b.sx, b.sy), world);
+            Bird bird = null;
+            if(Objects.equals(b.type, "Redbird")) bird = new Redbird(new Vector2(b.x, b.y), world);
+            else if(Objects.equals(b.type, "Yellowbird")) bird = new Yellowbird(new Vector2(b.x, b.y), world);
+            else bird = new Bluebird(new Vector2(b.x, b.y), world);
+            bird.setSize(b.sx, b.sy);
             Body body = bird.body;
             body.setTransform(b.x, b.y, b.angle);
             body.setLinearVelocity(b.vx, b.vy);
-            bird_list.clear();
+
             bird_list.add(bird);
         }
         for(GameState.GameObjectState b: gameState.materials){
-            Texture text = new Texture(Gdx.files.internal(b.texturePath));
-            Material mat = new Material(text, new Vector2(b.x, b.y), new Vector2(b.sx, b.sy), world);
+            Material mat = null;
+            if(Objects.equals(b.type, "icelog")) mat = new Ice(new Vector2(b.x, b.y), world);
+            else if(Objects.equals(b.type, "woodlog")) mat = new Wood(new Vector2(b.x, b.y), world);
+            else mat = new Stone(new Vector2(b.x, b.y), world);
+            mat.setSize(b.sx, b.sy);
             Body body = mat.body;
             body.setTransform(b.x, b.y, b.angle);
             body.setLinearVelocity(b.vx, b.vy);
-            mat_list.clear();
             mat_list.add(mat);
         }
+        System.out.println("load done");
     }
 
 

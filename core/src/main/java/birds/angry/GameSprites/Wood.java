@@ -9,5 +9,9 @@ public class Wood extends Material{
     public Wood(Vector2 position, World world) {
         super(Assets.woodlog, position, new Vector2( (float)Assets.woodlog.getWidth(), (float)Assets.woodlog.getHeight()-50), world);
     }
+    @Override
+    public String getName(){
+        return "woodlog";
+    }
 
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
 public class Material extends DynamicGameObject {
     World world;
     float obj_size;
+    public static final short MATERIAL = 4;
     private float strength;
     public Material(Texture texture, Vector2 position, Vector2 size, World world) {
         super(texture, position, size);

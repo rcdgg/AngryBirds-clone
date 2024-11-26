@@ -51,6 +51,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Body redbirdBody, bluebirdBody, yellowbirdBody, ground, stone, wood, ice, slingbody, lastBody;
     private ArrayList<Bird> bird_list;
     private ArrayList<Material> mat_list;
+    private ArrayList<Pig> pig_list;
     private OrthographicCamera camera;
     float PPM = 100.0f;
     float bird_size = 0.3f;
@@ -60,9 +61,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
     private Box2DDebugRenderer dbg;
     private Stage stage, uistage, pausestage;
     private float grid_size;
-    private final short BIRD = 1;
+    private final short BIRD = Bird.BIRD;
     private final short GROUND = 2;
-    private final short OBSTACLE = 4;
+    private final short OBSTACLE = Material.MATERIAL;
+    private final short PIG = Pig.PIG;
     private MouseJointDef JointDef;
     private MouseJoint mouseJoint, initJoint;
     private Vector4 slingbound;
@@ -126,6 +128,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
 
         bird_list = new ArrayList<>();
         mat_list = new ArrayList<>();
+        pig_list = new ArrayList<>();
 //        Texture sling = new Texture(Gdx.files.internal("screens/levels/slingshot.png"));
         background = Assets.level1bg;
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
@@ -135,15 +138,15 @@ public class Level1 extends BaseScreen implements InputProcessor{
         slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
         slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
-
-//        redbird = new Redbird(new Vector2(1,4), world);
+        //---------------------
+//        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
 //        redbird.setSize(2 * bird_size, 2 * bird_size);
 //
 ////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
 //        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
 //        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
 //
-//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 2), world);
+//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
 //        yellowbird.setSize(2 * bird_size, 2 * bird_size);
 //
 //        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
@@ -157,11 +160,16 @@ public class Level1 extends BaseScreen implements InputProcessor{
 //        stonelog.setSize(2 * obj_size, 20 * obj_size);
 //
 //        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog);
-
-//        redbird.setPosition(700, 600);
-//        ppig = new PeasantPig(new Vector2(12*grid_size, 4*grid_size));
-//        kingPig = new KingPig(new Vector2(15*grid_size, 4*grid_size));
-//        soldierPig = new SoldierPig(new Vector2(18*grid_size, 4*grid_size));
+//
+//        ppig = new PeasantPig(new Vector2(13*grid_size, 5*grid_size), world);
+//        ppig.setSize(2 * bird_size, 2 * bird_size);
+//        kingPig = new KingPig(new Vector2(16*grid_size, 5*grid_size), world);
+//        kingPig.setSize(2 * bird_size, 2 * bird_size);
+//        soldierPig = new SoldierPig(new Vector2(19*grid_size, 5*grid_size), world);
+//        soldierPig.setSize(2 * bird_size, 2 * bird_size);
+//        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
+//
+        //----------------------
         batch = new SpriteBatch();
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
@@ -264,6 +272,15 @@ public class Level1 extends BaseScreen implements InputProcessor{
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the obstacle");
                 }
+                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)){
+                    System.out.println("Bird hit the pig");
+                }
+                if((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)){
+                    System.out.println("obj hit the pig");
+                }
+                if((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)){
+                    System.out.println("Pig hit the ground");
+                }
             }
 
             @Override
@@ -313,7 +330,9 @@ public class Level1 extends BaseScreen implements InputProcessor{
         for(Material b: mat_list){
             stage.addActor(b);
         }
-
+        for(Pig p: pig_list){
+            stage.addActor(p);
+        }
         stage.act(delta);
         stage.draw();
         uistage.act(delta);
@@ -364,7 +383,6 @@ public class Level1 extends BaseScreen implements InputProcessor{
     public boolean within_bounds(Vector2 pos){
         return slingbound.z <= pos.x && pos.x <= slingbound.x && slingbound.w <= pos.y && pos.y <= slingbound.y;
     }
-
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 worldPos = screenToWorld(screenX, screenY);
@@ -409,6 +427,7 @@ public class Level1 extends BaseScreen implements InputProcessor{
         Body b = getBodyAt(worldPos);
         Bird bb = null;
         if(b != null){
+            System.out.println("here");
             if (mouseJoint != null) {
                 world.destroyJoint(mouseJoint); // Remove the joint
                 mouseJoint = null;
@@ -416,8 +435,10 @@ public class Level1 extends BaseScreen implements InputProcessor{
             for(Bird temp: bird_list){
                 if(temp.body.equals(b)){
                     bb = temp;
+                    System.out.println("bb is "+bb);
                 }
             }
+            if(bb==null) return false;
             if(!within_bounds(worldPos)){
                 assert bb != null;
                 if(bb.on){
@@ -510,6 +531,18 @@ public class Level1 extends BaseScreen implements InputProcessor{
             gameState.materials.add(g);
             System.out.println(g.type);
         }
+        for(Pig p : pig_list){
+            GameState.GameObjectState g = new GameState.GameObjectState();
+            g.type = p.getName();g.x = p.body.getPosition().x;
+            g.y = p.body.getPosition().y;
+            g.vx = p.body.getLinearVelocity().x;
+            g.vy = p.body.getLinearVelocity().y;
+            g.sx = p.getWidth();
+            g.sy = p.getHeight();
+            g.angle = p.body.getAngle();
+            gameState.pigs.add(g);
+            System.out.println(g.type);
+        }
         // for pigs as well and health score etc
 
     }
@@ -532,6 +565,8 @@ public class Level1 extends BaseScreen implements InputProcessor{
         }
         bird_list.clear();
         mat_list.clear();
+        pig_list.clear();
+
         for(GameState.GameObjectState b: gameState.birds){
             Bird bird = null;
             if(Objects.equals(b.type, "Redbird")) bird = new Redbird(new Vector2(b.x, b.y), world);
@@ -554,6 +589,17 @@ public class Level1 extends BaseScreen implements InputProcessor{
             body.setTransform(b.x, b.y, b.angle);
             body.setLinearVelocity(b.vx, b.vy);
             mat_list.add(mat);
+        }
+        for(GameState.GameObjectState p : gameState.pigs){
+            Pig pig = null;
+            if(Objects.equals(p.type, "KingPig")) {pig = new KingPig(new Vector2(p.x, p.y), world); System.out.println("KingPig");}
+            else if(Objects.equals(p.type, "PeasantPig")) pig = new PeasantPig(new Vector2(p.x, p.y), world);
+            else pig = new SoldierPig(new Vector2(p.x, p.y), world);
+            pig.setSize(p.sx, p.sy);
+            Body body = pig.body;
+            body.setTransform(p.x, p.y, p.angle);
+            body.setLinearVelocity(p.vx, p.vy);
+            pig_list.add(pig);
         }
         System.out.println("load done");
     }

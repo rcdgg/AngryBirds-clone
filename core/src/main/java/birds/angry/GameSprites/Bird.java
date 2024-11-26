@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.*;
 public class Bird extends DynamicGameObject{
     float bird_size;
     World world;
+    public static final short BIRD = 1;
     public boolean shot = false;
     public boolean on = false;
     public Bird(Texture texture, Vector2 position, Vector2 size, World world){
@@ -21,15 +22,15 @@ public class Bird extends DynamicGameObject{
 
     public void createBird(Vector2 pos){
         BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
+        def.type = BodyDef.BodyType.StaticBody;
         def.position.set(pos);
         Body bbody = world.createBody(def);
         CircleShape circle = new CircleShape();
         circle.setRadius(bird_size);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        fdef.filter.categoryBits = 1;
-        fdef.filter.maskBits = 6;
+        fdef.filter.categoryBits = BIRD;
+        fdef.filter.maskBits = Pig.PIG | Material.MATERIAL;
         fdef.density = 1;
         fdef.restitution = 0.5f;
         bbody.createFixture(fdef);

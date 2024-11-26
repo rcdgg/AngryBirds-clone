@@ -22,7 +22,7 @@ public class Bird extends DynamicGameObject{
 
     public void createBird(Vector2 pos){
         BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.StaticBody;
+        def.type = BodyDef.BodyType.DynamicBody;
         def.position.set(pos);
         Body bbody = world.createBody(def);
         CircleShape circle = new CircleShape();

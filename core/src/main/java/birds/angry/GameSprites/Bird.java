@@ -7,8 +7,9 @@ import com.badlogic.gdx.physics.box2d.*;
 public class Bird extends DynamicGameObject{
     float bird_size;
     World world;
-    public boolean touched = false;
-    Bird(Texture texture, Vector2 position, Vector2 size, World world){
+    public boolean shot = false;
+    public boolean on = false;
+    public Bird(Texture texture, Vector2 position, Vector2 size, World world){
         super(texture, position, size);
         bird_size = 0.3f;
         this.world = world;

@@ -31,6 +31,14 @@ public class LevelSelect extends BaseScreen{
         Button two = new Button(invisibleButtonStyle);
         two.setPosition(530,stage.getHeight() / 2 - 50);
         two.setSize(100,120);
+        two.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new Level2(game));
+            }
+        });
+
 
         Button three = new Button(invisibleButtonStyle);
         three.setPosition(750,stage.getHeight() / 2 - 50);

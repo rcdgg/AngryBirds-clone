@@ -23,7 +23,7 @@ public class Assets {
         return new Texture(Gdx.files.internal(file));
     }
     public static void load(){
-        Texture redBird_spritesheet = new Texture("birds/red bird spritesheet.png");
+        Texture redBird_spritesheet = new Texture("birds/Redbird.png");
         int frameWidth = redBird_spritesheet.getWidth() / 4;
         int frameHeight = redBird_spritesheet.getHeight();
         TextureRegion[][] tmp = TextureRegion.split(redBird_spritesheet, frameWidth, frameHeight);
@@ -31,15 +31,15 @@ public class Assets {
 
         level1bg = loadTexture("screens/mainmenu/angy bird bg.jpg");
 
-        bluebird = loadTexture("birds/bluebird.png");
-        yellowbird = loadTexture("birds/yellowbird.png");
-        ppig = loadTexture("screens/levels/ppig.png");
-        kingpig = loadTexture("screens/levels/kingpig.png");
-        soldierpig = loadTexture("screens/levels/soldierpig.png");
+        bluebird = loadTexture("birds/Bluebird.png");
+        yellowbird = loadTexture("birds/Yellowbird.png");
+        ppig = loadTexture("pigs/PeasantPig.png");
+        kingpig = loadTexture("pigs/KingPig.png");
+        soldierpig = loadTexture("pigs/SoldierPig.png");
         slingshot = loadTexture("screens/levels/slingshot.png");
-        woodlog = loadTexture("screens/levels/woodlog.png");
-        icelog = loadTexture("screens/levels/icelog.png");
-        stonelog = loadTexture("screens/levels/stonelog.png");
+        woodlog = loadTexture("mats/woodlog.png");
+        icelog = loadTexture("mats/icelog.png");
+        stonelog = loadTexture("mats/stonelog.png");
         pausebg = new Image(loadTexture("screens/pausemenu.png"));
         winbg = new Image(loadTexture("screens/WinScreen.png"));
         losebg = new Image(loadTexture("screens/LoseScreen.png"));

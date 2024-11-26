@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Redbird extends Bird{
     private final TextureRegion redbirdtexreg;
     public Redbird(Vector2 position, World world){
-        super(Assets.redbirds[0].getTexture(), position, new Vector2 ((float)(Assets.redbirds[0].getTexture().getHeight() - 100), (float)(Assets.redbirds[0].getTexture().getWidth()- 100)), world);
+        super((Texture) Assets.redbirds[0].getTexture(), position, new Vector2 ((float)(Assets.redbirds[0].getTexture().getHeight() - 100), (float)(Assets.redbirds[0].getTexture().getWidth()- 100)), world);
         redbirdtexreg = Assets.redbirds[0];
         this.setSize((float)Assets.redbirds[0].getRegionWidth()/4, (float)Assets.redbirds[0].getRegionHeight()/4);
     }

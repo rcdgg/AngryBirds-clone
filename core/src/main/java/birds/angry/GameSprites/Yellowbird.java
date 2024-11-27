@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -33,7 +34,18 @@ public class Yellowbird extends Bird{
     public ArrayList<Bird> ability(){
         System.out.println(getName() + " ability");
         if(!ability_used) {
-            body.applyLinearImpulse(new Vector2(body.getLinearVelocity().x, body.getLinearVelocity().y), body.getWorldCenter(), true);
+            for(Fixture f: body.getFixtureList()){
+                f.setDensity(f.getDensity() + 10);
+            }
+            body.resetMassData();
+            Vector2 imp = body.getLinearVelocity();
+            if(imp.x > 0){
+                imp.x += 50;
+            } else imp.x -= 50;
+            if(imp.y > 0){
+                imp.y += 50;
+            } else imp.y -= 50;
+            body.applyLinearImpulse(imp, body.getWorldCenter(), true);
             ability_used = true;
         }
         return null;

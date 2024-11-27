@@ -29,7 +29,7 @@ public class Assets {
         TextureRegion[][] tmp = TextureRegion.split(redBird_spritesheet, frameWidth, frameHeight);
         redbirds = tmp[0];
 
-        level1bg = loadTexture("screens/mainmenu/angy bird bg.jpg");
+        level1bg = loadTexture("screens/levels/level11bg.png");
         level2bg = loadTexture("screens/levels/level2bg.png");
         bluebird = loadTexture("birds/Bluebird.png");
         yellowbird = loadTexture("birds/Yellowbird.png");

@@ -80,9 +80,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         stage.setDebugAll(false);
 
         slingbound = new Vector4();
-        slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
-        slingshot.setSize(2 * grid_size, 4 * grid_size);
-        stage.addActor(slingshot);
+
         grid_size = 0.5f;
         Box2D.init();
         world = new World(new Vector2(0, -9.81f), true);

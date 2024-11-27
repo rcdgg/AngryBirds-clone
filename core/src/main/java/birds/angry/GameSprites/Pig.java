@@ -31,6 +31,7 @@ public class Pig extends DynamicGameObject{
         fdef.density = 1;
         fdef.restitution = 0.5f;
         bbody.createFixture(fdef);
+        bbody.setAngularDamping(1f);
         body = bbody;
     }
     @Override

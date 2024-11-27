@@ -63,7 +63,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      Image pausebg;
     Button restart, save;
     String filepath;
-    ArrayList<Pig> to_remove;
+    ArrayList<DynamicGameObject> to_remove;
 
     public LevelScreen(Game game, String filepath) {
         super(game);
@@ -172,6 +172,20 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the obstacle");
+                    try{
+                        Material hitmat = (Material) getObjectAt(fa.getBody());
+                        if (hitmat!=null) {
+                            hitmat.health -= 1;
+                            if(hitmat.health<=0) to_remove.add(hitmat);
+                        }
+                    }catch (ClassCastException e)
+                    {
+                        Material hitmat = (Material) getObjectAt(fb.getBody());
+                        if(hitmat!=null) {
+                            hitmat.health -= 1;
+                            if(hitmat.health<=0) to_remove.add(hitmat);
+                        }
+                    }
                 }
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the pig");
@@ -192,18 +206,25 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)){
                     System.out.println("obj hit the pig");
+                    DynamicGameObject a, b;
                     try{
-                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
-                        if (hitpig!=null){
-                            hitpig.health -= 1;
-                            if(hitpig.health<=0) to_remove.add(hitpig);
+                        a = (Pig) getObjectAt(fa.getBody());
+                        b = (Material) getObjectAt(fb.getBody());
+                        if(a != null && b != null) {
+                            a.health -= 1;
+                            b.health -= 1;
+                            if(a.health <= 0) to_remove.add(a);
+                            if(b.health <= 0) to_remove.add(b);
                         }
                     }catch (ClassCastException e)
                     {
-                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
-                        if(hitpig!=null) {
-                            hitpig.health -= 1;
-                            if(hitpig.health<=0) to_remove.add(hitpig);
+                        a = (Material) getObjectAt(fa.getBody());
+                        b = (Pig) getObjectAt(fb.getBody());
+                        if(a != null && b != null) {
+                            a.health -= 1;
+                            b.health -= 1;
+                            if(a.health <= 0) to_remove.add(a);
+                            if(b.health <= 0) to_remove.add(b);
                         }
                     }
                 }
@@ -252,7 +273,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         for(Pig p: pig_list){
             stage.addActor(p);
         }
-        for(Pig p: to_remove){
+        for(DynamicGameObject p: to_remove){
             System.out.println("removing pig");
             world.destroyBody(p.body);
             p.isDead = true;
@@ -260,15 +281,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             System.out.println(pig_list);
             System.out.println("removed");
             pig_list.remove(p);
-            System.out.println(pig_list);
         }
         to_remove.clear();
-        if(pig_list.isEmpty()){
-            game.setScreen(new WinScreen(game));
-        }
-        else if(bird_list.isEmpty() && Objects.equals(lastBody.getLinearVelocity(), new Vector2(0, 0))){
-            game.setScreen(new LoseScreen(game));
-        }
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uistage);
         multiplexer.addProcessor(stage);

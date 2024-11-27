@@ -71,7 +71,7 @@ public class Level2 extends LevelScreen {
         background = Assets.level2bg;
 
         //change slingshot position if needed
-        slingshot.setPosition(3, 2);
+        slingshot.setPosition(3, 2.2f);
 
         slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
         slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
@@ -140,16 +140,18 @@ public class Level2 extends LevelScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        fr++;
         batch.begin();
         batch.draw(background, 0, 0, 1600, 900);
         batch.end();
-//        System.out.println(woodlog.position.x+ " - "+ woodlog.position.y + " ---"+ground.getPosition().y);
-//        if(fr==180) {
-//            woodlog2 = new Wood(new Vector2(11*grid_size, woodlog.getHeight()+60), world);
-//            woodlog2.setSize(2 * obj_size, 20 * obj_size);
-//            woodlog2.body.setTransform(woodlog2.body.getPosition().x, woodlog2.body.getPosition().y, 90);
-//            mat_list.add(woodlog2);
+//        super.render(delta);
+//        if(mouseJoint == null) {
+//            if(!bird_list.isEmpty()){
+//                Bird temp = bird_list.getLast();
+//                temp.on = true;
+//                temp.body.setTransform(slingbody.getPosition(), 0);
+//                temp.body.setType(BodyDef.BodyType.StaticBody);
+//            }
+//
 //        }
         stage.act(delta);
         stage.draw();
@@ -159,7 +161,13 @@ public class Level2 extends LevelScreen {
             pausestage.act(delta);
             pausestage.draw();
         }
-        world.step(1/60f, 6,2);
+        else if(pig_list.isEmpty()){
+            game.setScreen(new WinScreen(game));
+        }
+        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().x < 0.05f && lastBody.getLinearVelocity().x > -0.05f&&lastBody.getLinearVelocity().y < 0.05f&&lastBody.getLinearVelocity().y > -0.05f){
+            game.setScreen(new LoseScreen(game));
+        }
+        else world.step(1/60f, 6,2);
         dbg.render(world, stage.getCamera().combined);
 
     }

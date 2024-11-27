@@ -50,7 +50,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      FixtureDef fixtureDef;
      Box2DDebugRenderer dbg;
      Stage stage, uistage, pausestage;
-     float grid_size;
+     float grid_size = 0.5f;
      final short BIRD = Bird.BIRD;
      final short GROUND = 2;
      final short OBSTACLE = Material.MATERIAL;
@@ -61,11 +61,12 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      GameState gameState;
      boolean pause_b = false;
      Image pausebg;
-    Button restart;
+    Button restart, save;
     String filepath;
 
     public LevelScreen(Game game, String filepath) {
         super(game);
+        mouseJoint = null;
         this.filepath = filepath;
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
@@ -74,6 +75,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         pausestage.setDebugAll(true);
         stage.setDebugAll(false);
         slingbound = new Vector4();
+        slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
+        slingshot.setSize(2 * grid_size, 4 * grid_size);
+        stage.addActor(slingshot);
         grid_size = 0.5f;
         Box2D.init();
         world = new World(new Vector2(0, -9.81f), true);
@@ -98,7 +102,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         resume.setSize(5 * grid_size,1.15f * grid_size);
         resume.setPosition(12.5f * grid_size, 11 * grid_size);
 
-        Button save = new Button(invisibleButtonStyle);
+        save = new Button(invisibleButtonStyle);
         save.setSize(5 * grid_size,1.15f * grid_size);
         save.setPosition(12.5f * grid_size, 7.75f * grid_size);
 
@@ -132,16 +136,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             }
             return false;
         });
-        save.addListener(event -> {
-            if (event.toString().equals("touchDown")) {
-                // Handle button click
-                save_game();
-                pause_b = false;
-            }
-            return false;
-        });
 
-        //restart is level specific
+
+        //restart and save is level specific
 
         pause.addListener(new ClickListener() {
             @Override
@@ -199,17 +196,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         ScreenUtils.clear(Color.BLACK);
-//        game.viewport.apply();
-//        stage.getBatch().setProjectionMatrix(game.viewport.getCamera().combined);
-//        batch.setProjectionMatrix(stage.getCamera().combined);
-//        batch.begin();
-//        slingshot.render(batch);
-//        batch.end();
-//        batch.begin();
-//        batch.draw(background, 0, 0);
-//        batch.end();
-//        super.render(delta);
         if(mouseJoint == null) {
             if(!bird_list.isEmpty()){
                 Bird temp = bird_list.getLast();
@@ -219,7 +207,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             }
 
         }
-
+//        stage.addActor(slingshot);
         for(Bird b: bird_list){
             stage.addActor(b);
         }
@@ -229,17 +217,6 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         for(Pig p: pig_list){
             stage.addActor(p);
         }
-//        stage.act(delta);
-//        stage.draw();
-//        uistage.act(delta);
-//        uistage.draw();
-//        if(pause_b){
-//            pausestage.act(delta);
-//            pausestage.draw();
-//        }
-//        else world.step(1/60f, 6,2);
-//        dbg.render(world, stage.getCamera().combined);
-
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uistage);
@@ -263,6 +240,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     public boolean keyTyped(char character) {
         return false;
     }
+
 
     public boolean within_bounds(Vector2 pos){
         return slingbound.z <= pos.x && pos.x <= slingbound.x && slingbound.w <= pos.y && pos.y <= slingbound.y;
@@ -415,9 +393,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
     }
 
-    public void save_game(){
+    public void save_game(String filepathh){
         save_gamestate();
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepath))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepathh))) {
             out.writeObject(gameState);
             System.out.println("Game state saved successfully!");
         } catch (Exception e) {
@@ -425,8 +403,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         }
     }
 
-    public void load_game(String filepath){
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))){
+    public void load_game(String filepathh){
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepathh))){
             gameState =(GameState) in.readObject();
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -476,6 +454,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
         return false;
     }
+
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;

@@ -192,6 +192,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
             }
         });
+        grid_size = 0.5f;
     }
 
     @Override

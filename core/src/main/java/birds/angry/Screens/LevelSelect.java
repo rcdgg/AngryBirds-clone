@@ -1,5 +1,6 @@
 package birds.angry.Screens;
 
+import birds.angry.AngryBirds;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,6 +15,7 @@ public class LevelSelect extends BaseScreen{
     private final Image background;
     public LevelSelect(Game game){
         super(game);
+        System.out.println(AngryBirds.save_slot);
         shapeRenderer = new ShapeRenderer();
         background = new Image(new Texture("screens/levelselect/level select.png"));
 
@@ -24,7 +26,7 @@ public class LevelSelect extends BaseScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                game.setScreen(new Level1(game, "assets/save_slot1/level1_save.ser"));
+                game.setScreen(new Level1(game, "assets/save_slot"+ AngryBirds.save_slot +"/level1_save.ser"));
             }
         });
 

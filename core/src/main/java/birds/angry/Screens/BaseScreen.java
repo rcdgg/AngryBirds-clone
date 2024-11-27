@@ -25,6 +25,7 @@ public class BaseScreen extends ScreenAdapter implements ApplicationListener {
     private boolean grid;
     protected Skin skin;
     protected Button.ButtonStyle invisibleButtonStyle;
+    int save_slot;
 
     public BaseScreen(Game game) {
         stage = new Stage(new FitViewport(1600, 900));

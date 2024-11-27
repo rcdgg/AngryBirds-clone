@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class AngryBirds extends Game {
     private Game game;
+    public static int save_slot = 1;
 
     public AngryBirds(){
         game = this;

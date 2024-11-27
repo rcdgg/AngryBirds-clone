@@ -1,5 +1,6 @@
 package birds.angry.Screens;
 
+import birds.angry.AngryBirds;
 import birds.angry.GameSprites.*;
 import birds.angry.GameState;
 import com.badlogic.gdx.*;
@@ -84,7 +85,6 @@ public class Level1 extends LevelScreen{
         slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
         //---------------------
-//        grid_size = 0.5f;
 //        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
 //        redbird.setSize(2 * bird_size, 2 * bird_size);
 //
@@ -120,7 +120,7 @@ public class Level1 extends LevelScreen{
         save.addListener(event -> {
             if (event.toString().equals("touchDown")) {
                 // Handle button click
-                save_game("assets/save_slot1/level1_save.ser");
+                save_game("assets/save_slot"+ AngryBirds.save_slot +"/level1_save.ser");
                 pause_b = false;
             }
             return false;

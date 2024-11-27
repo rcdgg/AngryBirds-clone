@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.ArrayList;
+
 /* look into asset manager
 * more backgrounds because multiple levels(organise the asset folder
 * more birds
@@ -16,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class AngryBirds extends Game {
     private Game game;
     public static int save_slot = 1;
+    public static ArrayList<Integer> score = new ArrayList<>();
 
     public AngryBirds(){
         game = this;

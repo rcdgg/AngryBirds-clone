@@ -163,23 +163,6 @@ public class Level2 extends LevelScreen {
 
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if(keycode== Input.Keys.W){
-            game.setScreen(new WinScreen(game));
-            return true;
-        }
-        if(keycode == Input.Keys.L){
-            game.setScreen(new LoseScreen(game));
-            return true;
-        }
-//        else if(keycode==Input.Keys.L){
-//            game.setScreen(new LoseScreen(game));
-//            return true;
-//        }
-        return false;
-    }
-
 
     public void dispose(){
         super.dispose();

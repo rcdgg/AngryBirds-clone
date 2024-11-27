@@ -11,6 +11,7 @@ public class DynamicGameObject extends GameObject{
     public final Vector2 accel;
     public Body body;
     public float health;
+    public int score;
     public DynamicGameObject(Texture texture, Vector2 position, Vector2 size, Body body){
         super(texture, position, size);
         velocity  = new Vector2();

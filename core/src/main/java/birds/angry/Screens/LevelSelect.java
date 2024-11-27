@@ -1,6 +1,7 @@
 package birds.angry.Screens;
 
 import birds.angry.AngryBirds;
+import birds.angry.GameState;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,6 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.file.*;
 
 public class LevelSelect extends BaseScreen{
     private final Image background;
@@ -65,6 +71,26 @@ public class LevelSelect extends BaseScreen{
                 game.setScreen(new StartingMenu(game));
             }
         });
+
+        Path directory = Paths.get("assets/save_slot" + AngryBirds.save_slot);
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory)) {
+            int i = 0;
+            AngryBirds.score.clear();
+            for (Path path : stream) {
+                if (!Files.isDirectory(path)) {
+                    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path.toFile().getCanonicalPath()))){
+                        GameState gameState =(GameState) in.readObject();
+                        AngryBirds.score.add(i++, gameState.score);
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("score total:" + AngryBirds.score.stream().mapToInt(Integer::intValue).sum());
     }
     public void render(float delta) {
 //        System.out.println("2nd screen");

@@ -142,9 +142,9 @@ public class Level1 extends LevelScreen{
     @Override
     public void render(float delta) {
         super.render(delta);
-        batch.begin();
-        batch.draw(background, 0, 0);
-        batch.end();
+//        batch.begin();
+//        batch.draw(background, 0, 0);
+//        batch.end();
 
         stage.act(delta);
         stage.draw();
@@ -163,23 +163,6 @@ public class Level1 extends LevelScreen{
         else world.step(1/60f, 6,2);
         dbg.render(world, stage.getCamera().combined);
 
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        if(keycode== Input.Keys.W){
-            game.setScreen(new WinScreen(game));
-            return true;
-        }
-        if(keycode == Input.Keys.L){
-            game.setScreen(new LoseScreen(game));
-            return true;
-        }
-//        else if(keycode==Input.Keys.L){
-//            game.setScreen(new LoseScreen(game));
-//            return true;
-//        }
-        return false;
     }
 
 

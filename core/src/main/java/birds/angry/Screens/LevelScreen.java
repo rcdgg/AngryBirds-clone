@@ -1,11 +1,9 @@
 package birds.angry.Screens;
 
+import birds.angry.AngryBirds;
 import birds.angry.GameSprites.*;
 import birds.angry.GameState;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -64,10 +62,13 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     Button restart, save;
     String filepath;
     ArrayList<DynamicGameObject> to_remove;
+    int score;
+    Bird lastbird;
 
     public LevelScreen(Game game, String filepath) {
         super(game);
         mouseJoint = null;
+        gameState = new GameState();
         to_remove = new ArrayList<>();
         this.filepath = filepath;
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
@@ -176,16 +177,23 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         Material hitmat = (Material) getObjectAt(fa.getBody());
                         if (hitmat!=null) {
                             hitmat.health -= 1;
-                            if(hitmat.health<=0) to_remove.add(hitmat);
+                            if(hitmat.health<=0) {
+                                to_remove.add(hitmat);
+                                score += hitmat.score;
+                            }
                         }
                     }catch (ClassCastException e)
                     {
                         Material hitmat = (Material) getObjectAt(fb.getBody());
                         if(hitmat!=null) {
                             hitmat.health -= 1;
-                            if(hitmat.health<=0) to_remove.add(hitmat);
+                            if(hitmat.health<=0) {
+                                to_remove.add(hitmat);
+                                score += hitmat.score;
+                            }
                         }
                     }
+
                 }
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the pig");
@@ -193,14 +201,20 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
                         if (hitpig!=null) {
                             hitpig.health -= 1;
-                            if(hitpig.health<=0) to_remove.add(hitpig);
+                            if(hitpig.health<=0) {
+                                score += hitpig.score;
+                                to_remove.add(hitpig);
+                            }
                         }
                     }catch (ClassCastException e)
                     {
                         Pig hitpig = (Pig) getObjectAt(fb.getBody());
                         if(hitpig!=null) {
                             hitpig.health -= 1;
-                            if(hitpig.health<=0) to_remove.add(hitpig);
+                            if(hitpig.health<=0) {
+                                score += hitpig.score;
+                                to_remove.add(hitpig);
+                            }
                         }
                     }
                 }
@@ -213,8 +227,14 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         if(a != null && b != null) {
                             a.health -= 1;
                             b.health -= 1;
-                            if(a.health <= 0) to_remove.add(a);
-                            if(b.health <= 0) to_remove.add(b);
+                            if(a.health <= 0) {
+                                to_remove.add(a);
+                                score += a.score;
+                            }
+                            if(b.health <= 0) {
+                                to_remove.add(b);
+                                score += b.score;
+                            }
                         }
                     }catch (ClassCastException e)
                     {
@@ -223,8 +243,14 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         if(a != null && b != null) {
                             a.health -= 1;
                             b.health -= 1;
-                            if(a.health <= 0) to_remove.add(a);
-                            if(b.health <= 0) to_remove.add(b);
+                            if(a.health <= 0) {
+                                to_remove.add(a);
+                                score += a.score;
+                            }
+                            if(b.health <= 0) {
+                                to_remove.add(b);
+                                score += b.score;
+                            }
                         }
                     }
                 }
@@ -263,7 +289,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             }
 
         }
-//        stage.addActor(slingshot);
+        TextButton score_b = new TextButton(String.format("%d", score), skin);
+        score_b.setPosition(800,450);
+        uistage.addActor(score_b);
         for(Bird b: bird_list){
             stage.addActor(b);
         }
@@ -294,7 +322,13 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        if(keycode == Input.Keys.SPACE){
+            System.out.println("ahuidahdad");
+            if(lastbird != null){
+                lastbird.ability();
+            }
+        }
+        return true;
     }
 
     @Override
@@ -378,6 +412,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             bb.shot = true;
             bb.body.setFixedRotation(false);
             bb.body.setAngularDamping(2.0f);
+            lastbird = bird_list.getLast();
             bird_list.remove(bird_list.getLast());
             b.applyLinearImpulse(new Vector2(3 * -(worldPos.x - slingbody.getPosition().x), 3 * -(worldPos.y - slingbody.getPosition().y)), b.getWorldCenter(), true);
             return true;
@@ -431,6 +466,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
     public void save_gamestate(){
         gameState = new GameState();
+        gameState.score = this.score;
+
         for(Bird b: bird_list){
             GameState.GameObjectState g = new GameState.GameObjectState();
             g.type =  b.getName();
@@ -489,6 +526,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+        this.score = gameState.score;
         bird_list.clear();
         mat_list.clear();
         pig_list.clear();

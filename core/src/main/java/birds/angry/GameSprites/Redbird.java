@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Redbird extends Bird{
     private final TextureRegion redbirdtexreg;
@@ -27,5 +29,14 @@ public class Redbird extends Bird{
     @Override
     public String getName(){
         return "Redbird";
+    }
+    @Override
+    public void ability(){
+        System.out.println(getName() + " ability");
+        if(!ability_used) {
+            ability_used = true;
+            body.setLinearVelocity(0, body.getLinearVelocity().y);
+            body.applyLinearImpulse(new Vector2(0, -2), body.getWorldCenter(), true);
+        }
     }
 }

@@ -24,4 +24,13 @@ public class Yellowbird extends Bird{
     public String getName(){
         return "Yellowbird";
     }
+
+    @Override
+    public void ability(){
+        System.out.println(getName() + " ability");
+        if(!ability_used) {
+            body.applyLinearImpulse(new Vector2(body.getLinearVelocity().x, body.getLinearVelocity().y), body.getWorldCenter(), true);
+            ability_used = true;
+        }
+    }
 }

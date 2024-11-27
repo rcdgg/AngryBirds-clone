@@ -10,6 +10,7 @@ public class Bird extends DynamicGameObject{
     public static final short BIRD = 1;
     public boolean shot = false;
     public boolean on = false;
+    public boolean ability_used = false;
     public Bird(Texture texture, Vector2 position, Vector2 size, World world){
         super(texture, position, size);
         bird_size = 0.3f;
@@ -17,7 +18,7 @@ public class Bird extends DynamicGameObject{
         createBird(position);
     }
 
-    void Ability(){
+    public void ability(){
     }
 
     public void createBird(Vector2 pos){

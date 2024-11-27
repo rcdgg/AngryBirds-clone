@@ -12,6 +12,7 @@ public class Pig extends DynamicGameObject{
     public Pig(Texture texture, Vector2 position, Vector2 size, World world) {
         super(texture, position, size);
         health = 2;
+        score = 200;
         pig_size = 0.3f;
         this.world = world;
         createPig(position);

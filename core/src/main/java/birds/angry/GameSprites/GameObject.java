@@ -29,7 +29,7 @@ public class GameObject extends Actor{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if(isDead){
-            System.out.println(this+"dead so not drawing");
+//            System.out.println(this+"dead so not drawing");
             return;
         }
         batch.draw(

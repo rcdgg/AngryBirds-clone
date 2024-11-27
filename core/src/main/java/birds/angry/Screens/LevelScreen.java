@@ -52,7 +52,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      Stage stage, uistage, pausestage;
      float grid_size = 0.5f;
      final short BIRD = Bird.BIRD;
-     final short GROUND = 2;
+     final short GROUND = 8;
      final short OBSTACLE = Material.MATERIAL;
      final short PIG = Pig.PIG;
      MouseJointDef JointDef;
@@ -73,9 +73,11 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
         pausestage = new Stage(new FitViewport(1600,900));
+
         uistage.setDebugAll(false);
         pausestage.setDebugAll(true);
         stage.setDebugAll(false);
+
         slingbound = new Vector4();
         slingshot = new Slingshot(new Vector2(6*grid_size, 4*grid_size));
         slingshot.setSize(2 * grid_size, 4 * grid_size);
@@ -96,6 +98,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         uistage.addActor(pause);
 
         grid_size = 50;
+
+        //---- pause stage
         pausebg = Assets.pausebg;
         pausebg.setSize(500,   pausebg.getHeight() / pausebg.getWidth() * 500);
         pausebg.setPosition(pausestage.getWidth() / 2 - pausebg.getWidth() / 2 - 50, pausestage.getHeight() / 2 - pausebg.getHeight() / 2);
@@ -139,8 +143,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             return false;
         });
 
-
         //restart and save is level specific
+        //----
 
         pause.addListener(new ClickListener() {
             @Override
@@ -252,18 +256,26 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             System.out.println("removing pig");
             world.destroyBody(p.body);
             p.isDead = true;
+            System.out.println(p.getName() + ":" + p.isDead);
             System.out.println(pig_list);
             System.out.println("removed");
             pig_list.remove(p);
             System.out.println(pig_list);
         }
         to_remove.clear();
+        if(pig_list.isEmpty()){
+            game.setScreen(new WinScreen(game));
+        }
+        else if(bird_list.isEmpty() && Objects.equals(lastBody.getLinearVelocity(), new Vector2(0, 0))){
+            game.setScreen(new LoseScreen(game));
+        }
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uistage);
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(pausestage);
         multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override

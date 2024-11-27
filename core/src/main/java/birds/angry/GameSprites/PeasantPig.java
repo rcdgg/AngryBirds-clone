@@ -20,10 +20,10 @@ public class PeasantPig extends Pig{
         super.act(delta);
         // slingshot specific logic here like band and projectile
     }
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(ppigtex, getX(), getY(), getWidth(), getHeight());
-    }
+//    @Override
+//    public void draw(Batch batch, float parentAlpha) {
+//        batch.draw(ppigtex, getX(), getY(), getWidth(), getHeight());
+//    }
     @Override
     public String getName(){
         return "PeasantPig";

@@ -3,6 +3,8 @@ package birds.angry.Screens;
 import birds.angry.AngryBirds;
 import birds.angry.GameSprites.*;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -124,7 +126,7 @@ public class Level1 extends LevelScreen {
         restart.addListener(event -> {
             if (event.toString().equals("touchDown")) {
                 // Handle button click
-                game.setScreen(new Level2(game, "assets/level/level1.ser"));
+                game.setScreen(new Level1(game, "assets/level/level1.ser"));
                 pause_b = false;
             }
             return false;
@@ -147,6 +149,22 @@ public class Level1 extends LevelScreen {
         stage.draw();
         uistage.act(delta);
         uistage.draw();
+        if(grid){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.GRAY);
+
+            float gridSpacing = 50f;
+
+            for (float y = 0; y < uistage.getHeight(); y += gridSpacing) {
+                shapeRenderer.line(0, y, uistage.getWidth(), y);
+            }
+
+            for (float x = 0; x < uistage.getWidth(); x += gridSpacing) {
+                shapeRenderer.line(x, 0, x, uistage.getHeight());
+            }
+
+            shapeRenderer.end();
+        }
         if(pause_b){
             pausestage.act(delta);
             pausestage.draw();
@@ -154,7 +172,7 @@ public class Level1 extends LevelScreen {
         else if(pig_list.isEmpty()){
             game.setScreen(new WinScreen(game));
         }
-        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().x < 0.05f && lastBody.getLinearVelocity().x > -0.05f&&lastBody.getLinearVelocity().y < 0.05f&&lastBody.getLinearVelocity().y > -0.05f){
+        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
             game.setScreen(new LoseScreen(game));
         }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16 || lastBody.getPosition().y > 9)){
             game.setScreen(new LoseScreen(game));

@@ -22,7 +22,7 @@ public class BaseScreen extends ScreenAdapter implements ApplicationListener {
     protected SpriteBatch batch;
     protected ShapeRenderer shapeRenderer;
     protected int grid_size;
-    private boolean grid;
+    public boolean grid;
     protected Skin skin;
     protected Button.ButtonStyle invisibleButtonStyle;
     int save_slot;

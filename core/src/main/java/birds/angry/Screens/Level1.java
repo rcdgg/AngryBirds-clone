@@ -56,7 +56,7 @@ public class Level1 extends LevelScreen{
         p.setAsBox(16,1);
 
         fixtureDef.shape = p;
-        fixtureDef.friction = 0.9f;
+        fixtureDef.friction = 0.2f;
         fixtureDef.filter.categoryBits = GROUND;
         fixtureDef.filter.maskBits = -1;
         ground.createFixture(fixtureDef);
@@ -145,16 +145,7 @@ public class Level1 extends LevelScreen{
         batch.begin();
         batch.draw(background, 0, 0);
         batch.end();
-//        super.render(delta);
-//        if(mouseJoint == null) {
-//            if(!bird_list.isEmpty()){
-//                Bird temp = bird_list.getLast();
-//                temp.on = true;
-//                temp.body.setTransform(slingbody.getPosition(), 0);
-//                temp.body.setType(BodyDef.BodyType.StaticBody);
-//            }
-//
-//        }
+
         stage.act(delta);
         stage.draw();
         uistage.act(delta);

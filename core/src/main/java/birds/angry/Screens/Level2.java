@@ -143,16 +143,7 @@ public class Level2 extends LevelScreen {
         batch.begin();
         batch.draw(background, 0, 0, 1600, 900);
         batch.end();
-//        super.render(delta);
-//        if(mouseJoint == null) {
-//            if(!bird_list.isEmpty()){
-//                Bird temp = bird_list.getLast();
-//                temp.on = true;
-//                temp.body.setTransform(slingbody.getPosition(), 0);
-//                temp.body.setType(BodyDef.BodyType.StaticBody);
-//            }
-//
-//        }
+
         stage.act(delta);
         stage.draw();
         uistage.act(delta);

@@ -376,6 +376,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 return false;
             }
             bb.shot = true;
+            bb.body.setFixedRotation(false);
+            bb.body.setAngularDamping(2.0f);
             bird_list.remove(bird_list.getLast());
             b.applyLinearImpulse(new Vector2(3 * -(worldPos.x - slingbody.getPosition().x), 3 * -(worldPos.y - slingbody.getPosition().y)), b.getWorldCenter(), true);
             return true;

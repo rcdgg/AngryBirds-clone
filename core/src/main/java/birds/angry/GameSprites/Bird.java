@@ -34,6 +34,7 @@ public class Bird extends DynamicGameObject{
         fdef.density = 1;
         fdef.restitution = 0.5f;
         bbody.createFixture(fdef);
+        bbody.setFixedRotation(true);
         body = bbody;
     }
 

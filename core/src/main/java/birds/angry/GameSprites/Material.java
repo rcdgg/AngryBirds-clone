@@ -32,7 +32,7 @@ public class Material extends DynamicGameObject {
         fdef.filter.maskBits = -1;
         fdef.restitution = 0;
         fdef.density = 1;
-        fdef.friction = 0.5f;
+        fdef.friction = 0.2f;
         bbody.createFixture(fdef);
         body = bbody;
     }

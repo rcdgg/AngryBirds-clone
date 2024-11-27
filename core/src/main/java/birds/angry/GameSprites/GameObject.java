@@ -17,7 +17,7 @@ public class GameObject extends Actor{
     protected TextureRegion textreg;
     public Vector2 position;
     protected Vector2 size;
-
+    public boolean isDead = false;
     public GameObject(Texture texture, Vector2 position, Vector2 size) {
         this.texture = texture;
         textreg = new TextureRegion(texture);
@@ -28,6 +28,10 @@ public class GameObject extends Actor{
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if(isDead){
+            System.out.println(this+"dead so not drawing");
+            return;
+        }
         batch.draw(
             textreg,              // Use TextureRegion
             getX(), getY(),             // Position

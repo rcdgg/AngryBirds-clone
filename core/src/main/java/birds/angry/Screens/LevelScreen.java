@@ -45,7 +45,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      OrthographicCamera camera;
     float PPM = 100.0f;
     float bird_size = 0.3f;
-    float obj_size = 0.1f;
+    float obj_size = 0.075f;
      BodyDef bodyDef;
      FixtureDef fixtureDef;
      Box2DDebugRenderer dbg;
@@ -63,10 +63,12 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      Image pausebg;
     Button restart, save;
     String filepath;
+    ArrayList<Pig> to_remove;
 
     public LevelScreen(Game game, String filepath) {
         super(game);
         mouseJoint = null;
+        to_remove = new ArrayList<>();
         this.filepath = filepath;
         stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
         uistage = new Stage(new FitViewport(1600,900));
@@ -154,6 +156,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             public void beginContact(Contact contact) {
                 Fixture fa = contact.getFixtureA();
                 Fixture fb = contact.getFixtureB();
+
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the ground");
                 }
@@ -168,9 +171,37 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the pig");
+                    try{
+                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                        if (hitpig!=null) {
+                            hitpig.health -= 1;
+                            if(hitpig.health<=0) to_remove.add(hitpig);
+                        }
+                    }catch (ClassCastException e)
+                    {
+                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        if(hitpig!=null) {
+                            hitpig.health -= 1;
+                            if(hitpig.health<=0) to_remove.add(hitpig);
+                        }
+                    }
                 }
                 if((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)){
                     System.out.println("obj hit the pig");
+                    try{
+                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                        if (hitpig!=null){
+                            hitpig.health -= 1;
+                            if(hitpig.health<=0) to_remove.add(hitpig);
+                        }
+                    }catch (ClassCastException e)
+                    {
+                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        if(hitpig!=null) {
+                            hitpig.health -= 1;
+                            if(hitpig.health<=0) to_remove.add(hitpig);
+                        }
+                    }
                 }
                 if((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)){
                     System.out.println("Pig hit the ground");
@@ -189,7 +220,6 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
             @Override
             public void postSolve(Contact contact, ContactImpulse contactImpulse) {
-
             }
         });
         grid_size = 0.5f;
@@ -218,7 +248,16 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         for(Pig p: pig_list){
             stage.addActor(p);
         }
-
+        for(Pig p: to_remove){
+            System.out.println("removing pig");
+            world.destroyBody(p.body);
+            p.isDead = true;
+            System.out.println(pig_list);
+            System.out.println("removed");
+            pig_list.remove(p);
+            System.out.println(pig_list);
+        }
+        to_remove.clear();
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uistage);
         multiplexer.addProcessor(stage);
@@ -348,6 +387,18 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             return true;
         }, position.x - 0.01f, position.y - 0.01f, position.x + 0.01f, position.y + 0.01f);
         return result[0];
+    }
+    private Object getObjectAt(Body body){
+        for(Bird b: bird_list){
+            if(b.body.equals(body)) return b;
+        }
+        for(Material b: mat_list){
+            if(b.body.equals(body)) return b;
+        }
+        for(Pig b: pig_list){
+            if(b.body.equals(body)) return b;
+        }
+        return null;
     }
 
     public void save_gamestate(){

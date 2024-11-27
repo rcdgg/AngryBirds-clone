@@ -13,7 +13,7 @@ public class Material extends DynamicGameObject {
     public Material(Texture texture, Vector2 position, Vector2 size, World world) {
         super(texture, position, size);
         this.world = world;
-        obj_size = 0.1f;
+        obj_size = 0.075f;
         createObject(position);
     }
 

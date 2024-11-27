@@ -8,7 +8,7 @@ public class Pig extends DynamicGameObject{
     float pig_size;
     World world;
     public static final short PIG = 2;
-    private float health;
+    public float health = 2;
     public Pig(Texture texture, Vector2 position, Vector2 size, World world) {
         super(texture, position, size);
         pig_size = 0.3f;

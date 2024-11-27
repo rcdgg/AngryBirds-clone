@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import java.util.ArrayList;
 
 public class Yellowbird extends Bird{
     public final Texture yellowbirdtex;
@@ -25,12 +28,14 @@ public class Yellowbird extends Bird{
         return "Yellowbird";
     }
 
+
     @Override
-    public void ability(){
+    public ArrayList<Bird> ability(){
         System.out.println(getName() + " ability");
         if(!ability_used) {
             body.applyLinearImpulse(new Vector2(body.getLinearVelocity().x, body.getLinearVelocity().y), body.getWorldCenter(), true);
             ability_used = true;
         }
+        return null;
     }
 }

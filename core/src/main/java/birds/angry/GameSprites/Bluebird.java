@@ -1,15 +1,13 @@
 package birds.angry.GameSprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.ArrayList;
 
 public class Bluebird extends Bird{
     private final Texture bluebirdtex;
@@ -19,39 +17,46 @@ public class Bluebird extends Bird{
         bluebirdtex = texture;
         this.setSize((float)Assets.redbirds[0].getRegionWidth()/4, (float)Assets.redbirds[0].getRegionHeight()/4);
     }
-    @Override
-    public void act(float delta){
-        super.act(delta);
-        if(temp!=null) temp.act(delta);
-        // slingshot specific logic here like band and projectile
-    }
+//    @Override
+//    public void act(float delta){
+//        super.act(delta);
+//        if(temp!=null) temp.act(delta);
+//        // slingshot specific logic here like band and projectile
+//    }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha){
-        super.draw(batch, parentAlpha);
-        if(temp != null){
-            temp.draw();
-        }
-    }
+//    @Override
+//    public void draw(Batch batch, float parentAlpha){
+//        super.draw(batch, parentAlpha);
+//        if(temp != null){
+//            temp.draw();
+//        }
+//    }
     @Override
     public String getName(){
         return "Bluebird";
     }
 
     @Override
-    public void ability(){
+    public ArrayList<Bird> ability(){
         System.out.println(getName() + " ability");
         if(!ability_used) {
-            Stage temp = new Stage(new FitViewport(16,9));
+//            Stage temp = new Stage(new FitViewport(16,9));
             Bluebird one = new Bluebird(new Vector2(body.getPosition().x, body.getPosition().y + 1), world);
+            one.setSize(2.5f * bird_size, 2 * bird_size);
             Bluebird two = new Bluebird(new Vector2(body.getPosition().x, body.getPosition().y - 1), world);
+            two.setSize(2.5f * bird_size, 2 * bird_size);
             one.ability_used = true;
             two.ability_used = true;
             one.body.setLinearVelocity(body.getLinearVelocity());
             two.body.setLinearVelocity(body.getLinearVelocity());
-            temp.addActor(one);
-            temp.addActor(two);
+//            temp.addActor(one);
+//            temp.addActor(two);
             ability_used = true;
+            ArrayList<Bird> birds = new ArrayList<Bird>();
+            birds.add(one);
+            birds.add(two);
+            return birds;
         }
+        return null;
     }
 }

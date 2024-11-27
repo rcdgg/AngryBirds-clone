@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+
 public class Bird extends DynamicGameObject{
     float bird_size;
     World world;
@@ -18,7 +20,8 @@ public class Bird extends DynamicGameObject{
         createBird(position);
     }
 
-    public void ability(){
+    public ArrayList<Bird> ability(){
+        return null;
     }
 
     public void createBird(Vector2 pos){

@@ -35,7 +35,7 @@ public class Level2 extends LevelScreen {
     private KingPig kingPig;
     private SoldierPig soldierPig;
     private Wood woodlog, woodlog2;
-    private Ice icelog;
+    private Ice icelog, icelog2;
     private Stone stonelog;
 
     public Level2(Game game, String filepath) {
@@ -80,36 +80,42 @@ public class Level2 extends LevelScreen {
         System.out.println("aaaaaa");
 
         //---------------------
-//        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
-//        redbird.setSize(2 * bird_size, 2 * bird_size);
-//
-////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
-//        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
-//        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
-//
-//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
-//        yellowbird.setSize(2 * bird_size, 2 * bird_size);
-//
-//        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
-//
-//        woodlog = new Wood(new Vector2(11*grid_size, ground.getPosition().y + 2), world);
-//        woodlog.setSize(2 * obj_size, 20 * obj_size);;
-//
-//        icelog = new Ice(new Vector2(14*grid_size, ground.getPosition().y+2), world);
-//        icelog.setSize(2 * obj_size, 20 * obj_size);
-//
-//        stonelog = new Stone(new Vector2(17*grid_size, ground.getPosition().y+2), world);
-//        stonelog.setSize(2 * obj_size, 20 * obj_size);
-//
-//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog);
-//
-//        ppig = new PeasantPig(new Vector2((12.5f)*grid_size, 5*grid_size), world);
-//        ppig.setSize(2 * bird_size, 2 * bird_size);
-//        kingPig = new KingPig(new Vector2(16*grid_size, 5*grid_size), world);
-//        kingPig.setSize(2 * bird_size, 2 * bird_size);
-//        soldierPig = new SoldierPig(new Vector2(19*grid_size, 5*grid_size), world);
-//        soldierPig.setSize(2 * bird_size, 2 * bird_size);
-//        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
+        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
+        redbird.setSize(2 * bird_size, 2 * bird_size);
+
+//        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
+        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
+        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
+
+        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
+        yellowbird.setSize(2 * bird_size, 2 * bird_size);
+
+        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
+
+        woodlog = new Wood(new Vector2(11*grid_size, ground.getPosition().y + 2), world);
+        woodlog.setSize(2 * obj_size, 20 * obj_size);;
+        woodlog2 = new Wood(new Vector2(11*grid_size, woodlog.getHeight()+3), world);
+        woodlog2.setSize(2 * obj_size, 20 * obj_size);
+        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
+
+        icelog = new Ice(new Vector2(14*grid_size, ground.getPosition().y+2), world);
+        icelog.setSize(2 * obj_size, 20 * obj_size);
+        icelog2 = new Ice(new Vector2(14*grid_size, icelog.getHeight()+3), world);
+        icelog2.setSize(2 * obj_size, 20 * obj_size);
+        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
+
+        stonelog = new Stone(new Vector2(17*grid_size, ground.getPosition().y+2), world);
+        stonelog.setSize(2 * obj_size, 20 * obj_size);
+
+        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog); mat_list.add(woodlog2);mat_list.add(icelog2);
+
+        ppig = new PeasantPig(new Vector2((12.5f)*grid_size, 5*grid_size), world);
+        ppig.setSize(2 * bird_size, 2 * bird_size);
+        kingPig = new KingPig(new Vector2(16*grid_size, 5*grid_size), world);
+        kingPig.setSize(2 * bird_size, 2 * bird_size);
+        soldierPig = new SoldierPig(new Vector2(19*grid_size, 5*grid_size), world);
+        soldierPig.setSize(2 * bird_size, 2 * bird_size);
+        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
 
         //----------------------
 
@@ -131,7 +137,7 @@ public class Level2 extends LevelScreen {
             return false;
         });
 
-        load_game(filepath);
+//        load_game(filepath);
 
     }
 
@@ -156,6 +162,8 @@ public class Level2 extends LevelScreen {
             game.setScreen(new WinScreen(game));
         }
         else if(bird_list.isEmpty() && lastBody.getLinearVelocity().x < 0.05f && lastBody.getLinearVelocity().x > -0.05f&&lastBody.getLinearVelocity().y < 0.05f&&lastBody.getLinearVelocity().y > -0.05f){
+            game.setScreen(new LoseScreen(game));
+        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16 || lastBody.getPosition().y > 9)){
             game.setScreen(new LoseScreen(game));
         }
         else world.step(1/60f, 6,2);

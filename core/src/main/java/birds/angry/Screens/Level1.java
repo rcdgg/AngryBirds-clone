@@ -159,10 +159,12 @@ public class Level1 extends LevelScreen{
         }
         else if(bird_list.isEmpty() && lastBody.getLinearVelocity().x < 0.05f && lastBody.getLinearVelocity().x > -0.05f&&lastBody.getLinearVelocity().y < 0.05f&&lastBody.getLinearVelocity().y > -0.05f){
             game.setScreen(new LoseScreen(game));
+        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16 || lastBody.getPosition().y > 9)){
+            game.setScreen(new LoseScreen(game));
         }
         else world.step(1/60f, 6,2);
+        if(bird_list.isEmpty()) System.out.println(lastBody.getPosition().x + " - "+ lastBody.getPosition().y);
         dbg.render(world, stage.getCamera().combined);
-
     }
 
 

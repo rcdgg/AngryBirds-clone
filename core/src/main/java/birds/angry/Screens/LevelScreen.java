@@ -59,11 +59,11 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      GameState gameState;
      boolean pause_b = false;
      Image pausebg;
-    Button restart, save;
-    String filepath;
-    ArrayList<DynamicGameObject> to_remove;
-    int score;
-    Bird lastbird;
+     Button restart, save;
+     String filepath;
+     ArrayList<DynamicGameObject> to_remove;
+     int score;
+     public Bird lastbird;
 
     public LevelScreen(Game game, String filepath) {
         super(game);
@@ -290,7 +290,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 
         }
         TextButton score_b = new TextButton(String.format("%d", score), skin);
-        score_b.setPosition(800,450);
+        score_b.setPosition(800,1000);
         uistage.addActor(score_b);
         for(Bird b: bird_list){
             stage.addActor(b);
@@ -325,7 +325,13 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         if(keycode == Input.Keys.SPACE){
             System.out.println("ahuidahdad");
             if(lastbird != null){
-                lastbird.ability();
+                ArrayList<Bird> yo = lastbird.ability();
+                if(lastbird instanceof Bluebird){
+                    System.out.println("ability returned"+yo);
+//                    bird_list.addAll(yo);
+                    stage.addActor(yo.get(0)); stage.addActor(yo.get(1));
+//                    System.out.println(bird_list);
+                }
             }
         }
         return true;

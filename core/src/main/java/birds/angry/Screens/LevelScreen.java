@@ -408,7 +408,6 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepathh))){
             gameState =(GameState) in.readObject();
         } catch (Exception e){
-            System.out.println("filepath is" +filepathh);
             System.out.println(e.getMessage());
         }
         bird_list.clear();

@@ -37,7 +37,7 @@ public class LevelSelect extends BaseScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                game.setScreen(new Level2(game, "assets/save_slot1/level2_save.ser"));
+                game.setScreen(new Level2(game, "assets/save_slot"+ AngryBirds.save_slot +"/level2_save.ser"));
             }
         });
 

@@ -36,44 +36,6 @@ public class Level2 extends LevelScreen {
     private Wood woodlog;
     private Ice icelog;
     private Stone stonelog;
-//
-//    //----
-//    private Button pause;
-//    private Slingshot slingshot;
-//    //    private Bird redbird, bluebird, yellowbird;
-//    private Redbird redbird;
-//    private Bluebird bluebird;
-//    private Yellowbird yellowbird;
-//    private PeasantPig ppig;
-//    private KingPig kingPig;
-//    private SoldierPig soldierPig;
-//    private Texture background;
-//    private Wood woodlog;
-//    private Ice icelog;
-//    private Stone stonelog;
-//    private World world;
-//    private Box2DDebugRenderer b2dr;
-//    private Body redbirdBody, bluebirdBody, yellowbirdBody, ground, stone, wood, ice, slingbody, lastBody;
-//    private ArrayList<Bird> bird_list;
-//    private ArrayList<Material> mat_list;
-//    private ArrayList<Pig> pig_list;
-//    private OrthographicCamera camera;
-//    float PPM = 100.0f;
-//    float bird_size = 0.3f;
-//    float obj_size = 0.1f;
-//    private BodyDef bodyDef;
-//    private FixtureDef fixtureDef;
-//    private Box2DDebugRenderer dbg;
-//    private Stage stage, uistage, pausestage;
-//    private float grid_size;
-//    private final short BIRD = Bird.BIRD;
-//    private final short GROUND = 2;
-//    private final short OBSTACLE = Material.MATERIAL;
-//    private MouseJointDef JointDef;
-//    private MouseJoint mouseJoint, initJoint;
-//    private Vector4 slingbound;
-//    private GameState gameState;
-    //-----
 
     public Level2(Game game, String filepath) {
         super(game, filepath);
@@ -248,41 +210,6 @@ public class Level2 extends LevelScreen {
 
         load_game(filepath);
 
-
-//        world.setContactListener(new ContactListener() {
-//            @Override
-//            public void beginContact(Contact contact) {
-//                Fixture fa = contact.getFixtureA();
-//                Fixture fb = contact.getFixtureB();
-//                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)){
-//                    System.out.println("Bird hit the ground");
-//                }
-//                if((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == OBSTACLE)){
-//                    System.out.println("obj hit the obj");
-//                }
-//                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == BIRD)){
-//                    System.out.println("Bird hit the bird");
-//                }
-//                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)){
-//                    System.out.println("Bird hit the obstacle");
-//                }
-//            }
-//
-//            @Override
-//            public void endContact(Contact contact) {
-//
-//            }
-//
-//            @Override
-//            public void preSolve(Contact contact, Manifold manifold) {
-//
-//            }
-//
-//            @Override
-//            public void postSolve(Contact contact, ContactImpulse contactImpulse) {
-//
-//            }
-//        });
     }
 
 

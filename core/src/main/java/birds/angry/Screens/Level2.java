@@ -21,12 +21,12 @@ public class Level2 extends LevelScreen{
         super(game, filepath);
 
         //ground
-        bodyDef.position.set(0, 1);
+        bodyDef.position.set(0, 0.5f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         ground = world.createBody(bodyDef);
 
         PolygonShape p = new PolygonShape();
-        p.setAsBox(16,1);
+        p.setAsBox(16,0.55f);
 
         fixtureDef.shape = p;
         fixtureDef.friction = 0.2f;
@@ -34,6 +34,70 @@ public class Level2 extends LevelScreen{
         fixtureDef.filter.maskBits = -1;
         ground.createFixture(fixtureDef);
 
+        // ground 2
+        bodyDef.position.set(0, 1.77f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground2 = world.createBody(bodyDef);
+        PolygonShape p2 = new PolygonShape();
+        p2.setAsBox(8.8f,0.72f);
+        fixtureDef.shape = p2;
+        ground2.createFixture(fixtureDef);
+        //ground 3
+        bodyDef.position.set(0f, 1.77f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground3 = world.createBody(bodyDef);
+        PolygonShape p3 = new PolygonShape();
+        p3.setAsBox(2.8f, 4.3f);
+        fixtureDef.shape = p3;
+        ground3.createFixture(fixtureDef);
+        //ground 4
+        bodyDef.position.set(ground3.getPosition().x+2.8f+0.35f, 1.77f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground4 = world.createBody(bodyDef);
+        PolygonShape p4 = new PolygonShape();
+        p4.setAsBox(0.35f, 3.6f);
+        fixtureDef.shape = p4;
+        ground4.createFixture(fixtureDef);
+        //ground 5
+        bodyDef.position.set(ground4.getPosition().x+0.35f+0.35f, 1.77f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground5 = world.createBody(bodyDef);
+        PolygonShape p5 = new PolygonShape();
+        p5.setAsBox(0.35f, 2.9f);
+        fixtureDef.shape = p5;
+        ground5.createFixture(fixtureDef);
+        //ground 6
+        bodyDef.position.set(ground5.getPosition().x+0.35f+0.35f, 1.77f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground6 = world.createBody(bodyDef);
+        PolygonShape p6 = new PolygonShape();
+        p6.setAsBox(0.35f, 2.2f);
+        fixtureDef.shape = p6;
+        ground6.createFixture(fixtureDef);
+        //ground 7
+        bodyDef.position.set(ground6.getPosition().x+0.35f+0.35f, 1.77f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground7 = world.createBody(bodyDef);
+        PolygonShape p7 = new PolygonShape();
+        p7.setAsBox(0.39f, 1.5f);
+        fixtureDef.shape = p7;
+        ground7.createFixture(fixtureDef);
+        //ground 8
+        bodyDef.position.set(ground2.getPosition().x+16f, ground2.getPosition().y);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground8 = world.createBody(bodyDef);
+        PolygonShape p8 = new PolygonShape();
+        p8.setAsBox(4.3f, 0.72f);
+        fixtureDef.shape = p8;
+        ground8.createFixture(fixtureDef);
+        //ground 9
+        bodyDef.position.set(ground3.getPosition().x+16f, ground3.getPosition().y);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground9 = world.createBody(bodyDef);
+        PolygonShape p9 = new PolygonShape();
+        p9.setAsBox(2f, 4.2f);
+        fixtureDef.shape = p9;
+        ground9.createFixture(fixtureDef);
         //slingbody
         bodyDef.position.set(3.5f, 3.5f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -73,24 +137,31 @@ public class Level2 extends LevelScreen{
 //
 //        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
 //
-//        woodlog = new Wood(new Vector2(5, 5), world);
-//        woodlog.setSize(2 * obj_size, 20 * obj_size);
-//        icelog = new Ice(new Vector2(14*grid_size, 5), world);
-//        icelog.setSize(2 * obj_size, 20 * obj_size);
+//        woodlog = new Wood(new Vector2(11*grid_size, ground.getPosition().y + 2), world);
+//        woodlog.setSize(2 * obj_size, 20 * obj_size);;
+//        woodlog2 = new Wood(new Vector2(11*grid_size, woodlog.getHeight()+3), world);
+//        woodlog2.setSize(2 * obj_size, 20 * obj_size);
+//        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
 //
-//        stonelog = new Stone(new Vector2(17*grid_size, 5), world);
+//        icelog = new Ice(new Vector2(14*grid_size, ground.getPosition().y+2), world);
+//        icelog.setSize(2 * obj_size, 20 * obj_size);
+//        icelog2 = new Ice(new Vector2(14*grid_size, icelog.getHeight()+3), world);
+//        icelog2.setSize(2 * obj_size, 20 * obj_size);
+//        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
+//
+//        stonelog = new Stone(new Vector2(17*grid_size, ground.getPosition().y+2), world);
 //        stonelog.setSize(2 * obj_size, 20 * obj_size);
 //
-//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog);
+//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog); mat_list.add(woodlog2);mat_list.add(icelog2);
 //
-//        ppig = new PeasantPig(new Vector2(13*grid_size, 5*grid_size), world);
+//        ppig = new PeasantPig(new Vector2((12.5f)*grid_size, 5*grid_size), world);
 //        ppig.setSize(2 * bird_size, 2 * bird_size);
 //        kingPig = new KingPig(new Vector2(16*grid_size, 5*grid_size), world);
 //        kingPig.setSize(2 * bird_size, 2 * bird_size);
 //        soldierPig = new SoldierPig(new Vector2(19*grid_size, 5*grid_size), world);
 //        soldierPig.setSize(2 * bird_size, 2 * bird_size);
 //        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
-//
+
         //----------------------
 
         save.addListener(event -> {
@@ -118,9 +189,9 @@ public class Level2 extends LevelScreen{
     @Override
     public void render(float delta) {
         super.render(delta);
-//        batch.begin();
-//        batch.draw(background, 0, 0);
-//        batch.end();
+        batch.begin();
+        batch.draw(background, 0, 0);
+        batch.end();
 
         stage.act(delta);
         stage.draw();

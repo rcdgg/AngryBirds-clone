@@ -441,7 +441,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             bb.body.setAngularDamping(2.0f);
             lastbird = bird_list.getLast();
             bird_list.remove(bird_list.getLast());
-            b.applyLinearImpulse(new Vector2(3 * -(worldPos.x - slingbody.getPosition().x), 3 * -(worldPos.y - slingbody.getPosition().y)), b.getWorldCenter(), true);
+            b.applyLinearImpulse(new Vector2(3 * -(b.getPosition().x - slingbody.getPosition().x), 3 * -(b.getPosition().y - slingbody.getPosition().y)), b.getWorldCenter(), true);
             return true;
         }
         else {
@@ -611,7 +611,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     }
 
     public Vector2 trajectory(Vector2 startingPosition, Vector2 startingVelocity, float n){
-        float t = 1 / 60.0f; // seconds per time step (at 60fps)
+        float t = 4 / 60.0f; // seconds per time step (at 60fps)
         Vector2 stepVelocity = new Vector2(t * startingVelocity.x, t * startingVelocity.y); // m/s
         Vector2 stepGravity = new Vector2(t * t * world.getGravity().x, t * t * world.getGravity().y); // m/s/s
 

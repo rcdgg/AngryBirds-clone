@@ -232,14 +232,14 @@ public class Level2 extends LevelScreen{
             init_velo.y *= 1 / bird_list.getLast().body.getMass();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(Color.WHITE);
-            for (int i = 0; i < 60; i++) {
+            for (int i = 0; i < 20; i++) {
                 Vector2 temp = trajectory(worldPos, init_velo, i);
                 shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
             }
             shapeRenderer.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.BLACK);
-            for (int i = 0; i < 60; i++) {
+            for (int i = 0; i < 20; i++) {
                 Vector2 temp = trajectory(worldPos, init_velo, i);
                 shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
                 shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 4);

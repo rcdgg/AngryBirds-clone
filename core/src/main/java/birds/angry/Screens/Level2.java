@@ -98,6 +98,14 @@ public class Level2 extends LevelScreen{
         p9.setAsBox(2f, 4.2f);
         fixtureDef.shape = p9;
         ground9.createFixture(fixtureDef);
+        //ground 10
+        bodyDef.position.set(ground3.getPosition().x+8.8f, ground3.getPosition().y+4.7f);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        Body ground10 = world.createBody(bodyDef);
+        PolygonShape p10 = new PolygonShape();
+        p10.setAsBox(1.5f, 0.3f);
+        fixtureDef.shape = p10;
+        ground10.createFixture(fixtureDef);
         //slingbody
         bodyDef.position.set(3.5f, 3.5f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -115,52 +123,56 @@ public class Level2 extends LevelScreen{
         background = Assets.level2bg;
 
         //change slingshot position if needed
-        slingshot = new Slingshot(new Vector2(6*grid_size, 2.78f));
+        slingshot = new Slingshot(new Vector2(ground3.getPosition().x + ground3.getPosition().y/2, ground3.getPosition().y+4.3f));
         slingshot.setSize(2 * grid_size, 4 * grid_size);
         stage.addActor(slingshot);
-        slingshot.setPosition(3, 2);
+        slingshot.setPosition(ground3.getPosition().x + ground3.getPosition().y/2, ground3.getPosition().y+4.3f);
 
         slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
         slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
         slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
         //---------------------
-//        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
-//        redbird.setSize(2 * bird_size, 2 * bird_size);
-//
-////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
-//        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
-//        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
-//
-//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
-//        yellowbird.setSize(2 * bird_size, 2 * bird_size);
-//
-//        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
-//
-//        woodlog = new Wood(new Vector2(11*grid_size, ground.getPosition().y + 2), world);
-//        woodlog.setSize(2 * obj_size, 20 * obj_size);;
+        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
+        redbird.setSize(2 * bird_size, 2 * bird_size);
+        redbird.setPosition(ground3.getPosition().x + ground3.getPosition().y/2, ground3.getPosition().y+7f);
+
+//        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
+        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
+        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
+        bluebird.setPosition(ground3.getPosition().x + ground3.getPosition().y/2, ground3.getPosition().y+4.3f);
+
+        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
+        yellowbird.setSize(2 * bird_size, 2 * bird_size);
+
+        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
+
+        woodlog = new Wood(new Vector2(11*grid_size, ground.getPosition().y + 2), world);
+        woodlog.setSize(2 * obj_size, 20 * obj_size);;
 //        woodlog2 = new Wood(new Vector2(11*grid_size, woodlog.getHeight()+3), world);
 //        woodlog2.setSize(2 * obj_size, 20 * obj_size);
 //        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
-//
-//        icelog = new Ice(new Vector2(14*grid_size, ground.getPosition().y+2), world);
-//        icelog.setSize(2 * obj_size, 20 * obj_size);
+
+        icelog = new Ice(new Vector2(14*grid_size, ground.getPosition().y+2), world);
+        icelog.setSize(2 * obj_size, 20 * obj_size);
 //        icelog2 = new Ice(new Vector2(14*grid_size, icelog.getHeight()+3), world);
 //        icelog2.setSize(2 * obj_size, 20 * obj_size);
 //        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
-//
-//        stonelog = new Stone(new Vector2(17*grid_size, ground.getPosition().y+2), world);
-//        stonelog.setSize(2 * obj_size, 20 * obj_size);
-//
-//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog); mat_list.add(woodlog2);mat_list.add(icelog2);
-//
-//        ppig = new PeasantPig(new Vector2((12.5f)*grid_size, 5*grid_size), world);
-//        ppig.setSize(2 * bird_size, 2 * bird_size);
-//        kingPig = new KingPig(new Vector2(16*grid_size, 5*grid_size), world);
-//        kingPig.setSize(2 * bird_size, 2 * bird_size);
-//        soldierPig = new SoldierPig(new Vector2(19*grid_size, 5*grid_size), world);
-//        soldierPig.setSize(2 * bird_size, 2 * bird_size);
-//        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
+
+        stonelog = new Stone(new Vector2(17*grid_size, ground.getPosition().y+2), world);
+        stonelog.setSize(2 * obj_size, 20 * obj_size);
+
+        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog);
+//        mat_list.add(woodlog2);mat_list.add(icelog2);
+
+
+        ppig = new PeasantPig(new Vector2((12.5f)*grid_size, 5*grid_size), world);
+        ppig.setSize(2 * bird_size, 2 * bird_size);
+        kingPig = new KingPig(new Vector2(16*grid_size, 5*grid_size), world);
+        kingPig.setSize(2 * bird_size, 2 * bird_size);
+        soldierPig = new SoldierPig(new Vector2(19*grid_size, 5*grid_size), world);
+        soldierPig.setSize(2 * bird_size, 2 * bird_size);
+        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
 
         //----------------------
 
@@ -182,7 +194,7 @@ public class Level2 extends LevelScreen{
             return false;
         });
 
-        load_game(filepath);
+//        load_game(filepath);
     }
 
 

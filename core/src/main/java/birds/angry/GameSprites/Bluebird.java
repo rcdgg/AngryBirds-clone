@@ -47,6 +47,7 @@ public class Bluebird extends Bird{
             two.setSize(2.5f * bird_size, 2 * bird_size);
             one.ability_used = true;
             two.ability_used = true;
+            body.applyLinearImpulse(new Vector2(0, 0.5f), body.getWorldCenter(), true);
             one.body.setLinearVelocity(body.getLinearVelocity());
             two.body.setLinearVelocity(body.getLinearVelocity());
 //            temp.addActor(one);

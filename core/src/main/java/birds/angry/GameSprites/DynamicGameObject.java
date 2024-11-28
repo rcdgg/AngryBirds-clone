@@ -17,6 +17,7 @@ public class DynamicGameObject extends GameObject{
         velocity  = new Vector2();
         accel = new Vector2();
         this.body = body;
+        body.setTransform(position, 0);
     }
     public DynamicGameObject(Texture texture, Vector2 position, Vector2 size){
         super(texture, position, size);

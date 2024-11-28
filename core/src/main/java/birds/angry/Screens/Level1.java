@@ -68,7 +68,7 @@ public class Level1 extends LevelScreen {
         stage.addActor(slingshot);
         slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
         slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
-        slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
+        slingbound.z = slingbound.x - 2 * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
         System.out.println("aaaaaa");
 

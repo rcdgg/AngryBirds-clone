@@ -163,32 +163,31 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 Fixture fa = contact.getFixtureA();
                 Fixture fb = contact.getFixtureB();
 
-                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)){
+                if ((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)) {
                     System.out.println("Bird hit the ground");
                 }
-                if((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == OBSTACLE)){
+                if ((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == OBSTACLE)) {
                     System.out.println("obj hit the obj");
                 }
-                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == BIRD)){
+                if ((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == BIRD)) {
                     System.out.println("Bird hit the bird");
                 }
-                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)){
+                if ((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == OBSTACLE) || (fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == BIRD)) {
                     System.out.println("Bird hit the obstacle");
-                    try{
+                    try {
                         Material hitmat = (Material) getObjectAt(fa.getBody());
-                        if (hitmat!=null) {
+                        if (hitmat != null) {
                             hitmat.health -= 1;
-                            if(hitmat.health<=0) {
+                            if (hitmat.health <= 0) {
                                 to_remove.add(hitmat);
                                 score += hitmat.score;
                             }
                         }
-                    }catch (ClassCastException e)
-                    {
+                    } catch (ClassCastException e) {
                         Material hitmat = (Material) getObjectAt(fb.getBody());
-                        if(hitmat!=null) {
+                        if (hitmat != null) {
                             hitmat.health -= 1;
-                            if(hitmat.health<=0) {
+                            if (hitmat.health <= 0) {
                                 to_remove.add(hitmat);
                                 score += hitmat.score;
                             }
@@ -196,52 +195,35 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     }
 
                 }
-                if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)){
+                if ((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)) {
                     System.out.println("Bird hit the pig");
-                    try{
+                    try {
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
-                        if (hitpig!=null) {
+                        if (hitpig != null) {
                             hitpig.health -= 1;
                             System.out.println("pig hit");
-                            if(hitpig.health<=0) {
+                            if (hitpig.health <= 0) {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
-                            }}
-                    }catch (Exception e)
-                    {
+                            }
+                        }
+                    } catch (Exception e) {
                         Pig hitpig = (Pig) getObjectAt(fb.getBody());
-                        if(hitpig!=null) {
+                        if (hitpig != null) {
                             hitpig.health -= 1;
                             System.out.println("pig hit");
-                        if(hitpig.health<=0) {
-                            score += hitpig.score;
-                            to_remove.add(hitpig);
+                            if (hitpig.health <= 0) {
+                                score += hitpig.score;
+                                to_remove.add(hitpig);
+                            }
                         }
                     }
-                }
-                if((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)){
-                    System.out.println("obj hit the pig");
-                    DynamicGameObject a, b;
-                    try{
-                        a = (Pig) getObjectAt(fa.getBody());
-                        b = (Material) getObjectAt(fb.getBody());
-                        a.health -= 1;
-                        b.health -= 1;
-                        if(a.health <= 0) {
-                            to_remove.add(a);
-                            score += a.score;
-                        }
-                        if(b.health <= 0) {
-                            to_remove.add(b);
-                            score += b.score;
-                        }
-                    }catch (Exception e)
-                    {
+                    if ((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)) {
+                        System.out.println("obj hit the pig");
+                        DynamicGameObject a, b;
                         try {
-
-
-                            a = (Material) getObjectAt(fa.getBody());
-                            b = (Pig) getObjectAt(fb.getBody());
+                            a = (Pig) getObjectAt(fa.getBody());
+                            b = (Material) getObjectAt(fb.getBody());
                             a.health -= 1;
                             b.health -= 1;
                             if (a.health <= 0) {
@@ -252,29 +234,44 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                                 to_remove.add(b);
                                 score += b.score;
                             }
-                        }catch (Exception ee){
-                            System.out.println("exception ??");
+                        } catch (Exception e) {
+                            try {
+
+
+                                a = (Material) getObjectAt(fa.getBody());
+                                b = (Pig) getObjectAt(fb.getBody());
+                                a.health -= 1;
+                                b.health -= 1;
+                                if (a.health <= 0) {
+                                    to_remove.add(a);
+                                    score += a.score;
+                                }
+                                if (b.health <= 0) {
+                                    to_remove.add(b);
+                                    score += b.score;
+                                }
+                            } catch (Exception ee) {
+                                System.out.println("exception ??");
+                            }
                         }
                     }
-                }
-                if((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)){
-                    System.out.println("Pig hit the ground");
-                    try{
-                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                    if ((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)) {
+                        System.out.println("Pig hit the ground");
+                        try {
+                            Pig hitpig = (Pig) getObjectAt(fa.getBody());
                             float downvelocity = hitpig.body.getLinearVelocity().y;
-                            System.out.println("downvel = "+downvelocity);
-                            if(downvelocity<=-2.5)hitpig.health -= 1;
-                            if(hitpig.health<=0) {
+                            System.out.println("downvel = " + downvelocity);
+                            if (downvelocity <= -2.5) hitpig.health -= 1;
+                            if (hitpig.health <= 0) {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
                             }
-                    }catch (Exception e)
-                    {
-                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        } catch (Exception e) {
+                            Pig hitpig = (Pig) getObjectAt(fb.getBody());
                             float downvelocity = hitpig.body.getLinearVelocity().y;
-                            System.out.println("downvel = "+downvelocity);
-                            if(downvelocity<=-2.5)hitpig.health -= 1;
-                            if(hitpig.health<=0) {
+                            System.out.println("downvel = " + downvelocity);
+                            if (downvelocity <= -2.5) hitpig.health -= 1;
+                            if (hitpig.health <= 0) {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
                             }
@@ -282,6 +279,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     }
                 }
             }
+
             @Override
             public void endContact(Contact contact) {
 

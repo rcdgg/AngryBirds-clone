@@ -200,6 +200,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
                         if (hitpig!=null) {
                             hitpig.health -= 1;
+                            System.out.println("pig hit");
                             if(hitpig.health<=0) {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
@@ -210,6 +211,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         Pig hitpig = (Pig) getObjectAt(fb.getBody());
                         if(hitpig!=null) {
                             hitpig.health -= 1;
+                            System.out.println("pig hit");
                             if(hitpig.health<=0) {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
@@ -257,7 +259,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     System.out.println("Pig hit the ground");
                     try{
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
-                        if (hitpig!=null && hitpig.body.get) {
+                        if (hitpig!=null) {
                             hitpig.health -= 1;
                             if(hitpig.health<=0) {
                                 score += hitpig.score;

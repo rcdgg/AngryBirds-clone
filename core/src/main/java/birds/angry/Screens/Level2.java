@@ -124,8 +124,8 @@ public class Level2 extends LevelScreen{
         stage.addActor(slingshot);
         slingbound.x = slingshot.getPosition().x + slingshot.getWidth() - 0.5f;
         slingbound.y = slingshot.getPosition().y + slingshot.getHeight() + 0.5f;
-        slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
-        slingbound.w = slingbound.y - 1.5f;
+        slingbound.z = slingbound.x - 1.5f * slingshot.getWidth() - 0.5f;
+        slingbound.w = slingbound.y - 1.5f - 0.5f;
         //---------------------
 //        redbird = new Redbird(new Vector2(2.5f*grid_size,10), world);
 //        redbird.setSize(2 * bird_size, 2 * bird_size);

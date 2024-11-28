@@ -72,7 +72,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         gameState = new GameState();
         to_remove = new ArrayList<>();
         this.filepath = filepath;
-        stage = new Stage(new FitViewport(1600/ PPM,900 / PPM));
+        stage = new Stage(new FitViewport(1600/ PPM,900/ PPM));
         uistage = new Stage(new FitViewport(1600,900));
         pausestage = new Stage(new FitViewport(1600,900));
 

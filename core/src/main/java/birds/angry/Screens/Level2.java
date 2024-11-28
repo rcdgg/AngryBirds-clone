@@ -40,68 +40,70 @@ public class Level2 extends LevelScreen{
         bodyDef.position.set(0, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground2 = world.createBody(bodyDef);
-        p.setAsBox(8.8f,0.72f);
-        fixtureDef.shape = p;
+        PolygonShape p2 = new PolygonShape();
+        p2.setAsBox(15.62f*grid_size,0.65f);
+        fixtureDef.shape = p2;
         ground2.createFixture(fixtureDef);
 
         //ground 3
-        bodyDef.position.set(0f, 1.77f);
+        bodyDef.position.set(0f, 0f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground3 = world.createBody(bodyDef);
-        p.setAsBox(2.8f, 4.3f);
-        fixtureDef.shape = p;
+        PolygonShape p3 = new PolygonShape();
+        p3.setAsBox(5f*grid_size, 11.5f*grid_size);
+        fixtureDef.shape = p3;
         ground3.createFixture(fixtureDef);
         //ground 4
-        bodyDef.position.set(ground3.getPosition().x+2.8f+0.35f, 1.77f);
+        bodyDef.position.set(ground3.getPosition().x+2.8f, 1.45f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground4 = world.createBody(bodyDef);
         p.setAsBox(0.35f, 3.6f);
         fixtureDef.shape = p;
         ground4.createFixture(fixtureDef);
         //ground 5
-        bodyDef.position.set(ground4.getPosition().x+0.35f+0.35f, 1.77f);
+        bodyDef.position.set(ground4.getPosition().x+0.35f+0.35f, 1.45f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground5 = world.createBody(bodyDef);
         p.setAsBox(0.35f, 2.9f);
         fixtureDef.shape = p;
         ground5.createFixture(fixtureDef);
         //ground 6
-        bodyDef.position.set(ground5.getPosition().x+0.35f+0.35f, 1.77f);
+        bodyDef.position.set(ground5.getPosition().x+0.35f+0.35f, 1.47f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground6 = world.createBody(bodyDef);
         p.setAsBox(0.35f, 2.2f);
         fixtureDef.shape = p;
         ground6.createFixture(fixtureDef);
         //ground 7
-        bodyDef.position.set(ground6.getPosition().x+0.35f+0.35f, 1.77f);
+        bodyDef.position.set(ground6.getPosition().x+0.35f+0.33f, 1.47f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground7 = world.createBody(bodyDef);
         p.setAsBox(0.39f, 1.5f);
         fixtureDef.shape = p;
         ground7.createFixture(fixtureDef);
         //ground 8
-        bodyDef.position.set(ground2.getPosition().x+16f, ground2.getPosition().y);
+        bodyDef.position.set(ground2.getPosition().x+14.9f, ground2.getPosition().y-0.1f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground8 = world.createBody(bodyDef);
         p.setAsBox(4.3f, 0.72f);
         fixtureDef.shape = p;
         ground8.createFixture(fixtureDef);
         //ground 9
-        bodyDef.position.set(ground3.getPosition().x+16f, ground3.getPosition().y);
+        bodyDef.position.set(ground3.getPosition().x+14.6f, ground3.getPosition().y+1.5f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground9 = world.createBody(bodyDef);
         p.setAsBox(2f, 4.2f);
         fixtureDef.shape = p;
         ground9.createFixture(fixtureDef);
         //ground 10
-        bodyDef.position.set(ground3.getPosition().x+8.8f, ground3.getPosition().y+4.7f);
+        bodyDef.position.set(15.7f*grid_size, 12.3f*grid_size);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground10 = world.createBody(bodyDef);
-        p.setAsBox(1.5f, 0.3f);
+        p.setAsBox(5.5f*grid_size/2 - 0.1f, grid_size/2);
         fixtureDef.shape = p;
         ground10.createFixture(fixtureDef);
         //slingbody
-        bodyDef.position.set(3 * grid_size, 15.5f * grid_size);
+        bodyDef.position.set(3 * grid_size, 15f * grid_size);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         slingbody = world.createBody(bodyDef);
 
@@ -117,11 +119,11 @@ public class Level2 extends LevelScreen{
         background = Assets.level2bg;
 
         //change slingshot position if needed
-        slingshot = new Slingshot(new Vector2(ground3.getPosition().x + ground3.getPosition().y/2 + 0.1f, ground3.getPosition().y+4.2f));
+        slingshot = new Slingshot(new Vector2(2*grid_size, 11.5f*grid_size));
         slingshot.setSize(2 * grid_size, 4 * grid_size);
         stage.addActor(slingshot);
-        slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
-        slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
+        slingbound.x = slingshot.getPosition().x + slingshot.getWidth() - 0.5f;
+        slingbound.y = slingshot.getPosition().y + slingshot.getHeight() + 0.5f;
         slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
         //---------------------
@@ -140,20 +142,20 @@ public class Level2 extends LevelScreen{
         bird_list.add(redbird); bird_list.add(yellowbird);
         bird_list.add(bluebird);
 
-        woodlog = new Wood(new Vector2(17f*grid_size, 14.5f), world);
+        woodlog = new Wood(new Vector2(15.5f*grid_size, 14.5f), world);
         woodlog.setSize(2 * obj_size, 20 * obj_size);;
 //        woodlog2 = new Wood(new Vector2(11*grid_size, woodlog.getHeight()+3), world);
 //        woodlog2.setSize(2 * obj_size, 20 * obj_size);
 //        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
 
-        icelog = new Ice(new Vector2(17.5f*grid_size, 6f), world);
+        icelog = new Ice(new Vector2(15.3f*grid_size, 6f), world);
         icelog.setSize(2 * obj_size, 20 * obj_size);
         icelog.body.setTransform(icelog.body.getPosition().x, icelog.body.getPosition().y, (3.14f/2));
 //        icelog2 = new Ice(new Vector2(14*grid_size, icelog.getHeight()+3), world);
 //        icelog2.setSize(2 * obj_size, 20 * obj_size);
 //        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
 
-        stonelog = new Stone(new Vector2(24f*grid_size, 6f), world);
+        stonelog = new Stone(new Vector2(21.2f*grid_size, 6f), world);
         stonelog.setSize(2 * obj_size, 20 * obj_size);
         stonelog.body.setTransform(stonelog.body.getPosition().x, stonelog.body.getPosition().y, (3.14f/2));
 
@@ -161,11 +163,11 @@ public class Level2 extends LevelScreen{
 //        mat_list.add(woodlog2);mat_list.add(icelog2);
 
 
-        soldierPig = new SoldierPig(new Vector2((18f)*grid_size, 14.5f*grid_size), world);
+        soldierPig = new SoldierPig(new Vector2((16.5f)*grid_size, 14.5f*grid_size), world);
         soldierPig.setSize(2 * bird_size, 2 * bird_size);
-        kingPig = new KingPig(new Vector2(29*grid_size, 13*grid_size), world);
+        kingPig = new KingPig(new Vector2(27*grid_size, 13*grid_size), world);
         kingPig.setSize(2 * bird_size, 2 * bird_size);
-        ppig = new PeasantPig(new Vector2(21*grid_size, 5*grid_size), world);
+        ppig = new PeasantPig(new Vector2(19.3f*grid_size, 3*grid_size), world);
         ppig.setSize(2 * bird_size, 2 * bird_size);
         pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
 

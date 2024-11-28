@@ -28,7 +28,7 @@ public class BaseScreen extends ScreenAdapter implements ApplicationListener {
     int save_slot;
 
     public BaseScreen(Game game) {
-        stage = new Stage(new FitViewport(1600, 900));
+        stage = new Stage(new FitViewport(1600,900));
         this.game = game;
         batch = new SpriteBatch();
         batch.setProjectionMatrix(stage.getCamera().combined);

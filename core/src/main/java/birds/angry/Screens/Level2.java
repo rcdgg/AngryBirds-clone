@@ -122,9 +122,9 @@ public class Level2 extends LevelScreen{
         slingshot = new Slingshot(new Vector2(2*grid_size, 11.5f*grid_size));
         slingshot.setSize(2 * grid_size, 4 * grid_size);
         stage.addActor(slingshot);
-        slingbound.x = slingshot.getPosition().x + slingshot.getWidth() - 0.5f;
-        slingbound.y = slingshot.getPosition().y + slingshot.getHeight() + 0.5f;
-        slingbound.z = slingbound.x - 1.5f * slingshot.getWidth();
+        slingbound.x = slingshot.getPosition().x + slingshot.getWidth();
+        slingbound.y = slingshot.getPosition().y + slingshot.getHeight();
+        slingbound.z = slingbound.x - 2 * slingshot.getWidth();
         slingbound.w = slingbound.y - 1.5f;
         //---------------------
         redbird = new Redbird(new Vector2(2.5f*grid_size,10), world);
@@ -229,14 +229,14 @@ public class Level2 extends LevelScreen{
             init_velo.y *= 1 / bird_list.getLast().body.getMass();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(Color.WHITE);
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 60; i++) {
                 Vector2 temp = trajectory(worldPos, init_velo, i);
                 shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
             }
             shapeRenderer.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.BLACK);
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 60; i++) {
                 Vector2 temp = trajectory(worldPos, init_velo, i);
                 shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
                 shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 4);
@@ -265,7 +265,6 @@ public class Level2 extends LevelScreen{
         super.dispose();
         this.stage.dispose();
         uistage.dispose();
-        pausestage.dispose();
         world.dispose();
         dbg.dispose();
     }

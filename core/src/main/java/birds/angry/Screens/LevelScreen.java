@@ -196,23 +196,28 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == BIRD)){
                     System.out.println("Bird hit the pig");
+                    DynamicGameObject a, b;
                     try{
-                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
-                        if (hitpig!=null) {
-                            hitpig.health -= 1;
-                            if(hitpig.health<=0) {
-                                score += hitpig.score;
-                                to_remove.add(hitpig);
+                        a = (Pig) getObjectAt(fa.getBody());
+                        b = (Bird) getObjectAt(fb.getBody());
+                        if(a != null && b != null) {
+                            a.health -= 1;
+                            System.out.println("pighurt");
+                            if(a.health <= 0) {
+                                to_remove.add(a);
+                                score += a.score;
                             }
                         }
                     }catch (ClassCastException e)
                     {
-                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
-                        if(hitpig!=null) {
-                            hitpig.health -= 1;
-                            if(hitpig.health<=0) {
-                                score += hitpig.score;
-                                to_remove.add(hitpig);
+                        a = (Bird) getObjectAt(fa.getBody());
+                        b = (Pig) getObjectAt(fb.getBody());
+                        if(a != null && b != null) {
+                            b.health -= 1;
+                            System.out.println("pighurt");
+                            if(b.health <= 0) {
+                                to_remove.add(b);
+                                score += b.score;
                             }
                         }
                     }
@@ -225,6 +230,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         b = (Material) getObjectAt(fb.getBody());
                         if(a != null && b != null) {
                             a.health -= 1;
+                            System.out.println("pighurt");
                             b.health -= 1;
                             if(a.health <= 0) {
                                 to_remove.add(a);
@@ -241,6 +247,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         b = (Pig) getObjectAt(fb.getBody());
                         if(a != null && b != null) {
                             a.health -= 1;
+                            System.out.println("pighurt");
                             b.health -= 1;
                             if(a.health <= 0) {
                                 to_remove.add(a);
@@ -609,7 +616,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     }
 
     public Vector2 trajectory(Vector2 startingPosition, Vector2 startingVelocity, float n){
-        float t = 4 / 60.0f; // seconds per time step (at 60fps)
+        float t = 1 / 60.0f; // seconds per time step (at 60fps)
         Vector2 stepVelocity = new Vector2(t * startingVelocity.x, t * startingVelocity.y); // m/s
         Vector2 stepGravity = new Vector2(t * t * world.getGravity().x, t * t * world.getGravity().y); // m/s/s
 

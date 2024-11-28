@@ -208,6 +208,7 @@ public class Level1 extends LevelScreen {
     public void dispose(){
         super.dispose();
         this.stage.dispose();
+        uistage.dispose();
         world.dispose();
         dbg.dispose();
     }

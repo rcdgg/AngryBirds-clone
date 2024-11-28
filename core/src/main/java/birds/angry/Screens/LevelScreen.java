@@ -200,15 +200,17 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     System.out.println("Bird hit the pig");
                     try{
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                        if (hitpig!=null) {
                             hitpig.health -= 1;
                             System.out.println("pig hit");
                             if(hitpig.health<=0) {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
-                            }
+                            }}
                     }catch (Exception e)
                     {
                         Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        if(hitpig!=null) {
                             hitpig.health -= 1;
                             System.out.println("pig hit");
                         if(hitpig.health<=0) {
@@ -276,10 +278,10 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                                 score += hitpig.score;
                                 to_remove.add(hitpig);
                             }
+                        }
                     }
                 }
             }
-
             @Override
             public void endContact(Contact contact) {
 
@@ -465,7 +467,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             lastbird = bird_list.getLast();
             bird_shot.add(bird_list.getLast());
             bird_list.remove(bird_list.getLast());
-            b.applyLinearImpulse(new Vector2(3 * -(worldPos.x - slingbody.getPosition().x), 3 * -(worldPos.y - slingbody.getPosition().y)), b.getWorldCenter(), true);
+            b.applyLinearImpulse(new Vector2(3 * -(b.getPosition().x - slingbody.getPosition().x), 3 * -(b.getPosition().y - slingbody.getPosition().y)), b.getWorldCenter(), true);
             return true;
         }
         else {

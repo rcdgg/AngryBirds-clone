@@ -254,6 +254,17 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)){
                     System.out.println("Pig hit the ground");
+                    Body pig;
+                    try{
+                        pig = getBodyAt(fa.getBody().getPosition());
+                    }catch (ClassCastException e)
+                    {
+                        pig = getBodyAt(fb.getBody().getPosition());
+                    }
+                    if(pig!=null) System.out.println("pigggggy!");
+                    if(pig!=null && pig.getLinearVelocity().y < -0.2f){
+
+                    }
                 }
             }
 
@@ -297,7 +308,11 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             stage.addActor(b);
         }
         for(Pig p: pig_list){
-            stage.addActor(p);
+            if(p.body.getPosition().x <= 16 + p.getWidth() / 2) stage.addActor(p);
+            else {
+                to_remove.add(p);
+//                world.destroyBody(p.body);
+            }
         }
         for(DynamicGameObject p: to_remove){
             System.out.println("removing pig");

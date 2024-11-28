@@ -40,74 +40,65 @@ public class Level2 extends LevelScreen{
         bodyDef.position.set(0, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground2 = world.createBody(bodyDef);
-        PolygonShape p2 = new PolygonShape();
-        p2.setAsBox(8.8f,0.72f);
-        fixtureDef.shape = p2;
+        p.setAsBox(8.8f,0.72f);
+        fixtureDef.shape = p;
         ground2.createFixture(fixtureDef);
 
         //ground 3
         bodyDef.position.set(0f, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground3 = world.createBody(bodyDef);
-        PolygonShape p3 = new PolygonShape();
-        p3.setAsBox(2.8f, 4.3f);
-        fixtureDef.shape = p3;
+        p.setAsBox(2.8f, 4.3f);
+        fixtureDef.shape = p;
         ground3.createFixture(fixtureDef);
         //ground 4
         bodyDef.position.set(ground3.getPosition().x+2.8f+0.35f, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground4 = world.createBody(bodyDef);
-        PolygonShape p4 = new PolygonShape();
-        p4.setAsBox(0.35f, 3.6f);
-        fixtureDef.shape = p4;
+        p.setAsBox(0.35f, 3.6f);
+        fixtureDef.shape = p;
         ground4.createFixture(fixtureDef);
         //ground 5
         bodyDef.position.set(ground4.getPosition().x+0.35f+0.35f, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground5 = world.createBody(bodyDef);
-        PolygonShape p5 = new PolygonShape();
-        p5.setAsBox(0.35f, 2.9f);
-        fixtureDef.shape = p5;
+        p.setAsBox(0.35f, 2.9f);
+        fixtureDef.shape = p;
         ground5.createFixture(fixtureDef);
         //ground 6
         bodyDef.position.set(ground5.getPosition().x+0.35f+0.35f, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground6 = world.createBody(bodyDef);
-        PolygonShape p6 = new PolygonShape();
-        p6.setAsBox(0.35f, 2.2f);
-        fixtureDef.shape = p6;
+        p.setAsBox(0.35f, 2.2f);
+        fixtureDef.shape = p;
         ground6.createFixture(fixtureDef);
         //ground 7
         bodyDef.position.set(ground6.getPosition().x+0.35f+0.35f, 1.77f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground7 = world.createBody(bodyDef);
-        PolygonShape p7 = new PolygonShape();
-        p7.setAsBox(0.39f, 1.5f);
-        fixtureDef.shape = p7;
+        p.setAsBox(0.39f, 1.5f);
+        fixtureDef.shape = p;
         ground7.createFixture(fixtureDef);
         //ground 8
         bodyDef.position.set(ground2.getPosition().x+16f, ground2.getPosition().y);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground8 = world.createBody(bodyDef);
-        PolygonShape p8 = new PolygonShape();
-        p8.setAsBox(4.3f, 0.72f);
-        fixtureDef.shape = p8;
+        p.setAsBox(4.3f, 0.72f);
+        fixtureDef.shape = p;
         ground8.createFixture(fixtureDef);
         //ground 9
         bodyDef.position.set(ground3.getPosition().x+16f, ground3.getPosition().y);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground9 = world.createBody(bodyDef);
-        PolygonShape p9 = new PolygonShape();
-        p9.setAsBox(2f, 4.2f);
-        fixtureDef.shape = p9;
+        p.setAsBox(2f, 4.2f);
+        fixtureDef.shape = p;
         ground9.createFixture(fixtureDef);
         //ground 10
         bodyDef.position.set(ground3.getPosition().x+8.8f, ground3.getPosition().y+4.7f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground10 = world.createBody(bodyDef);
-        PolygonShape p10 = new PolygonShape();
-        p10.setAsBox(1.5f, 0.3f);
-        fixtureDef.shape = p10;
+        p.setAsBox(1.5f, 0.3f);
+        fixtureDef.shape = p;
         ground10.createFixture(fixtureDef);
         //slingbody
         bodyDef.position.set(3 * grid_size, 15.5f * grid_size);
@@ -236,9 +227,9 @@ public class Level2 extends LevelScreen{
         else if(pig_list.isEmpty()){
             game.setScreen(new WinScreen(game));
         }
-        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().x < 0.05f && lastBody.getLinearVelocity().x > -0.05f&&lastBody.getLinearVelocity().y < 0.05f&&lastBody.getLinearVelocity().y > -0.05f){
+        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
             game.setScreen(new LoseScreen(game));
-        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16 || lastBody.getPosition().y > 9)){
+        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16)){
             game.setScreen(new LoseScreen(game));
         }
         else world.step(1/60f, 6,2);

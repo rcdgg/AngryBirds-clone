@@ -10,7 +10,7 @@ public class PeasantPig extends Pig{
     private final Texture ppigtex;
     public PeasantPig(Vector2 position, World world) {
         super(Assets.ppig, position, new Vector2 ((float)(Assets.ppig.getHeight() - 250), (float)(Assets.ppig.getWidth()- 250)),world);
-        health = 2;
+        health = 5;
         ppigtex = Assets.ppig;
         this.setSize((float)Assets.ppig.getHeight()/4, (float)Assets.ppig.getWidth()/4);
         //        System.out.println("ppig height = "+Assets.ppig.getHeight());

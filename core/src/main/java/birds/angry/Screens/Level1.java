@@ -174,7 +174,7 @@ public class Level1 extends LevelScreen {
         }
         else if(bird_list.isEmpty() && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
             game.setScreen(new LoseScreen(game));
-        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16 || lastBody.getPosition().y > 9)){
+        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16)){
             game.setScreen(new LoseScreen(game));
         }
         else world.step(1/60f, 6,2);

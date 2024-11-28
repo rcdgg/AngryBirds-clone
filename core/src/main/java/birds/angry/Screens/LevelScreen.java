@@ -255,6 +255,26 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)){
                     System.out.println("Pig hit the ground");
+                    try{
+                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                        if (hitpig!=null && hitpig.body.get) {
+                            hitpig.health -= 1;
+                            if(hitpig.health<=0) {
+                                score += hitpig.score;
+                                to_remove.add(hitpig);
+                            }
+                        }
+                    }catch (ClassCastException e)
+                    {
+                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        if(hitpig!=null) {
+                            hitpig.health -= 1;
+                            if(hitpig.health<=0) {
+                                score += hitpig.score;
+                                to_remove.add(hitpig);
+                            }
+                        }
+                    }
                 }
             }
 

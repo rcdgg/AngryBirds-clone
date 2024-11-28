@@ -165,6 +165,28 @@ public class Level1 extends LevelScreen {
 
             shapeRenderer.end();
         }
+        if(!bird_list.isEmpty()){
+            Vector2 worldPos = bird_list.getLast().body.getPosition();
+            Vector2 init_velo = new Vector2(3 * -(worldPos.x - slingbody.getPosition().x), 3 * -(worldPos.y - slingbody.getPosition().y));
+            init_velo.x *= 1 / bird_list.getLast().body.getMass();
+            init_velo.y *= 1 / bird_list.getLast().body.getMass();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.WHITE);
+            for (int i = 0; i < 15; i++) {
+                Vector2 temp = trajectory(worldPos, init_velo, i);
+                shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
+            }
+            shapeRenderer.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.BLACK);
+            for (int i = 0; i < 15; i++) {
+                Vector2 temp = trajectory(worldPos, init_velo, i);
+                shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
+                shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 4);
+            }
+            shapeRenderer.end();
+        }
+
         if(pause_b){
             pausestage.act(delta);
             pausestage.draw();

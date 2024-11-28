@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector4;
@@ -254,17 +255,6 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
                 if((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)){
                     System.out.println("Pig hit the ground");
-                    Body pig;
-                    try{
-                        pig = getBodyAt(fa.getBody().getPosition());
-                    }catch (ClassCastException e)
-                    {
-                        pig = getBodyAt(fb.getBody().getPosition());
-                    }
-                    if(pig!=null) System.out.println("pigggggy!");
-                    if(pig!=null && pig.getLinearVelocity().y < -0.2f){
-
-                    }
                 }
             }
 
@@ -308,7 +298,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             stage.addActor(b);
         }
         for(Pig p: pig_list){
-            if(p.body.getPosition().x <= 16 + p.getWidth() / 2) stage.addActor(p);
+            if(p.body.getPosition().x < 16 + p.getWidth() / 2) stage.addActor(p);
             else {
                 to_remove.add(p);
 //                world.destroyBody(p.body);
@@ -367,12 +357,28 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 worldPos = screenToWorld(screenX, screenY);
-        if(!within_bounds(worldPos) || bird_list.isEmpty()) {
+        if(bird_list.isEmpty()) {
             System.out.println("hi");
             return false;
         }
         Body body = getBodyAt(worldPos);
+        Bird bb;
         if(body == null) return false;
+        try {
+            bb = (Bird) getObjectAt(body);
+        } catch (ClassCastException e){
+            return true;
+        }
+        if(bb == null) return false;
+        if(!bb.on){
+            bird_list.remove(bb);
+            bird_list.getLast().on = false;
+            bird_list.getLast().body.setTransform(bb.body.getPosition(), 0);
+            bird_list.getLast().body.setType(BodyDef.BodyType.DynamicBody);
+            bird_list.add(bb);
+            bb.body.setType(BodyDef.BodyType.StaticBody);
+            return false;
+        }
         if(body != slingbody) body.setType(BodyDef.BodyType.DynamicBody);
         lastBody = body;
         if (body != ground /*&& body != stone && body != wood && body != ice && body != slingbody*/) {
@@ -600,5 +606,16 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    public Vector2 trajectory(Vector2 startingPosition, Vector2 startingVelocity, float n){
+        float t = 4 / 60.0f; // seconds per time step (at 60fps)
+        Vector2 stepVelocity = new Vector2(t * startingVelocity.x, t * startingVelocity.y); // m/s
+        Vector2 stepGravity = new Vector2(t * t * world.getGravity().x, t * t * world.getGravity().y); // m/s/s
+
+        Vector2 finale = new Vector2();
+        finale.x = startingPosition.x + n * stepVelocity.x + 0.5f * (n * n + n) * stepGravity.x;
+        finale.y = startingPosition.y + n * stepVelocity.y + 0.5f * (n * n + n) * stepGravity.y;
+        return finale;
     }
 }

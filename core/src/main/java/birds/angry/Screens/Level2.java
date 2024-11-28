@@ -161,12 +161,12 @@ public class Level2 extends LevelScreen{
 //        mat_list.add(woodlog2);mat_list.add(icelog2);
 
 
-        ppig = new PeasantPig(new Vector2((18f)*grid_size, 14.5f*grid_size), world);
-        ppig.setSize(2 * bird_size, 2 * bird_size);
+        soldierPig = new SoldierPig(new Vector2((18f)*grid_size, 14.5f*grid_size), world);
+        soldierPig.setSize(2 * bird_size, 2 * bird_size);
         kingPig = new KingPig(new Vector2(29*grid_size, 13*grid_size), world);
         kingPig.setSize(2 * bird_size, 2 * bird_size);
-        soldierPig = new SoldierPig(new Vector2(21*grid_size, 5*grid_size), world);
-        soldierPig.setSize(2 * bird_size, 2 * bird_size);
+        ppig = new PeasantPig(new Vector2(21*grid_size, 5*grid_size), world);
+        ppig.setSize(2 * bird_size, 2 * bird_size);
         pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
 
         //----------------------
@@ -218,6 +218,27 @@ public class Level2 extends LevelScreen{
                 shapeRenderer.line(x, 0, x, uistage.getHeight());
             }
 
+            shapeRenderer.end();
+        }
+        if(!bird_list.isEmpty()){
+            Vector2 worldPos = bird_list.getLast().body.getPosition();
+            Vector2 init_velo = new Vector2(3 * -(worldPos.x - slingbody.getPosition().x), 3 * -(worldPos.y - slingbody.getPosition().y));
+            init_velo.x *= 1 / bird_list.getLast().body.getMass();
+            init_velo.y *= 1 / bird_list.getLast().body.getMass();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.WHITE);
+            for (int i = 0; i < 15; i++) {
+                Vector2 temp = trajectory(worldPos, init_velo, i);
+                shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
+            }
+            shapeRenderer.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.BLACK);
+            for (int i = 0; i < 15; i++) {
+                Vector2 temp = trajectory(worldPos, init_velo, i);
+                shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 5);
+                shapeRenderer.circle(temp.x * PPM, temp.y * PPM, 4);
+            }
             shapeRenderer.end();
         }
         if(pause_b){

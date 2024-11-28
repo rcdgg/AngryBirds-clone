@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState implements Serializable {
-    public List<GameObjectState> birds, materials, pigs;
+    public List<GameObjectState> birds, materials, pigs, birds_shot;
     public int score;
     public int level;
     private static final long serialVersionUID = 1L; // Replace with correct UID
@@ -16,6 +16,7 @@ public class GameState implements Serializable {
         birds = new ArrayList<>();
         materials = new ArrayList<>();
         pigs = new ArrayList<>();
+        birds_shot = new ArrayList<>();
         score = 0;
         level = 0;
     }

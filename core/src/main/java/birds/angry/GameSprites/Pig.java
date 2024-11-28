@@ -29,7 +29,7 @@ public class Pig extends DynamicGameObject{
         fdef.filter.categoryBits = PIG;
         fdef.filter.maskBits = -1;
         fdef.density = 1;
-        fdef.restitution = 0.5f;
+        fdef.restitution = 0.2f;
         bbody.createFixture(fdef);
         bbody.setAngularDamping(1f);
         body = bbody;

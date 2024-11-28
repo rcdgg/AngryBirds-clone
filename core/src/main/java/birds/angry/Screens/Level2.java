@@ -127,16 +127,16 @@ public class Level2 extends LevelScreen{
         slingbound.z = slingbound.x - 1.5f * slingshot.getWidth() - 0.5f;
         slingbound.w = slingbound.y - 1.5f - 0.5f;
         //---------------------
-//        redbird = new Redbird(new Vector2(2.5f*grid_size,10), world);
+//        redbird = new Redbird(new Vector2(2.5f*grid_size,5), world);
 //        redbird.setSize(2 * bird_size, 2 * bird_size);
 ////        redbird.setPosition(3, ground3.getPosition().y+7f);
 //
 ////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
 //
-//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 10), world);
+//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 5), world);
 //        yellowbird.setSize(2 * bird_size, 2 * bird_size);
 //
-//        bluebird = new Bluebird(new Vector2(0.3f, 10), world);
+//        bluebird = new Bluebird(new Vector2(0.3f, 5), world);
 //        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
 //
 //        bird_list.add(redbird); bird_list.add(yellowbird);
@@ -173,13 +173,14 @@ public class Level2 extends LevelScreen{
 //        ppig = new PeasantPig(new Vector2(19.3f*grid_size, 3*grid_size), world);
 //        ppig.setSize(2 * bird_size, 2 * bird_size);
 //        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
-
+//
         //----------------------
 
         save.addListener(event -> {
             if (event.toString().equals("touchDown")) {
                 // Handle button click
                 save_game("assets/save_slot"+ AngryBirds.save_slot +"/level2_save.ser");
+//                save_game("assets/level/level2.ser");
                 pause_b = false;
             }
             return false;

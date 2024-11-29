@@ -19,6 +19,14 @@ public class Yellowbird extends Bird{
         yellowbirdtex = texture;
         this.setSize((float)Assets.redbirds[0].getRegionWidth()/4, (float)Assets.redbirds[0].getRegionHeight()/4);
     }
+    public void nextTex(){
+        if(texture == Assets.yellowbird){
+            texture = Assets.yellowbird2;
+        }
+        else{
+            texture = Assets.yellowbird;
+        }
+    }
     @Override
     public void act(float delta){
         super.act(delta);

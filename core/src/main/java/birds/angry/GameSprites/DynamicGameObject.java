@@ -32,4 +32,5 @@ public class DynamicGameObject extends GameObject{
         setY(body.getPosition().y - this.getHeight() / 2);
         setRotation(body.getAngle() * MathUtils.radiansToDegrees);
     }
+
 }

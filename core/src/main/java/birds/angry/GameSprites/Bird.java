@@ -19,6 +19,7 @@ public class Bird extends DynamicGameObject{
         this.world = world;
         createBird(position);
     }
+    public void nextTex(){};
 
     public ArrayList<Bird> ability(){
         return null;

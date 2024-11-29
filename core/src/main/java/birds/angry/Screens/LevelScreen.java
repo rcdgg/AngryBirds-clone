@@ -381,31 +381,6 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
             }
         }
-        if(keycode == Input.Keys.W){
-            game.setScreen(new WinScreen(game, 1, 1));
-        }
-        if(keycode == Input.Keys.L){
-            game.setScreen(new LoseScreen(game));
-        }
-        if(keycode==Input.Keys.NUM_1){
-            System.out.println("key pressed");
-            for(Bird b : bird_list){
-                if(b instanceof Redbird) b.nextTex();
-            }
-        }
-        if(keycode==Input.Keys.NUM_2){
-            System.out.println("key pressed");
-            for(Bird b : bird_list){
-                if(b instanceof Bluebird) b.nextTex();
-            }
-        }
-        if(keycode==Input.Keys.NUM_3){
-            System.out.println("key pressed");
-            for(Bird b : bird_list){
-                if(b instanceof Yellowbird) b.nextTex();
-            }
-        }
-
         return true;
     }
 

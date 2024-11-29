@@ -111,13 +111,14 @@ public class Level1 extends LevelScreen {
 //        soldierPig = new SoldierPig(new Vector2(19*grid_size + right, 5*grid_size + up), world);
 //        soldierPig.setSize(2 * bird_size, 2 * bird_size);
 //        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
-
+//
         //----------------------
 
         save.addListener(event -> {
             if (event.toString().equals("touchDown")) {
                 // Handle button click
                 save_game("assets/save_slot"+ AngryBirds.save_slot +"/level1_save.ser");
+//                save_game("assets/level/level1.ser");
                 pause_b = false;
             }
             return false;

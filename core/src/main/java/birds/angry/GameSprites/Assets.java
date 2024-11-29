@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class Assets {
     public static TextureRegion[] redbirds;
     public static Texture bluebird, yellowbird;
-    public static Texture level1bg, level2bg;
+    public static Texture level1bg, level2bg, level3bg;
     public static Texture ppig;
     public static Texture kingpig;
     public static Texture soldierpig;
@@ -31,6 +31,7 @@ public class Assets {
 
         level1bg = loadTexture("screens/levels/level11bg.png");
         level2bg = loadTexture("screens/levels/level2bg.png");
+        level3bg = loadTexture("screens/levels/level3.png");
         bluebird = loadTexture("birds/Bluebird.png");
         yellowbird = loadTexture("birds/Yellowbird.png");
         ppig = loadTexture("pigs/PeasantPig.png");

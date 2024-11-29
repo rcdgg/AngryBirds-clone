@@ -51,6 +51,14 @@ public class LevelSelect extends BaseScreen{
         Button three = new Button(invisibleButtonStyle);
         three.setPosition(750,stage.getHeight() / 2 - 50);
         three.setSize(100,120);
+        three.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click
+                game.setScreen(new Level3(game, "assets/save_slot"+ AngryBirds.save_slot +"/level3_save.ser"));
+            }
+        });
+
 
         Button back = new Button(invisibleButtonStyle);
         back.setSize(100,120);

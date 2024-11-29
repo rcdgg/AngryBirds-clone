@@ -104,6 +104,7 @@ public class StartingMenu extends BaseScreen {
 //                System.exit(0);
             }
         });
+
         super.show();
     }
 

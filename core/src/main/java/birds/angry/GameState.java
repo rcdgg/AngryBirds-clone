@@ -7,8 +7,8 @@ import java.util.List;
 
 public class GameState implements Serializable {
     public List<GameObjectState> birds, materials, pigs, birds_shot;
-    public int score;
-    public int level;
+    public int score, high_score;
+    public boolean clear;
     private static final long serialVersionUID = 1L; // Replace with correct UID
 //    public float elapsedTime;
 
@@ -18,7 +18,8 @@ public class GameState implements Serializable {
         pigs = new ArrayList<>();
         birds_shot = new ArrayList<>();
         score = 0;
-        level = 0;
+        high_score = 0;
+        clear = false;
     }
 
     public static class GameObjectState implements Serializable {

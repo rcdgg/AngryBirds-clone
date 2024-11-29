@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 /* look into asset manager
@@ -20,8 +22,23 @@ public class AngryBirds extends Game {
     public static int save_slot = 1;
     public static ArrayList<Integer> score = new ArrayList<>();
 
-    public AngryBirds(){
+    public AngryBirds() {
         game = this;
+        //high scores load
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("assets/save_slot" + AngryBirds.save_slot + "/scores.ser"))) {
+            GameScore gs = (GameScore) in.readObject();
+            AngryBirds.score = gs.high_scores;
+//            if(AngryBirds.score == null) AngryBirds.score = new ArrayList<>(3);
+        } catch (Exception e) {
+            AngryBirds.score = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                AngryBirds.score.add(0);
+                AngryBirds.score.set(i, 0);
+            }
+
+            System.out.println(e.getMessage());
+
+        }
     }
     @Override
     public void create() {

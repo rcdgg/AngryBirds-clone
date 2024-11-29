@@ -1,6 +1,7 @@
 package birds.angry.Screens;
 
 import birds.angry.AngryBirds;
+import birds.angry.GameScore;
 import birds.angry.GameSprites.*;
 import birds.angry.GameState;
 import com.badlogic.gdx.*;
@@ -9,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector4;
@@ -64,7 +64,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      Button restart, save;
      String filepath;
      ArrayList<DynamicGameObject> to_remove;
-     int score;
+     int score, high_score;
      public Bird lastbird;
      TextButton score_b;
 
@@ -98,10 +98,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         batch = new SpriteBatch();
         pause = new TextButton("pause", skin);
         pause.setPosition(50, 50);
-        score_b = new TextButton(String.format("%d", score), skin);
-        score_b.setPosition(800,1000);
+
         uistage.addActor(pause);
-        uistage.addActor(score_b);
+//        uistage.addActor(score_b);
 
         grid_size = 50;
 
@@ -304,7 +303,6 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             }
         }
 
-        uistage.addActor(score_b);
         for(Bird b: bird_list){
             stage.addActor(b);
         }
@@ -313,6 +311,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         }
         for(Pig p: pig_list){
             if(p.body.getPosition().x < 16 + p.getWidth() / 2) stage.addActor(p);
+
             else {
                 to_remove.add(p);
 //                world.destroyBody(p.body);
@@ -325,12 +324,16 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             System.out.println("removing pig");
             world.destroyBody(p.body);
             p.isDead = true;
+            this.score += p.score;
             System.out.println(p.getName() + ":" + p.isDead);
             System.out.println(pig_list);
             System.out.println("removed");
             pig_list.remove(p);
         }
         to_remove.clear();
+        score_b = new TextButton(String.format("Score: %d", score), skin);
+        score_b.setPosition(1400,830);
+        uistage.addActor(score_b);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uistage);
         multiplexer.addProcessor(stage);
@@ -348,7 +351,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 ArrayList<Bird> yo = lastbird.ability();
                 if(lastbird instanceof Bluebird){
                     System.out.println("ability returned"+yo);
-//                    bird_list.addAll(yo);
+                    bird_shot.addAll(yo);
                     stage.addActor(yo.get(0)); stage.addActor(yo.get(1));
 //                    System.out.println(bird_list);
                 }
@@ -583,6 +586,12 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             System.out.println(e.getMessage());
         }
         this.score = gameState.score;
+//        try {
+//            Field high = gameState.getClass().getDeclaredField("high_score");
+//            this.high_score = gameState.high_score;
+//        } catch (NoSuchFieldException e) {
+//            System.out.println("no high score");
+//        }
         bird_list.clear();
         mat_list.clear();
         pig_list.clear();
@@ -660,5 +669,47 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         finale.x = startingPosition.x + n * stepVelocity.x + 0.5f * (n * n + n) * stepGravity.x;
         finale.y = startingPosition.y + n * stepVelocity.y + 0.5f * (n * n + n) * stepGravity.y;
         return finale;
+    }
+
+    Vector2 custom_grav(Body body) {
+        Vector2 centre = new Vector2(8, 4.5f);
+        Vector2 bodyPosition = body.getPosition();
+        Vector2 forceDirection = centre.cpy().sub(bodyPosition).nor(); // Direction to center
+//        float distance = centre.dst(bodyPosition); // Distance to center
+        float strength = 9.8f * body.getMass(); // Inverse square law for force strength
+
+        // Scale by strength
+        return forceDirection.scl(strength);
+    }
+
+    void drawTrajectory(ShapeRenderer shapeRenderer, Body body, Vector2 init_velo, int step) {
+        Vector2 position = body.getPosition();
+        // Current velocity
+        float mass = body.getMass();
+        float t = 4 / 60f;
+        // Compute the gravity force
+        Vector2 gravity = custom_grav(body);
+        Vector2 acceleration = gravity.scl(1 / mass); // a = F/m
+
+        for(int i = 0; i < step; i++) {
+            init_velo.add(acceleration.scl((float) t)); // v = v0 + a * t
+            position.add(init_velo.cpy().scl((float) t)); // p = p0 + v * t
+        }
+        shapeRenderer.circle(position.x * PPM, position.y * PPM, 5);
+
+    }
+
+    public void win_condition(int level){
+        System.out.println(AngryBirds.score);
+        AngryBirds.score.set(level - 1, Math.max(this.score, AngryBirds.score.get(level - 1)));
+        GameScore gs = new GameScore();
+        gs.high_scores = AngryBirds.score;
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("assets/save_slot" + AngryBirds.save_slot + "/scores.ser"))) {
+            out.writeObject(gs);
+            System.out.println("score saved successfully!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        game.setScreen(new WinScreen(game, level, this.score));
     }
 }

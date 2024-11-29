@@ -1,12 +1,16 @@
 package birds.angry.Screens;
 
 import birds.angry.AngryBirds;
+import birds.angry.GameScore;
 import birds.angry.GameSprites.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 public class Level1 extends LevelScreen {
     private Bird redbird, bluebird, yellowbird;
@@ -193,7 +197,7 @@ public class Level1 extends LevelScreen {
             pausestage.draw();
         }
         else if(pig_list.isEmpty()){
-            game.setScreen(new WinScreen(game));
+            win_condition(1);
         }
         else if(bird_list.isEmpty() && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
             game.setScreen(new LoseScreen(game));

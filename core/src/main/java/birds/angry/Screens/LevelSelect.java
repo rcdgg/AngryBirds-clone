@@ -1,7 +1,6 @@
 package birds.angry.Screens;
 
 import birds.angry.AngryBirds;
-import birds.angry.GameState;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,12 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.nio.file.*;
 
 public class LevelSelect extends BaseScreen{
     private final Image background;
@@ -28,6 +23,8 @@ public class LevelSelect extends BaseScreen{
         Button one = new Button(invisibleButtonStyle);
         one.setPosition(300,stage.getHeight() / 2 - 50);
         one.setSize(100,120);
+        TextButton one_score = new TextButton(AngryBirds.score.getFirst().toString(), skin);
+        one_score.setPosition(one.getX() + 10, one.getY() - 1.5f * grid_size);
         one.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -39,6 +36,8 @@ public class LevelSelect extends BaseScreen{
         Button two = new Button(invisibleButtonStyle);
         two.setPosition(530,stage.getHeight() / 2 - 50);
         two.setSize(100,120);
+        TextButton two_score = new TextButton(AngryBirds.score.get(1).toString(), skin);
+        two_score.setPosition(two.getX() + 10, two.getY() - 1.5f * grid_size);
         two.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -51,6 +50,8 @@ public class LevelSelect extends BaseScreen{
         Button three = new Button(invisibleButtonStyle);
         three.setPosition(750,stage.getHeight() / 2 - 50);
         three.setSize(100,120);
+        TextButton three_score = new TextButton(AngryBirds.score.get(2).toString(), skin);
+        three_score.setPosition(three.getX() + 10, three.getY() - 1.5f * grid_size);
         three.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -65,8 +66,11 @@ public class LevelSelect extends BaseScreen{
         back.setPosition(50, 15);
 
         stage.addActor(one);
+        stage.addActor(one_score);
         stage.addActor(two);
+        stage.addActor(two_score);
         stage.addActor(three);
+        stage.addActor(three_score);
         stage.addActor(back);
 
 //        Skin skin = new Skin(Gdx.files.internal("screens/mainmenu/skin/comic-ui.json"));
@@ -80,25 +84,25 @@ public class LevelSelect extends BaseScreen{
             }
         });
 
-        Path directory = Paths.get("assets/save_slot" + AngryBirds.save_slot);
-
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory)) {
-            int i = 0;
-            AngryBirds.score.clear();
-            for (Path path : stream) {
-                if (!Files.isDirectory(path)) {
-                    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path.toFile().getCanonicalPath()))){
-                        GameState gameState =(GameState) in.readObject();
-                        AngryBirds.score.add(i++, gameState.score);
-                    } catch (Exception e){
-                        System.out.println(e.getMessage());
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println("score total:" + AngryBirds.score.stream().mapToInt(Integer::intValue).sum());
+//        Path directory = Paths.get("assets/save_slot" + AngryBirds.save_slot);
+//
+//        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory)) {
+//            int i = 0;
+//            AngryBirds.score.clear();
+//            for (Path path : stream) {
+//                if (!Files.isDirectory(path)) {
+//                    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path.toFile().getCanonicalPath()))){
+//                        GameState gameState =(GameState) in.readObject();
+//                        AngryBirds.score.add(i++, gameState.score);
+//                    } catch (Exception e){
+//                        System.out.println(e.getMessage());
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+        System.out.println("score total:" + AngryBirds.score);
     }
     public void render(float delta) {
 //        System.out.println("2nd screen");

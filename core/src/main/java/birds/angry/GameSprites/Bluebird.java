@@ -17,6 +17,14 @@ public class Bluebird extends Bird{
         bluebirdtex = texture;
         this.setSize((float)Assets.redbirds[0].getRegionWidth()/4, (float)Assets.redbirds[0].getRegionHeight()/4);
     }
+    public void nextTex(){
+        if(texture == Assets.bluebird){
+            texture = Assets.bluebird2;
+        }
+        else{
+            texture = Assets.bluebird;
+        }
+    }
 //    @Override
 //    public void act(float delta){
 //        super.act(delta);

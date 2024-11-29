@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import java.io.Serializable;
 
 public class GameObject extends Actor{
-    protected Texture texture;
+    public Texture texture;
     protected TextureRegion textreg;
     public Vector2 position;
     protected Vector2 size;
@@ -32,6 +32,9 @@ public class GameObject extends Actor{
 //            System.out.println(this+"dead so not drawing");
             return;
         }
+        if(this instanceof Bird)System.out.println(texture);
+        textreg = new TextureRegion(texture);
+//        textreg = new TextureRegion(texture);
         batch.draw(
             textreg,              // Use TextureRegion
             getX(), getY(),             // Position
@@ -45,7 +48,6 @@ public class GameObject extends Actor{
     @Override
     public void act(float delta) {
         super.act(delta);
-
     }
 
     public void render(SpriteBatch batch) {

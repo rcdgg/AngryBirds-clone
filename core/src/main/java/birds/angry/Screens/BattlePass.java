@@ -75,7 +75,7 @@ public class BattlePass extends BaseScreen{
     public void render(float delta){
         ScreenUtils.clear(Color.WHITE);
 //        super.render(delta);
-        batch.begin();git
+        batch.begin();
         batch.draw(background, 0, 0, 1600, 900);
         font2.draw(batch, String.format("%d", total_score), 14.95f * grid_size, 5.9f * grid_size);
         font.draw(batch, String.format("%d", total_score), 15 * grid_size, 5.9f * grid_size);

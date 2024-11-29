@@ -35,7 +35,7 @@ public class Bird extends DynamicGameObject{
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         fdef.filter.categoryBits = BIRD;
-        fdef.filter.maskBits = Pig.PIG | Material.MATERIAL | 8;
+        fdef.filter.maskBits = Pig.PIG | Material.MATERIAL | 8 | 16;
         fdef.density = 1;
         fdef.restitution = 0.5f;
         bbody.createFixture(fdef);

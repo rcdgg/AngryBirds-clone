@@ -206,7 +206,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     System.out.println("Bird hit the pig");
                     try {
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
-                        if(hitpig.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(hitpig.body);
+                        if (hitpig.body.getType() == BodyDef.BodyType.StaticBody) changetype.add(hitpig.body);
 //                        if(hitpig.body.getType()!=BodyDef.BodyType.DynamicBody)hitpig.body.setType(BodyDef.BodyType.DynamicBody);
                         hitpig.health -= 1;
                         System.out.println("pig hit a");
@@ -216,7 +216,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         }
                     } catch (Exception e) {
                         Pig hitpig = (Pig) getObjectAt(fb.getBody());
-                        if(hitpig.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(hitpig.body);
+                        if (hitpig.body.getType() == BodyDef.BodyType.StaticBody) changetype.add(hitpig.body);
 //                        if(hitpig.body.getType()!=BodyDef.BodyType.DynamicBody)hitpig.body.setType(BodyDef.BodyType.DynamicBody);
                         hitpig.health -= 1;
                         System.out.println("pig hit b");
@@ -225,16 +225,35 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                             to_remove.add(hitpig);
                         }
                     }
-                    if ((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)) {
-                        System.out.println("obj hit the pig");
-                        DynamicGameObject a, b;
-                        try {
-                            a = (Pig) getObjectAt(fa.getBody());
-                            if(a.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(a.body);
+                }
+                if ((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == OBSTACLE)) {
+                    System.out.println("obj hit the pig");
+                    DynamicGameObject a, b;
+                    try {
+                        a = (Pig) getObjectAt(fa.getBody());
+                        if(a.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(a.body);
 //                            a.body.setType(BodyDef.BodyType.DynamicBody);
-                            b = (Material) getObjectAt(fb.getBody());
-                            if(b.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(b.body);
+                        b = (Material) getObjectAt(fb.getBody());
+                        if(b.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(b.body);
 //                            b.body.setType(BodyDef.BodyType.DynamicBody);
+                        a.health -= 1;
+                        b.health -= 1;
+                        if (a.health <= 0) {
+                            to_remove.add(a);
+                            score += a.score;
+                        }
+                        if (b.health <= 0) {
+                            to_remove.add(b);
+                            score += b.score;
+                        }
+                    } catch (Exception e) {
+                        try {
+                            a = (Material) getObjectAt(fa.getBody());
+                            if(a.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(a.body);
+//                                a.body.setType(BodyDef.BodyType.DynamicBody);
+                            b = (Pig) getObjectAt(fb.getBody());
+                            if(b.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(b.body);
+//                                b.body.setType(BodyDef.BodyType.DynamicBody);
                             a.health -= 1;
                             b.health -= 1;
                             if (a.health <= 0) {
@@ -245,53 +264,35 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                                 to_remove.add(b);
                                 score += b.score;
                             }
-                        } catch (Exception e) {
-                            try {
-                                a = (Material) getObjectAt(fa.getBody());
-                                if(a.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(a.body);
-//                                a.body.setType(BodyDef.BodyType.DynamicBody);
-                                b = (Pig) getObjectAt(fb.getBody());
-                                if(b.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(b.body);
-//                                b.body.setType(BodyDef.BodyType.DynamicBody);
-                                a.health -= 1;
-                                b.health -= 1;
-                                if (a.health <= 0) {
-                                    to_remove.add(a);
-                                    score += a.score;
-                                }
-                                if (b.health <= 0) {
-                                    to_remove.add(b);
-                                    score += b.score;
-                                }
-                            } catch (Exception ee) {
-                                System.out.println("exception ??");
-                            }
+                        } catch (Exception ee) {
+                            System.out.println("exception ??");
                         }
                     }
-                    if ((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)) {
-                        System.out.println("Pig hit the ground");
-                        try {
-                            Pig hitpig = (Pig) getObjectAt(fa.getBody());
-                            float downvelocity = hitpig.body.getLinearVelocity().y;
-                            System.out.println("downvel = " + downvelocity);
-                            if (downvelocity <= -2.5) hitpig.health -= 1;
-                            if (hitpig.health <= 0) {
-                                score += hitpig.score;
-                                to_remove.add(hitpig);
-                            }
-                        } catch (Exception e) {
-                            Pig hitpig = (Pig) getObjectAt(fb.getBody());
-                            float downvelocity = hitpig.body.getLinearVelocity().y;
-                            System.out.println("downvel = " + downvelocity);
-                            if (downvelocity <= -2.5) hitpig.health -= 1;
-                            if (hitpig.health <= 0) {
-                                score += hitpig.score;
-                                to_remove.add(hitpig);
-                            }
+                }
+                if ((fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == PIG) || (fa.getFilterData().categoryBits == PIG && fb.getFilterData().categoryBits == GROUND)) {
+                    System.out.println("Pig hit the ground");
+                    try {
+                        Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                        float downvelocity = hitpig.body.getLinearVelocity().y;
+                        System.out.println("downvel = " + downvelocity);
+                        if (downvelocity <= -2.5) hitpig.health -= 1;
+                        if (hitpig.health <= 0) {
+                            score += hitpig.score;
+                            to_remove.add(hitpig);
+                        }
+                    } catch (Exception e) {
+                        Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        float downvelocity = hitpig.body.getLinearVelocity().y;
+                        System.out.println("downvel = " + downvelocity);
+                        if (downvelocity <= -2.5) hitpig.health -= 1;
+                        if (hitpig.health <= 0) {
+                            score += hitpig.score;
+                            to_remove.add(hitpig);
                         }
                     }
                 }
             }
+
 
             @Override
             public void endContact(Contact contact) {
@@ -480,7 +481,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         Vector2 worldPos = screenToWorld(screenX, screenY);
         if(bird_list.isEmpty()) return false;
         Body b = getBodyAt(worldPos);
-        if(b!=null && b.getType()!=BodyDef.BodyType.DynamicBody) b.setType(BodyDef.BodyType.DynamicBody);
+        if(b!=null && b.getType()!=BodyDef.BodyType.DynamicBody && b.getFixtureList().get(0).getFilterData().categoryBits != GROUND) b.setType(BodyDef.BodyType.DynamicBody);
         Bird bb = null;
         if(b != null){
             System.out.println("here");

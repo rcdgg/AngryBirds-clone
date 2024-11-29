@@ -16,7 +16,7 @@ import java.util.ArrayList;
 * more birds
 * battle pass
 * */
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/** {@link ApplicationListener} implementation shared by all platforms. */
 public class AngryBirds extends Game {
     private Game game;
     public static int save_slot = 1, skin_pack = 1;

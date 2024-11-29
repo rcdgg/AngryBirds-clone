@@ -24,6 +24,7 @@
    - Some assets
    - Battle pass screen, Load game screen
    - Score functionality
+   - Bird abilities
    - Level 3 physics
    - Level 1 layout
    - save game / load game
@@ -38,7 +39,7 @@
    - Launch functionality
    - save game / load game
    - Material, Pigs, Birds body definitions
-   - Contact listener
+   - Collision logic
    - Battle pass skins
    - JUnit tests
    - level design

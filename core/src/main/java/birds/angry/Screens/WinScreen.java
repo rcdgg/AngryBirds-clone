@@ -22,7 +22,7 @@ public class WinScreen extends BaseScreen {
         winbg = Assets.winbg;
         levelselect = new Button(invisibleButtonStyle);
         levelselect.setSize(70,70);
-        levelselect.setPosition(13 * grid_size,4.5f * grid_size);
+        levelselect.setPosition(15.5f * grid_size,4.5f * grid_size);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

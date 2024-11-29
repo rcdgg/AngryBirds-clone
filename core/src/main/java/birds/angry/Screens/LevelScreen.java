@@ -357,6 +357,12 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 }
             }
         }
+        if(keycode == Input.Keys.W){
+            game.setScreen(new WinScreen(game, 1, 1));
+        }
+        if(keycode == Input.Keys.L){
+            game.setScreen(new LoseScreen(game));
+        }
         return true;
     }
 

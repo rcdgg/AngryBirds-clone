@@ -15,7 +15,7 @@ public class LoseScreen extends BaseScreen {
         losebg = Assets.losebg;
         levelselect = new Button(invisibleButtonStyle);
         levelselect.setSize(70,70);
-        levelselect.setPosition(13 * grid_size,4.5f * grid_size);
+        levelselect.setPosition(15.5f * grid_size,4.5f * grid_size);
 
         stage.addActor(losebg);
         stage.addActor(levelselect);

@@ -39,8 +39,8 @@ public class Yellowbird extends Bird{
             }
             body.resetMassData();
             Vector2 imp = body.getLinearVelocity();
-            imp.x *= 2.5f;
-            imp.y *= 1.25f;
+            imp.x *= 5f;
+            imp.y *= 2.5f;
             body.applyLinearImpulse(imp, body.getWorldCenter(), true);
             ability_used = true;
         }

@@ -1,23 +1,19 @@
-buildscript {
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    gradlePluginPortal()
-    mavenLocal()
-    google()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-  }
-  dependencies {
-//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
-  }
+repositories {
+  mavenCentral()
+  maven { url 'https://s01.oss.sonatype.org' }
+  gradlePluginPortal()
+  mavenLocal()
+  google()
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
 }
+
 
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
+  apply plugin: 'java'
 
   // This allows you to "Build and run using IntelliJ IDEA", an option in IDEA's Settings.
   idea {
@@ -26,6 +22,12 @@ allprojects {
       testOutputDir file('build/classes/java/test')
     }
   }
+}
+
+dependencies {
+  testImplementation(platform('org.junit:junit-bom:5.11.3'))
+  testImplementation('org.junit.jupiter:junit-jupiter')
+  testRuntimeOnly('org.junit.platform:junit-platform-launcher')
 }
 
 configure(subprojects) {

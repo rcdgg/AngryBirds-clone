@@ -28,6 +28,7 @@
    - Level 1 layout
    - save game / load game
    - Trajectory preview
+   - level design
      
  - ### Shivank Rajput
    - Majority of the assets and asset manager
@@ -40,6 +41,7 @@
    - Contact listener
    - Battle pass skins
    - JUnit tests
+   - level design
 
 
 ## References :

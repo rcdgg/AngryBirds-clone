@@ -32,7 +32,7 @@ public class GameObject extends Actor{
 //            System.out.println(this+"dead so not drawing");
             return;
         }
-        if(this instanceof Bird)System.out.println(texture);
+//        if(this instanceof Bird)System.out.println(texture);
         textreg = new TextureRegion(texture);
 //        textreg = new TextureRegion(texture);
         batch.draw(

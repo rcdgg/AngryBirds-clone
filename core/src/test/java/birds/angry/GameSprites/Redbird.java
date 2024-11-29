@@ -17,7 +17,7 @@ public class Redbird extends Bird{
 //    private final TextureRegion redbirdtexreg;
     public Texture tex;
     public Redbird(Vector2 position, World world){
-        super(Assets.redbird2, position, new Vector2 ((float)(Assets.redbird1.getHeight() - 100), (float)(Assets.redbird1.getWidth()- 100)), world);
+        super(null, position, new Vector2 (1, 1), world);
 //        redbirdtexreg = Assets.redbirds[0];
 //        this.setSize((float)Assets.redbird1.getRegionWidth()/4, (float)Assets.redbird1.getRegionHeight()/4);
         nextTex();

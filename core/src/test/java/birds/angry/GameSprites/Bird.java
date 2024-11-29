@@ -17,7 +17,7 @@ public class Bird extends DynamicGameObject{
         super(texture, position, size);
         bird_size = 0.3f;
         this.world = world;
-        createBird(position);
+//        createBird(position);
     }
     public void nextTex(){};
 

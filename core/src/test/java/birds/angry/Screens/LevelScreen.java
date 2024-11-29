@@ -39,9 +39,10 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      Texture background;
      World world;
      Body ground, slingbody, lastBody;
-     ArrayList<Bird> bird_list, bird_shot;
-     ArrayList<Material> mat_list;
-     ArrayList<Pig> pig_list;
+     static ArrayList<Bird> bird_list;
+    static ArrayList<Bird> bird_shot;
+     static ArrayList<Material> mat_list;
+     static ArrayList<Pig> pig_list;
      OrthographicCamera camera;
     float PPM = 100.0f;
     float bird_size = 0.3f;
@@ -59,13 +60,14 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      MouseJointDef JointDef;
      MouseJoint mouseJoint;
      Vector4 slingbound;
-     GameState gameState;
+     static GameState gameState;
      boolean pause_b = false;
      Image pausebg;
      Button restart, save;
      String filepath;
      ArrayList<DynamicGameObject> to_remove;
-     int score, high_score;
+     static int score;
+    int high_score;
      public Bird lastbird;
      TextButton score_b;
      ArrayList<Body> changetype;
@@ -560,66 +562,66 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         return null;
     }
 
-    public void save_gamestate(){
+    public static void save_gamestate(){
         gameState = new GameState();
-        gameState.score = this.score;
+        gameState.score = 1000;
 
         for(Bird b: bird_list){
             GameState.GameObjectState g = new GameState.GameObjectState();
             g.type =  b.getName();
-            g.x = b.body.getPosition().x;
-            g.y = b.body.getPosition().y;
-            g.vx = b.body.getLinearVelocity().x;
-            g.vy = b.body.getLinearVelocity().y;
-            g.sx = b.getWidth();
-            g.sy = b.getHeight();
-            g.angle = b.body.getAngle();
+            g.x = b.getPosition().x;
+            g.y = b.getPosition().y;
+//            g.vx = b.body.getLinearVelocity().x;
+//            g.vy = b.body.getLinearVelocity().y;
+//            g.sx = b.getWidth();
+//            g.sy = b.getHeight();
+//            g.angle = b.body.getAngle();
             gameState.birds.add(g);
             System.out.println(g.type);
         }
-        for(Material b: mat_list){
-            GameState.GameObjectState g = new GameState.GameObjectState();
-            g.type =  b.getName();
-            g.x = b.body.getPosition().x;
-            g.y = b.body.getPosition().y;
-            g.vx = b.body.getLinearVelocity().x;
-            g.vy = b.body.getLinearVelocity().y;
-            g.sx = b.getWidth();
-            g.sy = b.getHeight();
-            g.angle = b.body.getAngle();
-            gameState.materials.add(g);
-            System.out.println(g.type);
-        }
-        for(Pig p : pig_list){
-            GameState.GameObjectState g = new GameState.GameObjectState();
-            g.type = p.getName();g.x = p.body.getPosition().x;
-            g.y = p.body.getPosition().y;
-            g.vx = p.body.getLinearVelocity().x;
-            g.vy = p.body.getLinearVelocity().y;
-            g.sx = p.getWidth();
-            g.sy = p.getHeight();
-            g.angle = p.body.getAngle();
-            gameState.pigs.add(g);
-            System.out.println(g.type);
-        }
-        for(Bird b : bird_shot){
-            GameState.GameObjectState g = new GameState.GameObjectState();
-            g.type =  b.getName();
-            g.x = b.body.getPosition().x;
-            g.y = b.body.getPosition().y;
-            g.vx = b.body.getLinearVelocity().x;
-            g.vy = b.body.getLinearVelocity().y;
-            g.sx = b.getWidth();
-            g.sy = b.getHeight();
-            g.angle = b.body.getAngle();
-            gameState.birds_shot.add(g);
-            System.out.println(g.type);
-        }
+//        for(Material b: mat_list){
+//            GameState.GameObjectState g = new GameState.GameObjectState();
+//            g.type =  b.getName();
+//            g.x = b.body.getPosition().x;
+//            g.y = b.body.getPosition().y;
+//            g.vx = b.body.getLinearVelocity().x;
+//            g.vy = b.body.getLinearVelocity().y;
+//            g.sx = b.getWidth();
+//            g.sy = b.getHeight();
+//            g.angle = b.body.getAngle();
+//            gameState.materials.add(g);
+//            System.out.println(g.type);
+//        }
+//        for(Pig p : pig_list){
+//            GameState.GameObjectState g = new GameState.GameObjectState();
+//            g.type = p.getName();g.x = p.body.getPosition().x;
+//            g.y = p.body.getPosition().y;
+//            g.vx = p.body.getLinearVelocity().x;
+//            g.vy = p.body.getLinearVelocity().y;
+//            g.sx = p.getWidth();
+//            g.sy = p.getHeight();
+//            g.angle = p.body.getAngle();
+//            gameState.pigs.add(g);
+//            System.out.println(g.type);
+//        }
+//        for(Bird b : bird_shot){
+//            GameState.GameObjectState g = new GameState.GameObjectState();
+//            g.type =  b.getName();
+//            g.x = b.body.getPosition().x;
+//            g.y = b.body.getPosition().y;
+//            g.vx = b.body.getLinearVelocity().x;
+//            g.vy = b.body.getLinearVelocity().y;
+//            g.sx = b.getWidth();
+//            g.sy = b.getHeight();
+//            g.angle = b.body.getAngle();
+//            gameState.birds_shot.add(g);
+//            System.out.println(g.type);
+//        }
         // for pigs as well and health score etc
 
     }
 
-    public void save_game(String filepathh){
+    public static void save_game(String filepathh){
         save_gamestate();
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepathh))) {
             out.writeObject(gameState);
@@ -629,13 +631,13 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         }
     }
 
-    public void load_game(String filepathh){
+    public static void load_game(String filepathh){
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepathh))){
             gameState =(GameState) in.readObject();
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-        this.score = gameState.score;
+        score = gameState.score;
 //        try {
 //            Field high = gameState.getClass().getDeclaredField("high_score");
 //            this.high_score = gameState.high_score;
@@ -643,55 +645,55 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
 //            System.out.println("no high score");
 //        }
         bird_list.clear();
-        mat_list.clear();
-        pig_list.clear();
+//        mat_list.clear();
+//        pig_list.clear();
 
         for(GameState.GameObjectState b: gameState.birds){
             Bird bird = null;
-            if(Objects.equals(b.type, "Redbird")) bird = new Redbird(new Vector2(b.x, b.y), world);
-            else if(Objects.equals(b.type, "Yellowbird")) bird = new Yellowbird(new Vector2(b.x, b.y), world);
-            else bird = new Bluebird(new Vector2(b.x, b.y), world);
-            bird.setSize(b.sx, b.sy);
-            Body body = bird.body;
-            body.setTransform(b.x, b.y, b.angle);
-            body.setLinearVelocity(b.vx, b.vy);
+            if(Objects.equals(b.type, "Redbird")) bird = new Redbird(new Vector2(b.x, b.y), null);
+            else if(Objects.equals(b.type, "Yellowbird")) bird = new Yellowbird(new Vector2(b.x, b.y), null);
+            else bird = new Bluebird(new Vector2(b.x, b.y), null);
+//            bird.setSize(b.sx, b.sy);
+//            Body body = bird.body;
+//            body.setTransform(b.x, b.y, b.angle);
+//            body.setLinearVelocity(b.vx, b.vy);
 
             bird_list.add(bird);
         }
-        for(GameState.GameObjectState b: gameState.materials){
-            Material mat = null;
-            if(Objects.equals(b.type, "icelog")) mat = new Ice(new Vector2(b.x, b.y), world);
-            else if(Objects.equals(b.type, "woodlog")) mat = new Wood(new Vector2(b.x, b.y), world);
-            else mat = new Stone(new Vector2(b.x, b.y), world);
-            mat.setSize(b.sx, b.sy);
-            Body body = mat.body;
-            body.setTransform(b.x, b.y, b.angle);
-            body.setLinearVelocity(b.vx, b.vy);
-            mat_list.add(mat);
-        }
-        for(GameState.GameObjectState p : gameState.pigs){
-            Pig pig = null;
-            if(Objects.equals(p.type, "KingPig")) {pig = new KingPig(new Vector2(p.x, p.y), world); System.out.println("KingPig");}
-            else if(Objects.equals(p.type, "PeasantPig")) pig = new PeasantPig(new Vector2(p.x, p.y), world);
-            else pig = new SoldierPig(new Vector2(p.x, p.y), world);
-            pig.setSize(p.sx, p.sy);
-            Body body = pig.body;
-            body.setTransform(p.x, p.y, p.angle);
-            body.setLinearVelocity(p.vx, p.vy);
-            pig_list.add(pig);
-        }
-        for(GameState.GameObjectState b: gameState.birds_shot){
-            Bird bird = null;
-            if(Objects.equals(b.type, "Redbird")) bird = new Redbird(new Vector2(b.x, b.y), world);
-            else if(Objects.equals(b.type, "Yellowbird")) bird = new Yellowbird(new Vector2(b.x, b.y), world);
-            else bird = new Bluebird(new Vector2(b.x, b.y), world);
-            bird.setSize(b.sx, b.sy);
-            Body body = bird.body;
-            body.setTransform(b.x, b.y, b.angle);
-            body.setLinearVelocity(b.vx, b.vy);
-
-            bird_shot.add(bird);
-        }
+//        for(GameState.GameObjectState b: gameState.materials){
+//            Material mat = null;
+//            if(Objects.equals(b.type, "icelog")) mat = new Ice(new Vector2(b.x, b.y), world);
+//            else if(Objects.equals(b.type, "woodlog")) mat = new Wood(new Vector2(b.x, b.y), world);
+//            else mat = new Stone(new Vector2(b.x, b.y), world);
+//            mat.setSize(b.sx, b.sy);
+//            Body body = mat.body;
+//            body.setTransform(b.x, b.y, b.angle);
+//            body.setLinearVelocity(b.vx, b.vy);
+//            mat_list.add(mat);
+//        }
+//        for(GameState.GameObjectState p : gameState.pigs){
+//            Pig pig = null;
+//            if(Objects.equals(p.type, "KingPig")) {pig = new KingPig(new Vector2(p.x, p.y), world); System.out.println("KingPig");}
+//            else if(Objects.equals(p.type, "PeasantPig")) pig = new PeasantPig(new Vector2(p.x, p.y), world);
+//            else pig = new SoldierPig(new Vector2(p.x, p.y), world);
+//            pig.setSize(p.sx, p.sy);
+//            Body body = pig.body;
+//            body.setTransform(p.x, p.y, p.angle);
+//            body.setLinearVelocity(p.vx, p.vy);
+//            pig_list.add(pig);
+//        }
+//        for(GameState.GameObjectState b: gameState.birds_shot){
+//            Bird bird = null;
+//            if(Objects.equals(b.type, "Redbird")) bird = new Redbird(new Vector2(b.x, b.y), world);
+//            else if(Objects.equals(b.type, "Yellowbird")) bird = new Yellowbird(new Vector2(b.x, b.y), world);
+//            else bird = new Bluebird(new Vector2(b.x, b.y), world);
+//            bird.setSize(b.sx, b.sy);
+//            Body body = bird.body;
+//            body.setTransform(b.x, b.y, b.angle);
+//            body.setLinearVelocity(b.vx, b.vy);
+//
+//            bird_shot.add(bird);
+//        }
         System.out.println("load done");
     }
 

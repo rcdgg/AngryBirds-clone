@@ -20,29 +20,30 @@ public class GameObject extends Actor{
     public boolean isDead = false;
     public GameObject(Texture texture, Vector2 position, Vector2 size) {
         this.texture = texture;
-        textreg = new TextureRegion(texture);
+//        textreg = new TextureRegion(texture);
+        textreg = null;
         this.position = position;
         setPosition(position.x, position.y);
         setSize(size.x, size.y);
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if(isDead){
-//            System.out.println(this+"dead so not drawing");
-            return;
-        }
-        textreg = new TextureRegion(texture);
+//    @Override
+//    public void draw(Batch batch, float parentAlpha) {
+//        if(isDead){
+////            System.out.println(this+"dead so not drawing");
+//            return;
+//        }
 //        textreg = new TextureRegion(texture);
-        batch.draw(
-            textreg,              // Use TextureRegion
-            getX(), getY(),             // Position
-            getWidth() / 2, getHeight() / 2, // Origin for rotation
-            getWidth(), getHeight(),    // Size
-            1, 1,                       // Scale
-            getRotation()               // Rotation in degrees
-        );
-    }
+////        textreg = new TextureRegion(texture);
+//        batch.draw(
+//            textreg,              // Use TextureRegion
+//            getX(), getY(),             // Position
+//            getWidth() / 2, getHeight() / 2, // Origin for rotation
+//            getWidth(), getHeight(),    // Size
+//            1, 1,                       // Scale
+//            getRotation()               // Rotation in degrees
+//        );
+//    }
 
     @Override
     public void act(float delta) {

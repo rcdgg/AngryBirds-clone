@@ -77,44 +77,44 @@ public class Level1 extends LevelScreen {
         System.out.println("aaaaaa");
 
         //---------------------
-        float right = 4;
-        float up = 2.8f;
-        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
-        redbird.setSize(2 * bird_size, 2 * bird_size);
-
-//        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
-        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
-        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
-
-        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
-        yellowbird.setSize(2 * bird_size, 2 * bird_size);
-
-        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
-
-        woodlog = new Wood(new Vector2(11*grid_size + right, ground.getPosition().y + up), world);
-        woodlog.setSize(2 * obj_size, 20 * obj_size);;
-        woodlog2 = new Wood(new Vector2(11*grid_size + right, ground.getPosition().y + woodlog.getHeight()+up), world);
-        woodlog2.setSize(2 * obj_size, 20 * obj_size);
-        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
-
-        icelog = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+up), world);
-        icelog.setSize(2 * obj_size, 20 * obj_size);
-        icelog2 = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+icelog.getHeight()+up), world);
-        icelog2.setSize(2 * obj_size, 20 * obj_size);
-        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
-
-        stonelog = new Stone(new Vector2(17*grid_size + right, ground.getPosition().y+up), world);
-        stonelog.setSize(2 * obj_size, 20 * obj_size);
-
-        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog); mat_list.add(woodlog2);mat_list.add(icelog2);
-
-        ppig = new PeasantPig(new Vector2((12.5f)*grid_size + right, ground.getPosition().y + up), world);
-        ppig.setSize(2 * bird_size, 2 * bird_size);
-        kingPig = new KingPig(new Vector2(16*grid_size + right, ground.getPosition().y + up), world);
-        kingPig.setSize(2 * bird_size, 2 * bird_size);
-        soldierPig = new SoldierPig(new Vector2(19*grid_size + right, 5*grid_size + up), world);
-        soldierPig.setSize(2 * bird_size, 2 * bird_size);
-        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
+//        float right = 4;
+//        float up = 2.8f;
+//        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
+//        redbird.setSize(2 * bird_size, 2 * bird_size);
+//
+////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
+//        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
+//        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
+//
+//        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
+//        yellowbird.setSize(2 * bird_size, 2 * bird_size);
+//
+//        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
+//
+//        woodlog = new Wood(new Vector2(11*grid_size + right, ground.getPosition().y + up), world);
+//        woodlog.setSize(2 * obj_size, 20 * obj_size);;
+//        woodlog2 = new Wood(new Vector2(11*grid_size + right, ground.getPosition().y + woodlog.getHeight()+up), world);
+//        woodlog2.setSize(2 * obj_size, 20 * obj_size);
+//        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
+//
+//        icelog = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+up), world);
+//        icelog.setSize(2 * obj_size, 20 * obj_size);
+//        icelog2 = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+icelog.getHeight()+up), world);
+//        icelog2.setSize(2 * obj_size, 20 * obj_size);
+//        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
+//
+//        stonelog = new Stone(new Vector2(17*grid_size + right, ground.getPosition().y+up), world);
+//        stonelog.setSize(2 * obj_size, 20 * obj_size);
+//
+//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog); mat_list.add(woodlog2);mat_list.add(icelog2);
+//
+//        ppig = new PeasantPig(new Vector2((12.5f)*grid_size + right, ground.getPosition().y + up), world);
+//        ppig.setSize(2 * bird_size, 2 * bird_size);
+//        kingPig = new KingPig(new Vector2(16*grid_size + right, ground.getPosition().y + up), world);
+//        kingPig.setSize(2 * bird_size, 2 * bird_size);
+//        soldierPig = new SoldierPig(new Vector2(19*grid_size + right, 5*grid_size + up), world);
+//        soldierPig.setSize(2 * bird_size, 2 * bird_size);
+//        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
 //
         //----------------------
 
@@ -137,7 +137,7 @@ public class Level1 extends LevelScreen {
             return false;
         });
 
-//        load_game(filepath);
+        load_game(filepath);
 
     }
 
@@ -199,13 +199,13 @@ public class Level1 extends LevelScreen {
         else if(pig_list.isEmpty()){
             win_condition(1);
         }
-        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
+        else if(bird_list.isEmpty() && lastBody != null && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
             game.setScreen(new LoseScreen(game));
-        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16)){
+        }else if(bird_list.isEmpty() && lastBody != null && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16)){
             game.setScreen(new LoseScreen(game));
         }
         else world.step(1/60f, 6,2);
-        dbg.render(world, stage.getCamera().combined);
+//        dbg.render(world, stage.getCamera().combined);
 
     }
 

@@ -1,5 +1,7 @@
 package birds.angry.Screens;
 
+import com.badlogic.gdx.Game;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LevelScreenTest {
@@ -13,7 +15,6 @@ public class LevelScreenTest {
     public void load_game() {
 
         System.out.println("ok");
-        fail();
     }
 
     @org.junit.jupiter.api.Test

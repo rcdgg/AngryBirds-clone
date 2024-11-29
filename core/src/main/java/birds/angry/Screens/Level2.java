@@ -265,7 +265,7 @@ public class Level2 extends LevelScreen{
         }
         else world.step(1/60f, 6,2);
         if(bird_list.isEmpty()) System.out.println(lastBody.getPosition().x + " - "+ lastBody.getPosition().y);
-        dbg.render(world, stage.getCamera().combined);
+//        dbg.render(world, stage.getCamera().combined);
     }
 
 

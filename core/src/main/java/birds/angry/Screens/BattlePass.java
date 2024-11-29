@@ -66,7 +66,7 @@ public class BattlePass extends BaseScreen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click
-                if(total_score >= 1300) AngryBirds.skin_pack = 2;
+                if(total_score >= 2500) AngryBirds.skin_pack = 2;
                 game.setScreen(new StartingMenu(game));
             }
         });
@@ -75,14 +75,14 @@ public class BattlePass extends BaseScreen{
     public void render(float delta){
         ScreenUtils.clear(Color.WHITE);
 //        super.render(delta);
-        batch.begin();
+        batch.begin();git
         batch.draw(background, 0, 0, 1600, 900);
         font2.draw(batch, String.format("%d", total_score), 14.95f * grid_size, 5.9f * grid_size);
         font.draw(batch, String.format("%d", total_score), 15 * grid_size, 5.9f * grid_size);
         batch.end();
         stage.act(delta);
         stage.draw();
-        if(!grid){
+        if(grid){
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.GRAY);
 

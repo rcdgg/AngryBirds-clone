@@ -34,8 +34,8 @@ public class BaseScreen extends ScreenAdapter implements ApplicationListener {
         batch.setProjectionMatrix(stage.getCamera().combined);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
-        stage.setDebugAll(true);
-        grid = true;
+        stage.setDebugAll(false);
+        grid = false;
         grid_size = 50;
         skin = new Skin(Gdx.files.internal("skin/flat-earth/skin/flat-earth-ui.json"));
 

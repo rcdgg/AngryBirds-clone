@@ -92,70 +92,70 @@ public class Level3 extends LevelScreen {
         System.out.println("aaaaaa");
 
         //---------------------
-        float right = 4;
-        float up = 2.8f;
-        redbird = new Redbird(new Vector2(1.7f*grid_size,2.7f), world);
-        redbird.setSize(2 * bird_size, 2 * bird_size);
-        redbird.body.setType(BodyDef.BodyType.StaticBody);
-
-//        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
-        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 2.7f), world);
-        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
-        bluebird.body.setType(BodyDef.BodyType.StaticBody);
-
-        yellowbird = new Yellowbird(new Vector2(0.7f*grid_size, 2.5f), world);
-        yellowbird.setSize(2 * bird_size, 2 * bird_size);
-        yellowbird.body.setType(BodyDef.BodyType.StaticBody);
-
-        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
-
-        woodlog = new Wood(new Vector2(12*grid_size + right, 14.5f*grid_size), world);
-        woodlog.setSize(2 * obj_size, 20 * obj_size);;
-        woodlog.body.setType(BodyDef.BodyType.StaticBody);
-//        MassData md = woodlog.body.getMassData();
-//        md.center.y = woodlog.getHeight()/16;
-//        woodlog.body.setMassData(md);
-        woodlog2 = new Wood(new Vector2(12f*grid_size + right, 3.25f*grid_size), world);
-        woodlog2.setSize(2 * obj_size, 20 * obj_size);
-//        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f*2));
-        woodlog2.body.setType(BodyDef.BodyType.StaticBody);
-//        MassData md2 = woodlog2.body.getMassData();
-//        md.center.y = woodlog2.getHeight()/16;
-//        woodlog2.body.setMassData(md2);
-
-        icelog = new Ice(new Vector2(17.8f*grid_size + right, ground.getPosition().y+up+3*grid_size), world);
-        icelog.setSize(2 * obj_size, 20 * obj_size);
-        icelog.body.setType(BodyDef.BodyType.StaticBody);
-        icelog.body.setTransform(icelog.body.getPosition().x, icelog.body.getPosition().y, 3.14f/2);
-//        icelog2 = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+icelog.getHeight()+up), world);
-//        icelog2.setSize(2 * obj_size, 20 * obj_size);
-//        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
-//        icelog2.body.setType(BodyDef.BodyType.StaticBody);
-
-//        stonelog = new Stone(new Vector2(17*grid_size + right, ground.getPosition().y+up), world);
-//        stonelog.setSize(2 * obj_size, 20 * obj_size);
-//        stonelog.body.setType(BodyDef.BodyType.StaticBody);
-
-        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(woodlog2);
-
-        ppig = new PeasantPig(new Vector2((12.7f)*grid_size + right, 13.7f*grid_size), world);
-        ppig.setSize(2 * bird_size, 2 * bird_size);
-        ppig.body.setType(BodyDef.BodyType.StaticBody);
-        kingPig = new KingPig(new Vector2(12.7f*grid_size + right, 4.1f*grid_size), world);
-        kingPig.setSize(2 * bird_size, 2 * bird_size);
-        kingPig.body.setTransform(kingPig.body.getPosition().x, kingPig.body.getPosition().y, 3.14f);
-        kingPig.body.setType(BodyDef.BodyType.StaticBody);
-        soldierPig = new SoldierPig(new Vector2(17f*grid_size + right, ground.getPosition().y+up+2*grid_size), world);
-        soldierPig.setSize(2 * bird_size, 2 * bird_size);
-        soldierPig.body.setType(BodyDef.BodyType.StaticBody);
-        soldierPig.body.setTransform(soldierPig.body.getPosition().x, soldierPig.body.getPosition().y, 3.14f+3.14f/2);
-        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
-
-        for(Material m : mat_list){
-            MassData md = m.body.getMassData();
-            md.center.y = m.getHeight()/4;
-            m.body.setMassData(md);
-        }
+//        float right = 4;
+//        float up = 2.8f;
+//        redbird = new Redbird(new Vector2(1.7f*grid_size,2.7f), world);
+//        redbird.setSize(2 * bird_size, 2 * bird_size);
+//        redbird.body.setType(BodyDef.BodyType.StaticBody);
+//
+////        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
+//        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 2.7f), world);
+//        bluebird.setSize(2.5f * bird_size, 2 * bird_size);
+//        bluebird.body.setType(BodyDef.BodyType.StaticBody);
+//
+//        yellowbird = new Yellowbird(new Vector2(0.7f*grid_size, 2.5f), world);
+//        yellowbird.setSize(2 * bird_size, 2 * bird_size);
+//        yellowbird.body.setType(BodyDef.BodyType.StaticBody);
+//
+//        bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
+//
+//        woodlog = new Wood(new Vector2(12*grid_size + right, 14.5f*grid_size), world);
+//        woodlog.setSize(2 * obj_size, 20 * obj_size);;
+//        woodlog.body.setType(BodyDef.BodyType.StaticBody);
+////        MassData md = woodlog.body.getMassData();
+////        md.center.y = woodlog.getHeight()/16;
+////        woodlog.body.setMassData(md);
+//        woodlog2 = new Wood(new Vector2(12f*grid_size + right, 3.25f*grid_size), world);
+//        woodlog2.setSize(2 * obj_size, 20 * obj_size);
+////        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f*2));
+//        woodlog2.body.setType(BodyDef.BodyType.StaticBody);
+////        MassData md2 = woodlog2.body.getMassData();
+////        md.center.y = woodlog2.getHeight()/16;
+////        woodlog2.body.setMassData(md2);
+//
+//        icelog = new Ice(new Vector2(17.8f*grid_size + right, ground.getPosition().y+up+3*grid_size), world);
+//        icelog.setSize(2 * obj_size, 20 * obj_size);
+//        icelog.body.setType(BodyDef.BodyType.StaticBody);
+//        icelog.body.setTransform(icelog.body.getPosition().x, icelog.body.getPosition().y, 3.14f/2);
+////        icelog2 = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+icelog.getHeight()+up), world);
+////        icelog2.setSize(2 * obj_size, 20 * obj_size);
+////        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
+////        icelog2.body.setType(BodyDef.BodyType.StaticBody);
+//
+////        stonelog = new Stone(new Vector2(17*grid_size + right, ground.getPosition().y+up), world);
+////        stonelog.setSize(2 * obj_size, 20 * obj_size);
+////        stonelog.body.setType(BodyDef.BodyType.StaticBody);
+//
+//        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(woodlog2);
+//
+//        ppig = new PeasantPig(new Vector2((12.7f)*grid_size + right, 13.7f*grid_size), world);
+//        ppig.setSize(2 * bird_size, 2 * bird_size);
+//        ppig.body.setType(BodyDef.BodyType.StaticBody);
+//        kingPig = new KingPig(new Vector2(12.7f*grid_size + right, 4.1f*grid_size), world);
+//        kingPig.setSize(2 * bird_size, 2 * bird_size);
+//        kingPig.body.setTransform(kingPig.body.getPosition().x, kingPig.body.getPosition().y, 3.14f);
+//        kingPig.body.setType(BodyDef.BodyType.StaticBody);
+//        soldierPig = new SoldierPig(new Vector2(17f*grid_size + right, ground.getPosition().y+up+2*grid_size), world);
+//        soldierPig.setSize(2 * bird_size, 2 * bird_size);
+//        soldierPig.body.setType(BodyDef.BodyType.StaticBody);
+//        soldierPig.body.setTransform(soldierPig.body.getPosition().x, soldierPig.body.getPosition().y, 3.14f+3.14f/2);
+//        pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
+//
+//        for(Material m : mat_list){
+//            MassData md = m.body.getMassData();
+//            md.center.y = m.getHeight()/4;
+//            m.body.setMassData(md);
+//        }
         //----------------------
 
         save.addListener(event -> {
@@ -177,7 +177,7 @@ public class Level3 extends LevelScreen {
             return false;
         });
 
-//        load_game(filepath);
+        load_game(filepath);
 
     }
 
@@ -253,13 +253,13 @@ public class Level3 extends LevelScreen {
         else if(pig_list.isEmpty()){
             win_condition(3);
         }
-        else if(bird_list.isEmpty() && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
+        else if(bird_list.isEmpty() && lastBody != null && lastBody.getLinearVelocity().equals(new Vector2(0,0))){
             game.setScreen(new LoseScreen(game));
-        }else if(bird_list.isEmpty() && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16)){
+        }else if(bird_list.isEmpty() && lastBody != null && (lastBody.getPosition().x < 0 || lastBody.getPosition().y < 0 || lastBody.getPosition().x > 16)){
             game.setScreen(new LoseScreen(game));
         }
         else world.step(1/120f, 6,2);
-        dbg.render(world, stage.getCamera().combined);
+//        dbg.render(world, stage.getCamera().combined);
 
     }
 

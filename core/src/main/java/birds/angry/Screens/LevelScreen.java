@@ -81,7 +81,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         pausestage = new Stage(new FitViewport(1600,900));
         score = 0;
         uistage.setDebugAll(false);
-        pausestage.setDebugAll(true);
+        pausestage.setDebugAll(false);
         stage.setDebugAll(false);
 
         slingbound = new Vector4();

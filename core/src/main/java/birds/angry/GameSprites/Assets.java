@@ -32,7 +32,7 @@ public class Assets {
 
         level1bg = loadTexture("screens/levels/level11bg.png");
         level2bg = loadTexture("screens/levels/level2bg.png");
-        level3bg = loadTexture("screens/levels/level3.png");
+        level3bg = loadTexture("screens/levels/level3bg.png");
         loadgamebg = loadTexture("screens/loadgame.png");
         bluebird = loadTexture("birds/Bluebird.png");
         yellowbird = loadTexture("birds/Yellowbird.png");

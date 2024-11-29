@@ -722,7 +722,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
     }
 
     Vector2 custom_grav(Body body) {
-        Vector2 centre = new Vector2(8, 4.5f);
+        Vector2 centre = new Vector2(8+4.2f*grid_size, 4.44f);
         Vector2 bodyPosition = body.getPosition();
         Vector2 forceDirection = centre.cpy().sub(bodyPosition).nor(); // Direction to center
 //        float distance = centre.dst(bodyPosition); // Distance to center

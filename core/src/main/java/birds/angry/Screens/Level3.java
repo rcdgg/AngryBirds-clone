@@ -24,13 +24,13 @@ public class Level3 extends LevelScreen {
         world.setGravity(new Vector2(0,0));
         centre = new Vector2(8, 4.5f);
         //ground
-        bodyDef.position.set(1.9f, 1.3f);
+        bodyDef.position.set(1.25f, 0.25f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         ground = world.createBody(bodyDef);
         CircleShape cg = new CircleShape();
         PolygonShape p = new PolygonShape();
 //        p.setAsBox(4,1.78f);
-        cg.setRadius(6*grid_size);
+        cg.setRadius(4.4f*grid_size);
         fixtureDef.shape = cg;
         fixtureDef.friction = 0.2f;
         fixtureDef.filter.categoryBits = PLANET;
@@ -50,12 +50,12 @@ public class Level3 extends LevelScreen {
 //        ground2.createFixture(fixtureDef);
 
         // ground 3
-        bodyDef.position.set(8, 4.5f);
+        bodyDef.position.set(8+4.2f*grid_size, 4.44f);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body ground3 = world.createBody(bodyDef);
         CircleShape cs = new CircleShape();
 //        p.setAsBox(2f,2f);
-        cs.setRadius(3*grid_size);
+        cs.setRadius(4.288f*grid_size);
         fixtureDef.shape = cs;
         fixtureDef.friction = 0.2f;
         fixtureDef.filter.categoryBits = PLANET;
@@ -63,7 +63,7 @@ public class Level3 extends LevelScreen {
         ground3.createFixture(fixtureDef);
 
         //slingbody
-        bodyDef.position.set(2.6f*grid_size, 12*grid_size);
+        bodyDef.position.set(1.7f*grid_size, 8*grid_size);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         slingbody = world.createBody(bodyDef);
 
@@ -77,11 +77,11 @@ public class Level3 extends LevelScreen {
         p.dispose();
 
         //load background
-        background = Assets.level1bg;
+        background = Assets.level3bg;
 
         //change slingshot position if needed
 //        slingshot.setPosition(3, 2.78f);
-        slingshot = new Slingshot(new Vector2(2f*grid_size, 8.5f*grid_size));
+        slingshot = new Slingshot(new Vector2(1f*grid_size, 4.8f*grid_size));
         slingshot.setRotation(10);
         slingshot.setSize(2 * grid_size, 4 * grid_size);
         stage.addActor(slingshot);
@@ -94,63 +94,66 @@ public class Level3 extends LevelScreen {
         //---------------------
         float right = 4;
         float up = 2.8f;
-        redbird = new Redbird(new Vector2(2.5f*grid_size,4), world);
+        redbird = new Redbird(new Vector2(1.7f*grid_size,2.7f), world);
         redbird.setSize(2 * bird_size, 2 * bird_size);
         redbird.body.setType(BodyDef.BodyType.StaticBody);
 
 //        redbird.setPosition(new Vector2(4*grid_size, 4*grid_size));
-        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 4), world);
+        bluebird = new Bluebird(new Vector2(2.5f*grid_size, 2.7f), world);
         bluebird.setSize(2.5f * bird_size, 2 * bird_size);
         bluebird.body.setType(BodyDef.BodyType.StaticBody);
 
-        yellowbird = new Yellowbird(new Vector2(1f*grid_size, 3), world);
+        yellowbird = new Yellowbird(new Vector2(0.7f*grid_size, 2.5f), world);
         yellowbird.setSize(2 * bird_size, 2 * bird_size);
         yellowbird.body.setType(BodyDef.BodyType.StaticBody);
 
         bird_list.add(redbird); bird_list.add(yellowbird); bird_list.add(bluebird);
 
-        woodlog = new Wood(new Vector2(11*grid_size + right, ground.getPosition().y + up), world);
+        woodlog = new Wood(new Vector2(12*grid_size + right, 14.5f*grid_size), world);
         woodlog.setSize(2 * obj_size, 20 * obj_size);;
         woodlog.body.setType(BodyDef.BodyType.StaticBody);
 //        MassData md = woodlog.body.getMassData();
 //        md.center.y = woodlog.getHeight()/16;
 //        woodlog.body.setMassData(md);
-        woodlog2 = new Wood(new Vector2(11*grid_size + right, ground.getPosition().y + woodlog.getHeight()+up), world);
+        woodlog2 = new Wood(new Vector2(12f*grid_size + right, 3.25f*grid_size), world);
         woodlog2.setSize(2 * obj_size, 20 * obj_size);
-        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f/2));
+//        woodlog2.body.setTransform(woodlog2.body.getPosition().x + woodlog2.getHeight()/2, woodlog2.body.getPosition().y, (3.14f*2));
         woodlog2.body.setType(BodyDef.BodyType.StaticBody);
 //        MassData md2 = woodlog2.body.getMassData();
 //        md.center.y = woodlog2.getHeight()/16;
 //        woodlog2.body.setMassData(md2);
 
-        icelog = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+up), world);
+        icelog = new Ice(new Vector2(17.8f*grid_size + right, ground.getPosition().y+up+3*grid_size), world);
         icelog.setSize(2 * obj_size, 20 * obj_size);
         icelog.body.setType(BodyDef.BodyType.StaticBody);
-        icelog2 = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+icelog.getHeight()+up), world);
-        icelog2.setSize(2 * obj_size, 20 * obj_size);
-        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
-        icelog2.body.setType(BodyDef.BodyType.StaticBody);
+        icelog.body.setTransform(icelog.body.getPosition().x, icelog.body.getPosition().y, 3.14f/2);
+//        icelog2 = new Ice(new Vector2(14*grid_size + right, ground.getPosition().y+icelog.getHeight()+up), world);
+//        icelog2.setSize(2 * obj_size, 20 * obj_size);
+//        icelog2.body.setTransform(icelog2.body.getPosition().x + icelog2.getHeight()/2, icelog2.body.getPosition().y, (3.14f/2));
+//        icelog2.body.setType(BodyDef.BodyType.StaticBody);
 
-        stonelog = new Stone(new Vector2(17*grid_size + right, ground.getPosition().y+up), world);
-        stonelog.setSize(2 * obj_size, 20 * obj_size);
-        stonelog.body.setType(BodyDef.BodyType.StaticBody);
+//        stonelog = new Stone(new Vector2(17*grid_size + right, ground.getPosition().y+up), world);
+//        stonelog.setSize(2 * obj_size, 20 * obj_size);
+//        stonelog.body.setType(BodyDef.BodyType.StaticBody);
 
-        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(stonelog); mat_list.add(woodlog2);mat_list.add(icelog2);
+        mat_list.add(icelog); mat_list.add(woodlog); mat_list.add(woodlog2);
 
-        ppig = new PeasantPig(new Vector2((12.5f)*grid_size + right, ground.getPosition().y + up), world);
+        ppig = new PeasantPig(new Vector2((12.7f)*grid_size + right, 13.7f*grid_size), world);
         ppig.setSize(2 * bird_size, 2 * bird_size);
         ppig.body.setType(BodyDef.BodyType.StaticBody);
-        kingPig = new KingPig(new Vector2(16*grid_size + right, ground.getPosition().y + up), world);
+        kingPig = new KingPig(new Vector2(12.7f*grid_size + right, 4.1f*grid_size), world);
         kingPig.setSize(2 * bird_size, 2 * bird_size);
+        kingPig.body.setTransform(kingPig.body.getPosition().x, kingPig.body.getPosition().y, 3.14f);
         kingPig.body.setType(BodyDef.BodyType.StaticBody);
-        soldierPig = new SoldierPig(new Vector2(19*grid_size + right, 5*grid_size + up), world);
+        soldierPig = new SoldierPig(new Vector2(17f*grid_size + right, ground.getPosition().y+up+2*grid_size), world);
         soldierPig.setSize(2 * bird_size, 2 * bird_size);
         soldierPig.body.setType(BodyDef.BodyType.StaticBody);
+        soldierPig.body.setTransform(soldierPig.body.getPosition().x, soldierPig.body.getPosition().y, 3.14f+3.14f/2);
         pig_list.add(ppig); pig_list.add(kingPig); pig_list.add(soldierPig);
 
         for(Material m : mat_list){
             MassData md = m.body.getMassData();
-            md.center.y = m.getHeight()/64;
+            md.center.y = m.getHeight()/4;
             m.body.setMassData(md);
         }
         //----------------------
@@ -181,9 +184,9 @@ public class Level3 extends LevelScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-//        batch.begin();
-//        batch.draw(background, 0, 0, 1600, 900);
-//        batch.end();
+        batch.begin();
+        batch.draw(background, 0, 0, 1600, 900);
+        batch.end();
 
         for(Bird b: bird_list){
             applyCentralGravity(b.body);

@@ -55,6 +55,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      final short GROUND = 8;
      final short OBSTACLE = Material.MATERIAL;
      final short PIG = Pig.PIG;
+     final short PLANET = 16;
      MouseJointDef JointDef;
      MouseJoint mouseJoint;
      Vector4 slingbound;
@@ -67,6 +68,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
      int score, high_score;
      public Bird lastbird;
      TextButton score_b;
+     ArrayList<Body> changetype;
 
     public LevelScreen(Game game, String filepath) {
         super(game);
@@ -94,6 +96,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         mat_list = new ArrayList<>();
         pig_list = new ArrayList<>();
         bird_shot = new ArrayList<>();
+        changetype = new ArrayList<>();
 
         batch = new SpriteBatch();
         pause = new TextButton("pause", skin);
@@ -169,6 +172,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                 if ((fa.getFilterData().categoryBits == BIRD && fb.getFilterData().categoryBits == GROUND) || (fa.getFilterData().categoryBits == GROUND && fb.getFilterData().categoryBits == BIRD)) {
                     System.out.println("Bird hit the ground");
                 }
+                if(fa.getFilterData().categoryBits==PLANET || fb.getFilterData().categoryBits==PLANET){
+                    System.out.println("planet hit");
+                }
                 if ((fa.getFilterData().categoryBits == OBSTACLE && fb.getFilterData().categoryBits == OBSTACLE)) {
                     System.out.println("obj hit the obj");
                 }
@@ -179,6 +185,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     System.out.println("Bird hit the obstacle");
                     try {
                         Material hitmat = (Material) getObjectAt(fa.getBody());
+                        if(hitmat.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(hitmat.body);
                         hitmat.health -= 1;
                         if (hitmat.health <= 0) {
                             to_remove.add(hitmat);
@@ -186,6 +193,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         }
                     } catch (Exception e) {
                         Material hitmat = (Material) getObjectAt(fb.getBody());
+                        if(hitmat.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(hitmat.body);
                         hitmat.health -= 1;
                         if (hitmat.health <= 0) {
                             to_remove.add(hitmat);
@@ -198,6 +206,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                     System.out.println("Bird hit the pig");
                     try {
                         Pig hitpig = (Pig) getObjectAt(fa.getBody());
+                        if(hitpig.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(hitpig.body);
+//                        if(hitpig.body.getType()!=BodyDef.BodyType.DynamicBody)hitpig.body.setType(BodyDef.BodyType.DynamicBody);
                         hitpig.health -= 1;
                         System.out.println("pig hit a");
                         if (hitpig.health <= 0) {
@@ -206,6 +216,8 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         }
                     } catch (Exception e) {
                         Pig hitpig = (Pig) getObjectAt(fb.getBody());
+                        if(hitpig.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(hitpig.body);
+//                        if(hitpig.body.getType()!=BodyDef.BodyType.DynamicBody)hitpig.body.setType(BodyDef.BodyType.DynamicBody);
                         hitpig.health -= 1;
                         System.out.println("pig hit b");
                         if (hitpig.health <= 0) {
@@ -218,7 +230,11 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         DynamicGameObject a, b;
                         try {
                             a = (Pig) getObjectAt(fa.getBody());
+                            if(a.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(a.body);
+//                            a.body.setType(BodyDef.BodyType.DynamicBody);
                             b = (Material) getObjectAt(fb.getBody());
+                            if(b.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(b.body);
+//                            b.body.setType(BodyDef.BodyType.DynamicBody);
                             a.health -= 1;
                             b.health -= 1;
                             if (a.health <= 0) {
@@ -232,7 +248,11 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
                         } catch (Exception e) {
                             try {
                                 a = (Material) getObjectAt(fa.getBody());
+                                if(a.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(a.body);
+//                                a.body.setType(BodyDef.BodyType.DynamicBody);
                                 b = (Pig) getObjectAt(fb.getBody());
+                                if(b.body.getType()== BodyDef.BodyType.StaticBody) changetype.add(b.body);
+//                                b.body.setType(BodyDef.BodyType.DynamicBody);
                                 a.health -= 1;
                                 b.health -= 1;
                                 if (a.health <= 0) {
@@ -331,6 +351,9 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
             pig_list.remove(p);
         }
         to_remove.clear();
+        for(Body b : changetype){
+            b.setType(BodyDef.BodyType.DynamicBody);
+        }
         score_b = new TextButton(String.format("Score: %d", score), skin);
         score_b.setPosition(1400,830);
         uistage.addActor(score_b);
@@ -457,6 +480,7 @@ public class LevelScreen extends BaseScreen implements InputProcessor {
         Vector2 worldPos = screenToWorld(screenX, screenY);
         if(bird_list.isEmpty()) return false;
         Body b = getBodyAt(worldPos);
+        if(b!=null && b.getType()!=BodyDef.BodyType.DynamicBody) b.setType(BodyDef.BodyType.DynamicBody);
         Bird bb = null;
         if(b != null){
             System.out.println("here");

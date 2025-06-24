@@ -6,6 +6,8 @@
  -  Ideally open the project in Intellij Idea(other editors work too).
  - Go to lwjgl3/src/main/java/birds/angry/lwjgl3/Lwjgl3Launcher.java and run the main function there to launch the app
 
+![Demo GIF](angrybirds.gif)
+
 ## About the game:
  - There are 3 save slots available to the user. On first use these contain the initial level and when a user progresses through a level and saves from the pause menu, that state is saved in the chosen save slot (or defaults to the 1st one if not chosen at the start).
  - There are currently 3 birds: red, yellow and blue, each having its own special ability which can be activated once per launch by pressing space after launching.
